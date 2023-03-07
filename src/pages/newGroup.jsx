@@ -1,6 +1,6 @@
 import Button from '../components/common/Button'
 import Input from '../components/Input'
-import PeopleSVG from '../components/PeopleSVG'
+import PeopleSVG from './../components/svg/PeopleSVG'
 
 const NewGroup = () => {
     return (
