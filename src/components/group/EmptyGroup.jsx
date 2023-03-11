@@ -8,7 +8,9 @@ const EmptyGroup = () => {
             <h1>Aún no hay ningún gasto...</h1>
             <p> Comienza a añadir gastos de distintas personas </p>
             <p>para ver las divisiones</p>
-            <Button>Añadir gasto</Button>
+            <div className='mt-9'>
+                <Button>Añadir gasto</Button>
+            </div>
         </div>
     )
 }
