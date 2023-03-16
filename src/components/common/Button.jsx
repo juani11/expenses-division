@@ -4,16 +4,26 @@ const buttonSizes = {
     xs: 'text-sm h-2',
     sm: 'h-4',
     md: 'h-13',
-    lg: 'h-8'
+    lg: 'h-13'
 }
 
-const Button = ({ children, size = 'md', loading = false }) => {
-    const loadingClassNames = loading ? 'bg-gray-500' : 'bg-secondary'
+const Button = ({
+    children,
+    size = 'md',
+    className = 'uppercase font-bold text-white py-4 px-6 hover:bg-gray-600',
+    loading = false,
+    color = 'bg-secondary',
+    onClick,
+    ...props
+}) => {
+    const loadingClassName = loading ? 'bg-gray-500' : color
 
     const buttonSize = buttonSizes[size]
     return (
         <button
-            className={`uppercase font-bold text-white py-4 px-6 hover:bg-gray-600 flex justify-center items-center ${loadingClassNames} ${buttonSize}`}
+            onClick={onClick}
+            className={` flex justify-center items-center ${loadingClassName} ${buttonSize} ${className}`}
+            {...props}
         >
             {loading && <LoadingSVG />}
             <div>{children}</div>
