@@ -1,5 +1,5 @@
-import Button from '../common/Button'
 import EmptyGroupSVG from '../svg/EmptyGroupSVG'
+import AddExpense from './AddExpense'
 
 const EmptyGroup = () => {
     return (
@@ -9,7 +9,7 @@ const EmptyGroup = () => {
             <p> Comienza a añadir gastos de distintas personas </p>
             <p>para ver las divisiones</p>
             <div className='mt-9'>
-                <Button>Añadir gasto</Button>
+                <AddExpense />
             </div>
         </div>
     )
