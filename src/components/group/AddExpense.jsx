@@ -1,7 +1,8 @@
+import { useForm } from 'react-hook-form'
+import useModal from '../../hooks/useModal'
 import { useGroupStore } from '../../store/store'
 import Button from '../common/Button'
 import ModalForm from '../common/ModalForm'
-import useModalForm from './../../hooks/useModalForm'
 import AddExpenseFormContent from './AddExpenseFormContent'
 
 const AddExpense = () => {
@@ -18,8 +19,13 @@ const AddExpense = () => {
         addExpense(newExpense)
     }
 
-    const { openModal, closeModal, modalIsOpen, modalIsLoading, register, handleSubmit, onSubmit, errors } =
-        useModalForm(addExpenseOnState)
+    const { openModal, closeModal, modalIsOpen, modalIsLoading, onSubmit } = useModal(addExpenseOnState)
+
+    const {
+        register,
+        formState: { errors },
+        handleSubmit
+    } = useForm()
 
     return (
         <>
