@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { mockService } from '../mock/mockService'
 
-const useModalForm = addExpenseOnState => {
+const useModalForm = callback => {
     const {
         register,
         formState: { errors },
@@ -21,7 +21,7 @@ const useModalForm = addExpenseOnState => {
         promise.then(res => {
             setModalIsLoading(false)
             console.log(res)
-            addExpenseOnState(data)
+            callback(data)
             closeModal()
         })
     }

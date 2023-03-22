@@ -1,8 +1,10 @@
-import { persons } from '../../mock/mockData'
+import { useGroupStore } from '../../store/store'
 import Select from '../common/Select'
 import Input from '../Input'
 
 const AddExpenseFormContent = ({ register, errors }) => {
+    const persons = useGroupStore(state => state.persons)
+
     return (
         <>
             <Input
@@ -16,7 +18,17 @@ const AddExpenseFormContent = ({ register, errors }) => {
                 error={errors.name}
             />
 
-            <Select className='mt-5' label='Persona' options={persons} />
+            <Select
+                className='mt-5'
+                label='Persona'
+                options={persons}
+                controlledProps={{
+                    ...register('person', {
+                        required: 'Debe ingresar la persona'
+                    })
+                }}
+                error={errors.person}
+            />
             <div className='flex gap-4 items-center mt-5'>
                 <div className='text-5xl font-bold'>$</div>
                 <Input
