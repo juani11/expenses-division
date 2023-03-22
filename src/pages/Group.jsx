@@ -1,62 +1,19 @@
-import EmptyGroup from '../components/group/EmptyGroup'
-import MoneySVG from '../components/svg/MoneySVG'
-import ExpensesList from './../components/group/ExpensesList'
-import Avatar from './../components/common/Avatar'
 import DivisionsList from '../components/group/DivisionsList'
+import EmptyGroup from '../components/group/EmptyGroup'
 import TotalsList from '../components/group/TotalsList'
+import MoneySVG from '../components/svg/MoneySVG'
 import PeopleSelfieSVG from '../components/svg/PeopleSelfieSVG'
+import { useGroupStore } from '../store/store'
 import { currencyFormat } from '../utils/utils'
-
-const group = {
-    id: '1',
-    name: 'Juntada ATR',
-    totalExpenses: 11355,
-    peoples: ['Franco', 'Juani', 'Juli'],
-    expenses: [
-        {
-            id: '1',
-            name: 'fernet',
-            amount: 4300,
-            person: 'Franco'
-        },
-        {
-            id: '2',
-            name: 'gaseosas',
-            amount: 1350,
-            person: 'Juani'
-        },
-        {
-            id: '3',
-            name: 'patys y pan',
-            amount: 5705,
-            person: 'Juli'
-        },
-        {
-            id: '4',
-            name: 'fernet',
-            amount: 700,
-            person: 'Pedro'
-        },
-        {
-            id: '5',
-            name: 'gaseosas',
-            amount: 2600,
-            person: 'Javier'
-        },
-        {
-            id: '6',
-            name: 'patys y pan',
-            amount: 3210,
-            person: 'Laura'
-        }
-    ]
-}
+import Avatar from './../components/common/Avatar'
+import ExpensesList from './../components/group/ExpensesList'
 
 const groupDataGrid = [
     {
         classNames: 'col-span-5 md:col-span-1 lg:row-span-3',
         component: ExpensesList,
-        props: { expenses: group.expenses }
+        // props: { expenses: group.expenses }
+        props: null
     },
     {
         classNames: 'col-span-5 md:col-span-1',
@@ -71,6 +28,11 @@ const groupDataGrid = [
 ]
 
 const Group = () => {
+    const group = useGroupStore(state => state.info)
+    const persons = useGroupStore(state => state.persons)
+    const expenses = useGroupStore(state => state.expenses)
+    const totalAmountExpenses = useGroupStore(state => state.totalAmountExpenses)
+
     return (
         <div className='h-screen'>
             {/* // GROUP HEADER INFORMATION */}
@@ -88,7 +50,7 @@ const Group = () => {
                                 <div className='shrink-0'>
                                     <MoneySVG width={80} height={50} />
                                 </div>
-                                <h1>{currencyFormat(group.totalExpenses)}</h1>
+                                <h1>{currencyFormat(totalAmountExpenses())}</h1>
                             </div>
                         </div>
 
@@ -102,56 +64,18 @@ const Group = () => {
                                 </span>{' '} */}
                             </h4>{' '}
                             <div className='flex justify-between items-center gap-4 '>
-                                {/* <div className='shrink-0'>
-                            <AvatarSVG width={80} height={50} />
-                        </div> */}
-                                <h1 className='grow'>{group.peoples.length}</h1>
-                                {/* <div className='flex flex-wrap'>
-                                    {group.peoples.map((p, index) => (
-                                        <span
-                                            key={index}
-                                            className='border bg-primary text-white font-bold border-white rounded-full h-9 w-9 flex justify-center items-center'
-                                        >
-                                            {p.charAt(0)}
-                                        </span>
-                                    ))}
-                                    <button className='bg-secondary p-1 w-8 hover:bg-gray-600 text-white rounded-md ml-5'>
-                                        +
-                                    </button>
-                                </div> */}
+                                <h1 className='grow'>{persons.length}</h1>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* <section className='flex flex-col w-96 gap-4 rounded-md p-5 shadow-lg'>
-                    <div>
-                        <h2 className='m-0'>Personas</h2>
-                        <p>Añade nuevas personas para dividir gastos</p>
-                    </div>
-                    <div className='flex items-center gap-10 flex-wrap'>
-                        <div className='flex items-center  '>
-                            {group.peoples.map((p, index) => (
-                                <span
-                                    key={index}
-                                    className='border bg-primary text-white font-bold border-white rounded-full h-9 w-9 flex justify-center items-center'
-                                >
-                                    {p.charAt(0)}
-                                </span>
-                            ))}
-                            <button className='bg-secondary p-1 w-8 hover:bg-gray-600 text-white rounded-md ml-5'>
-                                +
-                            </button>
-                        </div>
-                    </div>
-                </section> */}
-
-                <PeopleSelfieSVG width={350} height={400} />
+                {expenses.length > 0 && <PeopleSelfieSVG width={350} height={400} />}
             </section>
 
             {/* // GROUP INFORMATION */}
             <section className='font-primary '>
-                {group.expenses.length === 0 ? (
+                {expenses.length === 0 ? (
                     <div className='flex justify-center'>
                         <EmptyGroup />
                     </div>
