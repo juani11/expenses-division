@@ -6,12 +6,11 @@ import PeopleSelfieSVG from '../components/svg/PeopleSelfieSVG'
 import { useGroupStore } from '../store/store'
 import { currencyFormat } from '../utils/utils'
 import Avatar from './../components/common/Avatar'
-import ExpensesList from './../components/group/ExpensesList'
-
+import Expenses from './../components/group/Expenses'
 const groupDataGrid = [
     {
         classNames: 'col-span-5 md:col-span-1 lg:row-span-3',
-        component: ExpensesList,
+        component: Expenses,
         // props: { expenses: group.expenses }
         props: null
     },

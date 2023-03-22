@@ -9,19 +9,6 @@ import ExcludedPerson from './ExcludedPerson'
 import IncludedPerson from './IncludedPerson'
 
 const ViewDetailExpense = ({ expense }) => {
-    //     const addExpense = useGroupStore(state => state.addExpense)
-
-    // const addExpenseOnState = formData => {
-    //     const { name, person, amount } = formData
-    //     const newExpense = {
-    //         name,
-    //         amount,
-    //         person: parseInt(person),
-    //         excludedPersons: []
-    //     }
-    //     addExpense(newExpense)
-    // }
-
     const { id, person, name, date, amount, excludedPersons } = expense
 
     const persons = useGroupStore(state => state.persons)
@@ -78,12 +65,7 @@ const ViewDetailExpense = ({ expense }) => {
                     ))}
                 </ul>
                 <hr></hr>
-                {/* <div className='flex justify-between  p-2'>
-                    <h3 className='m-0'>Costo por persona: </h3>
-                    <h3 className='m-0 w-24 rounded-2xl text-white text-center   bg-primary '>
-                        {currencyFormat(amount / includedPersons.length)}
-                    </h3>
-                </div> */}
+
                 <h5 className='rounded-xl w-max p-2'>Personas excluidas en el gasto</h5>
                 {excludedPersons.length === 0 ? (
                     <p className='px-2'>No hay personas excluidas en el gasto</p>
