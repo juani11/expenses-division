@@ -1,20 +1,4 @@
-import { useState } from 'react'
-
-const Select = ({ label, options, className }) => {
-    const [inputValue, setInputValue] = useState('')
-
-    const [error, setError] = useState(false)
-
-    const handleChange = e => {
-        const { value } = e.target
-        if (value === 'hola') {
-            setError(true)
-        } else {
-            setError(false)
-        }
-        setInputValue(value)
-    }
-
+const Select = ({ label, options, className, controlledProps, error }) => {
     return (
         <div className={`flex flex-col ${className}`}>
             <label htmlFor='name' className='text-md text-gray-800 mb-2 '>
@@ -24,17 +8,15 @@ const Select = ({ label, options, className }) => {
                 className={`bg-white border text-xl rounded-md ${
                     error ? 'text-red-500 border-red-500 bg-red-50' : ' text-black border-black'
                 } h-14 px-5 `}
-                name={name}
-                value={inputValue}
-                onChange={handleChange}
+                {...controlledProps}
             >
                 {options.map(option => (
-                    <option key={option.id} value={option.name}>
+                    <option key={option.id} value={option.id}>
                         {option.name}
                     </option>
                 ))}
             </select>
-            {error && <p className='text-red-500 '>Please enter Note</p>}
+            {error && <p className='text-red-500 '>{error.message}</p>}
         </div>
     )
 }

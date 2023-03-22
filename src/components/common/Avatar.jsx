@@ -7,14 +7,13 @@ const avatarSizes = {
 
 const avatarColors = ['bg-avatar1', 'bg-avatar2', 'bg-avatar3', 'bg-avatar4']
 
-const Avatar = ({ size = 'md', color = 'bg-primary', children }) => {
+const Avatar = ({ size = 'md', color = 'bg-primary', onClick, children }) => {
     const backgroundColor =
-        color === 'random'
-            ? avatarColors[Math.floor(Math.random() * avatarColors.length)]
-            : color
+        color === 'random' ? avatarColors[Math.floor(Math.random() * avatarColors.length)] : color
 
     return (
         <span
+            onClick={onClick}
             className={`shrink-0 border  text-white font-bold border-white rounded-full ${avatarSizes[size]} ${backgroundColor} flex justify-center items-center`}
         >
             {children}
