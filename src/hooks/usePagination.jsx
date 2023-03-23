@@ -16,12 +16,14 @@ const usePagination = cantItems => {
     }
 
     const prevPage = () => setCurrentPage(currentPage - 1)
+    const nextPage = () => setCurrentPage(currentPage + 1)
 
     return {
         cantPages,
         currentPage,
         changeCurrentPage,
         prevPage,
+        nextPage,
         showPagination,
         indexBegin,
         indexEnd
