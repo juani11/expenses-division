@@ -25,7 +25,7 @@ const Tooltip = ({ title, callbackOnOk, component: Component }) => {
                         <Button size='xs' onClick={hideTooltip}>
                             Cancelar
                         </Button>
-                        <Button size='xs' onClick={callbackOnOk} color='bg-green-500'>
+                        <Button size='xs' onClick={callbackOnOk} color='bg-primary'>
                             Ok
                         </Button>
                     </div>
