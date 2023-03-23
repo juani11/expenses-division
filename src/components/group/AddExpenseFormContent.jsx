@@ -7,40 +7,43 @@ const AddExpenseFormContent = ({ register, errors }) => {
 
     return (
         <>
-            <Input
-                label='Nombre del gasto'
-                controlledProps={{
-                    ...register('name', {
-                        required: 'Debe ingresar el nombre del gasto',
-                        maxLength: { value: 20, message: `Debe ingresar un máximo de 20 carácteres` }
-                    })
-                }}
-                error={errors.name}
-            />
+            <div className='flex gap-10 '>
+                <Input
+                    label='Nombre del gasto'
+                    controlledProps={{
+                        ...register('name', {
+                            required: 'Debe ingresar el nombre del gasto',
+                            maxLength: { value: 20, message: `Debe ingresar un máximo de 20 carácteres` }
+                        })
+                    }}
+                    error={errors.name}
+                />
 
-            <Select
-                className='mt-5'
-                label='Persona'
-                options={persons}
-                controlledProps={{
-                    ...register('person', {
-                        required: 'Debe ingresar la persona'
-                    })
-                }}
-                error={errors.person}
-            />
+                <Select
+                    className='flex-1'
+                    label='Persona'
+                    options={persons}
+                    controlledProps={{
+                        ...register('person', {
+                            required: 'Debe ingresar la persona'
+                        })
+                    }}
+                    error={errors.person}
+                />
+            </div>
             <div className='flex gap-4 items-center mt-5'>
-                <div className='text-5xl font-bold'>$</div>
+                {/* <div className='text-5xl font-bold'>$</div> */}
                 <Input
                     label='Costo'
+                    addOnBefore='$'
                     controlledProps={{
                         ...register('amount', {
                             required: 'Debe ingresar el costo del gasto',
-                            valueAsNumber: { value: true, message: 'Debe ingresar un número' }
-                            // pattern: {
-                            //     value: /^(0|[1-9]\d*)(\.\d+)?$/,
-                            //     message: 'Debe ingresar un número'
-                            // }
+                            // valueAsNumber: { value: true, message: 'Debe ingresar un número' },
+                            pattern: {
+                                value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                                message: 'Debe ingresar un número'
+                            }
                         })
                     }}
                     error={errors.amount}

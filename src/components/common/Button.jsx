@@ -10,7 +10,7 @@ const buttonSizes = {
 const Button = ({
     children,
     size = 'md',
-    className = 'uppercase font-bold text-white py-4 px-6 hover:bg-gray-600',
+    className = 'py-4 px-6 hover:bg-gray-600',
     loading = false,
     color = 'bg-secondary',
     onClick,
@@ -22,7 +22,7 @@ const Button = ({
     return (
         <button
             onClick={onClick}
-            className={` flex justify-center items-center ${loadingClassName} ${buttonSize} ${className}`}
+            className={`flex justify-center items-center uppercase text-white font-bold ${loadingClassName} ${buttonSize} ${className}`}
             {...props}
         >
             {loading && <LoadingSVG />}

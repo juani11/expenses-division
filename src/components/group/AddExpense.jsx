@@ -33,6 +33,7 @@ const AddExpense = () => {
 
             <ModalForm
                 title='Nuevo gasto'
+                subtitle='El gasto será dividido entre todas las personas participantes del grupo. Si mas adelante se quisiera excluir una persona, se podrá hacer desde el detalle del gasto'
                 isOpen={modalIsOpen}
                 closeModal={closeModal}
                 isLoading={modalIsLoading}
