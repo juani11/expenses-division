@@ -7,9 +7,10 @@ const AddExpenseFormContent = ({ register, errors }) => {
 
     return (
         <>
-            <div className='flex gap-10 '>
+            <div className='flex gap-4 p-4 h-32'>
                 <Input
                     label='Nombre del gasto'
+                    width='w-3/5'
                     controlledProps={{
                         ...register('name', {
                             required: 'Debe ingresar el nombre del gasto',
@@ -19,27 +20,13 @@ const AddExpenseFormContent = ({ register, errors }) => {
                     error={errors.name}
                 />
 
-                <Select
-                    className='flex-1'
-                    label='Persona'
-                    options={persons}
-                    controlledProps={{
-                        ...register('person', {
-                            required: 'Debe ingresar la persona'
-                        })
-                    }}
-                    error={errors.person}
-                />
-            </div>
-            <div className='flex gap-4 items-center mt-5'>
-                {/* <div className='text-5xl font-bold'>$</div> */}
                 <Input
                     label='Costo'
                     addOnBefore='$'
+                    width={'w-2/5'}
                     controlledProps={{
                         ...register('amount', {
                             required: 'Debe ingresar el costo del gasto',
-                            // valueAsNumber: { value: true, message: 'Debe ingresar un número' },
                             pattern: {
                                 value: /^(0|[1-9]\d*)(\.\d+)?$/,
                                 message: 'Debe ingresar un número'
@@ -49,6 +36,18 @@ const AddExpenseFormContent = ({ register, errors }) => {
                     error={errors.amount}
                 />
             </div>
+            <Select
+                className='flex-1 p-4'
+                label='Persona'
+                options={persons}
+                // width='w-72'
+                controlledProps={{
+                    ...register('person', {
+                        required: 'Debe ingresar la persona'
+                    })
+                }}
+                error={errors.person}
+            />
         </>
     )
 }
