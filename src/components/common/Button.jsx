@@ -6,23 +6,39 @@ const buttonSizes = {
     md: 'h-13',
     lg: 'h-13'
 }
+const normalStyle = {
+    primary: 'bg-primary',
+    secondary: 'bg-secondary'
+}
+
+const loadingStyle = {
+    primary: 'bg-primary-500',
+    secondary: 'bg-secondary-500'
+}
+
+const hoverStyle = {
+    primary: 'hover:bg-primary-500',
+    secondary: 'hover:bg-secondary-500'
+}
 
 const Button = ({
     children,
     size = 'md',
-    className = 'py-4 px-6 hover:bg-gray-600',
+    className = 'py-4 px-6',
     loading = false,
-    color = 'bg-secondary',
+    color = 'secondary',
+    width = 'w-auto',
     onClick,
     ...props
 }) => {
-    const loadingClassName = loading ? 'bg-gray-500' : color
+    const loadingClassName = loading ? loadingStyle[color] : normalStyle[color]
+    const hoverClassName = hoverStyle[color]
 
     const buttonSize = buttonSizes[size]
     return (
         <button
             onClick={onClick}
-            className={`flex justify-center items-center uppercase text-white font-bold ${loadingClassName} ${buttonSize} ${className}`}
+            className={`flex justify-center items-center uppercase text-white font-bold ${loadingClassName} ${hoverClassName} ${buttonSize} ${width} ${className}`}
             {...props}
         >
             {loading && <LoadingSVG />}
