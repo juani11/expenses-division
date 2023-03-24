@@ -5,8 +5,14 @@ module.exports = {
         extend: {
             colors: {
                 // primary: '#039BE5',
-                primary: '#6c63ff',
-                secondary: '#2f2e41',
+                primary: {
+                    DEFAULT: '#6c63ff',
+                    500: '#818cf8'
+                },
+                secondary: {
+                    DEFAULT: '#2f2e41',
+                    500: '#6b7280'
+                },
 
                 avatar1: '#BCF8EC',
                 avatar2: '#36213E',
