@@ -1,6 +1,6 @@
 import { persons } from '../../mock/mockData'
-import { currencyFormat } from '../../utils/utils'
 import Avatar from '../common/Avatar'
+import ExpenseCost from './ExpenseCost'
 import RemoveExpense from './RemoveExpense'
 import ViewDetailExpense from './ViewDetailExpense'
 
@@ -20,9 +20,7 @@ const ExpensesListItem = ({ expense }) => {
                 </div>
             </div>
             <div className='flex'>
-                <h3 className='w-24 bg-primary rounded-2xl text-white text-center p-2 '>
-                    {`${currencyFormat(amount)}`}
-                </h3>
+                <ExpenseCost cost={amount} />
             </div>
 
             <div className='flex justify-center items-center gap-2'>

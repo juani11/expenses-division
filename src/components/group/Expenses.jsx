@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import AddExpense from './AddExpense'
 import ExpensesList from './ExpensesList'
 const Expenses = () => {
-    useEffect(() => {
-        console.log('render Expenses!')
-    })
     return (
         <>
             <div className='flex justify-between items-center px-1 py-2'>
