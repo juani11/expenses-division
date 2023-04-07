@@ -5,27 +5,28 @@ import Avatar from '../common/Avatar'
 
 import MenuSVG from '../svg/MenuSVG'
 import Modal from './../common/Modal'
+import PieChartSVG from './../svg/PieChartSVG'
 import ExcludedPerson from './ExcludedPerson'
 import ExpenseCost from './ExpenseCost'
 import IncludedPerson from './IncludedPerson'
-import PieChartSVG from './../svg/PieChartSVG'
+
+// const cantPersons = persons.length - excludedPerson.length
 
 const ViewDetailExpense = ({ expense }) => {
-    const { id, person, name, date, amount, excludedPersons } = expense
+    const { person, name, date, amount, excludedPersons } = expense
 
-    const persons = useGroupStore(state => state.persons)
+    const personName = useGroupStore(state => state.personName)
+
+    const includedPersonsInExpense = useGroupStore(state => state.includedPersonsInExpense)
 
     const { openModal, closeModal, modalIsOpen, modalIsLoading } = useModal()
 
-    const personName = personId => {
-        const person = persons.find(p => p.id === personId)
-        return person.name
-    }
+    // const personName = personId => {
+    //     const person = persons.find(p => p.id === personId)
+    //     return person.name
+    // }
 
-    const includedPersons =
-        excludedPersons.length === 0
-            ? persons
-            : persons.filter(person => !excludedPersons.includes(person.id))
+    const includedPersons = includedPersonsInExpense(excludedPersons)
 
     return (
         <>

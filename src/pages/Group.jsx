@@ -10,19 +10,15 @@ import Expenses from './../components/group/Expenses'
 const groupDataGrid = [
     {
         classNames: 'col-span-5 md:col-span-1 lg:row-span-3',
-        component: Expenses,
-        // props: { expenses: group.expenses }
-        props: null
+        component: Expenses
     },
     {
         classNames: 'col-span-5 md:col-span-1',
-        component: DivisionsList,
-        props: null
+        component: DivisionsList
     },
     {
         classNames: 'col-span-5 md:col-span-1 lg:col-span-1 col-start-1 ',
-        component: TotalsList,
-        props: null
+        component: TotalsList
     }
 ]
 
@@ -54,14 +50,7 @@ const Group = () => {
                         </div>
 
                         <div className='flex flex-col items-center'>
-                            <h4 className='m-0'>
-                                Personas{' '}
-                                {/* <span>
-                                    <button className='bg-secondary p-1 w-8 hover:bg-gray-600 text-white rounded-md'>
-                                        +
-                                    </button>
-                                </span>{' '} */}
-                            </h4>{' '}
+                            <h4 className='m-0'>Personas </h4>{' '}
                             <div className='flex justify-between items-center gap-4 '>
                                 <h1 className='grow'>{persons.length}</h1>
                             </div>
@@ -80,9 +69,9 @@ const Group = () => {
                     </div>
                 ) : (
                     <div className='grid grid-cols-2 bg-gray-50 md:px-20'>
-                        {groupDataGrid.map(({ classNames, component: Component, props }, index) => (
+                        {groupDataGrid.map(({ classNames, component: Component }, index) => (
                             <div key={index} className={`${classNames} p-10 relative'`}>
-                                <Component {...props} />
+                                <Component />
                             </div>
                         ))}
                     </div>

@@ -12,7 +12,7 @@ const AddExpense = () => {
         const { name, person, amount } = formData
         const newExpense = {
             name,
-            amount,
+            amount: parseInt(amount),
             person: parseInt(person),
             excludedPersons: []
         }
