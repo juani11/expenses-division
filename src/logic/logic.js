@@ -44,7 +44,8 @@
    
 
 */
-import { cantidadesAdar, cantidadesARecibir, expenses, persons } from '../mock/mockData'
+import { expenses, persons } from '../mock/mockData'
+import { toFloat } from '../utils/utils'
 
 const cantPersonasGrupo = persons.length
 
@@ -73,20 +74,7 @@ function calcularDivisionPorGasto() {
     })
 }
 
-// const resultado = [
-//     {
-//         personaFrom: { id: 2, nombre: 'Juani' },
-//         personaTo: { id: 3, nombre: 'Juli' },
-//         cantidad: 3151.7
-//     },
-//     {
-//         personaFrom: { id: 1, nombre: 'Franco' },
-//         personaTo: { id: 3, nombre: 'Juli' },
-//         cantidad: 201.7
-//     }
-// ]
-
-function calcularResultadoFinal() {
+function calcularResultadoFinal(cantidadesAdar, cantidadesARecibir) {
     let resultado = []
 
     let indexArrayCantidadAdar = 0
@@ -105,24 +93,23 @@ function calcularResultadoFinal() {
 
             //  Mientras no haya descontado el total que tiene que dar la persona
             //  Busco en el array de personas posibles, para ver a que persona le puede dar y cuanto
-            while (cantidadRestanteProcesar > 0) {
+            while (
+                cantidadRestanteProcesar > 0 &&
+                indexPersonaPosible + 1 <= personasPosiblesARecibir.length
+            ) {
                 const personaPosible = personasPosiblesARecibir[indexPersonaPosible]
 
                 let cantidadResultado
                 if (cantidadRestanteProcesar <= personaPosible.amount) {
                     cantidadResultado = cantidadRestanteProcesar
-                    personaPosible.cantidad = parseFloat(
-                        (personaPosible.amount - cantidadRestanteProcesar).toFixed(1)
-                    )
+                    personaPosible.cantidad = toFloat(personaPosible.amount - cantidadRestanteProcesar)
 
                     cantidadRestanteProcesar = 0
                     indexArrayCantidadAdar = indexArrayCantidadAdar + 1
                 } else {
                     cantidadResultado = personaPosible.amount
 
-                    cantidadRestanteProcesar = parseFloat(
-                        (cantidadRestanteProcesar - personaPosible.amount).toFixed(1)
-                    )
+                    cantidadRestanteProcesar = toFloat(cantidadRestanteProcesar - personaPosible.amount)
                     personaPosible.amount = 0
                 }
                 //  Si la persona posible a la que se le esta devolviendo la plata , ya se le cubrio el total de la devolucion, paso a la siguiente persona.

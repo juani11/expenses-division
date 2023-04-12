@@ -1,5 +1,5 @@
 import useModal from '../../hooks/useModal'
-import { useGroupStore } from '../../store/store'
+import { EXCLUDE, INCLUDE, useGroupStore } from '../../store/store'
 import { currencyFormat, toFloat } from '../../utils/utils'
 import Avatar from '../common/Avatar'
 
@@ -13,11 +13,13 @@ import IncludedPerson from './IncludedPerson'
 // const cantPersons = persons.length - excludedPerson.length
 
 const ViewDetailExpense = ({ expense }) => {
-    const { person, name, date, amount, excludedPersons } = expense
+    const { id, person, name, date, amount, excludedPersons } = expense
 
     const personName = useGroupStore(state => state.personName)
 
     const includedPersonsInExpense = useGroupStore(state => state.includedPersonsInExpense)
+
+    const handlePersonInExpense = useGroupStore(state => state.handlePersonInExpense)
 
     const { openModal, closeModal, modalIsOpen, modalIsLoading } = useModal()
 
@@ -27,6 +29,9 @@ const ViewDetailExpense = ({ expense }) => {
     // }
 
     const includedPersons = includedPersonsInExpense(excludedPersons)
+
+    const excludePerson = personId => handlePersonInExpense(personId, id, EXCLUDE)
+    const includePerson = personId => handlePersonInExpense(personId, id, INCLUDE)
 
     return (
         <>
@@ -58,8 +63,9 @@ const ViewDetailExpense = ({ expense }) => {
                     {includedPersons.map(includedPerson => (
                         <IncludedPerson
                             key={includedPerson.id}
-                            personName={includedPerson.name}
+                            person={includedPerson}
                             cost={currencyFormat(toFloat(amount / includedPersons.length))}
+                            callback={excludePerson}
                         />
                     ))}
                 </ul>
@@ -71,7 +77,12 @@ const ViewDetailExpense = ({ expense }) => {
                 ) : (
                     <ul>
                         {excludedPersons.map(excludedPerson => (
-                            <ExcludedPerson key={person.id} personName={personName(excludedPerson)} />
+                            <ExcludedPerson
+                                key={excludedPerson}
+                                person={excludedPerson}
+                                personName={personName(excludedPerson)}
+                                callback={includePerson}
+                            />
                         ))}
                     </ul>
                 )}

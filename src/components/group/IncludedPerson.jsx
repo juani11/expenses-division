@@ -1,12 +1,15 @@
 import Button from '../common/Button'
 import PersonDetail from './PersonDetail'
-const IncludedPerson = ({ personName, cost }) => {
+const IncludedPerson = ({ person, cost, callback }) => {
+    const handleClick = () => {
+        callback(person.id)
+    }
     return (
-        <PersonDetail personName={personName} cost={cost}>
-            {/* <button className='rounded-3xl text-white font-bold bg-red-500 px-4 hover:bg-red-300 '>
+        <PersonDetail personName={person.name} cost={cost}>
+            {/* <button className=' text-white font-bold bg-red-500 px-4 hover:bg-red-300 '>Excluir</button> */}
+            <Button size='xs' onClick={handleClick}>
                 Excluir
-            </button> */}
-            <Button size='xs'>Excluir</Button>
+            </Button>
         </PersonDetail>
     )
 }

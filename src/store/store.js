@@ -1,6 +1,9 @@
 import { create } from 'zustand'
 import { expenses, persons } from '../mock/mockData'
 
+export const EXCLUDE = 'exclude'
+export const INCLUDE = 'include'
+
 const useGroupStore = create((set, get) => ({
     info: {
         id: 1,
@@ -11,13 +14,10 @@ const useGroupStore = create((set, get) => ({
     persons,
     totalAmountExpenses: () => {
         const groupExpenses = get().expenses
-        const totalAmountExpenses = groupExpenses.reduce((accumulator, currentValue) => {
-            console.log('currentValue.amount')
-            console.log(currentValue.amount)
-            console.log(typeof currentValue.amount)
-
-            return accumulator + currentValue.amount
-        }, 0)
+        const totalAmountExpenses = groupExpenses.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.amount,
+            0
+        )
         return totalAmountExpenses
     },
     addExpense: newExpense =>
@@ -42,6 +42,30 @@ const useGroupStore = create((set, get) => ({
     personName: personId => {
         const person = get().persons.find(p => p.id === personId)
         return person.name
+    },
+
+    //  Excluir o Incluir persona en un gasto especifico
+    handlePersonInExpense: (personId, expenseId, action) => {
+        const groupExpenses = get().expenses
+        const expenseIndex = groupExpenses.findIndex(expense => expense.id === expenseId)
+
+        const expense = groupExpenses[expenseIndex]
+
+        const personsExcludedInExpenses = expense.excludedPersons
+
+        const newExcludedPersonsInExpense =
+            action === EXCLUDE
+                ? [...personsExcludedInExpenses, personId]
+                : personsExcludedInExpenses.filter(person => person !== personId)
+
+        const updatedExpense = { ...expense, excludedPersons: [...newExcludedPersonsInExpense] }
+
+        groupExpenses[expenseIndex] = updatedExpense
+
+        set(state => ({
+            ...state,
+            expenses: [...groupExpenses]
+        }))
     }
 }))
 
