@@ -1,5 +1,6 @@
 import DivisionsList from '../components/group/DivisionsList'
 import EmptyGroup from '../components/group/EmptyGroup'
+import Persons from '../components/group/Persons'
 import TotalsList from '../components/group/TotalsList'
 import MoneySVG from '../components/svg/MoneySVG'
 import PeopleSelfieSVG from '../components/svg/PeopleSelfieSVG'
@@ -7,20 +8,6 @@ import { useGroupStore } from '../store/store'
 import { currencyFormat } from '../utils/utils'
 import Avatar from './../components/common/Avatar'
 import Expenses from './../components/group/Expenses'
-const groupDataGrid = [
-    {
-        classNames: 'col-span-5 md:col-span-1 lg:row-span-3',
-        component: Expenses
-    },
-    {
-        classNames: 'col-span-5 md:col-span-1',
-        component: DivisionsList
-    },
-    {
-        classNames: 'col-span-5 md:col-span-1 lg:col-span-1 col-start-1 ',
-        component: TotalsList
-    }
-]
 
 const Group = () => {
     const group = useGroupStore(state => state.info)
@@ -62,18 +49,20 @@ const Group = () => {
             </section>
 
             {/* // GROUP INFORMATION */}
-            <section className='font-primary '>
+            <section className='font-primary w-full'>
                 {expenses.length === 0 ? (
                     <div className='flex justify-center'>
                         <EmptyGroup />
                     </div>
                 ) : (
-                    <div className='grid grid-cols-2 bg-gray-50 md:px-20'>
-                        {groupDataGrid.map(({ classNames, component: Component }, index) => (
-                            <div key={index} className={`${classNames} p-10 relative'`}>
-                                <Component />
-                            </div>
-                        ))}
+                    <div className='grid grid-cols-2 gap-5 bg-gray-50 md:p-20 rounded-l-[150px] '>
+                        <div className=''>
+                            <Persons />
+                            <DivisionsList />
+                        </div>
+                        <div className='w-[500px] justify-self-center'>
+                            <Expenses />
+                        </div>
                     </div>
                 )}
             </section>
