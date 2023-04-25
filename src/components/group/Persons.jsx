@@ -1,13 +1,8 @@
 import { expensesPerPerson } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 import { currencyFormat } from '../../utils/utils'
-import Avatar from '../common/Avatar'
 import Button from '../common/Button'
 import AvatarSVG from '../svg/AvatarSVG'
-import AddExpense from './AddExpense'
-import UserSVG from './../svg/UserSVG'
-
-const getPercentaje = (total, value) => {}
 
 const Persons = () => {
     const persons = useGroupStore(state => state.persons)
@@ -16,7 +11,8 @@ const Persons = () => {
 
     const totales = expensesPerPerson(expenses)
 
-    console.log({ totales })
+    const personsName = persons.map(person => person.name)
+
     return (
         <>
             <div className='flex justify-between items-center px-1 py-2'>
@@ -86,8 +82,8 @@ const Persons = () => {
                             width: `${roundedPercentaje}%`
                         }
                         return (
-                            <li key={index} className='grid hover:bg-gray-50 rounded-xl  p-3 my-2 '>
-                                <div className='col-span-2 flex  items-center gap-10'>
+                            <li key={index} className='hover:bg-gray-50 rounded-xl  p-3 my-2 '>
+                                <div className='flex flex-wrap items-center gap-10 '>
                                     <div className='flex gap-1 items-center w-20'>
                                         <AvatarSVG width={40} height={40} fillColor={`fill-black`} />
                                         {/* <div className='flex flex-col'> */}
@@ -100,14 +96,14 @@ const Persons = () => {
                                         <h3 className='m-0'> {totales[person.id].cant}</h3>
                                         <p>GASTO</p>
                                     </div> */}
-                                    <div className='flex gap-2 w-52 items-center'>
-                                        <div className={`bg-gray-200 rounded-lg h-4 w-48`}>
-                                            <div className='bg-primary  rounded-lg h-4' style={stilo}></div>
+                                    <div className='flex flex-1 gap-2 items-center'>
+                                        <div className={`bg-gray-200 rounded-lg h-4 w-36 2xl:w-48`}>
+                                            <div className='bg-primary rounded-lg h-4' style={stilo}></div>
                                             {/* {(totales[person.id].amount * 100) / totalAmountExpenses()} */}
                                         </div>
-                                        <p className='grow-0'>{roundedPercentaje}%</p>
+                                        <p className=''>{roundedPercentaje}%</p>
                                     </div>
-                                    <div className='flex flex-col justify-center items-center'>
+                                    <div className='justify-self-center'>
                                         <h3 className='m-0'>{currencyFormat(totales[person.id].amount)}</h3>
                                         {/* <p>Total gastado</p> */}
                                     </div>

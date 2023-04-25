@@ -129,4 +129,24 @@ function calcularResultadoFinal(cantidadesAdar, cantidadesARecibir) {
     return resultado
 }
 
-export { calcularDivisionPorGasto, calcularResultadoFinal }
+function expensesPerPerson(expenses) {
+    const expensesPerPerson = {}
+
+    expenses.forEach(expense => {
+        const { person, amount } = expense
+        const personExpense = expensesPerPerson[person]
+        expensesPerPerson[person] = personExpense
+            ? {
+                  ...personExpense,
+                  cant: personExpense.cant + 1,
+                  amount: personExpense.amount + amount
+              }
+            : {
+                  cant: 1,
+                  amount
+              }
+    })
+    return expensesPerPerson
+}
+
+export { calcularDivisionPorGasto, calcularResultadoFinal, expensesPerPerson }
