@@ -1,8 +1,8 @@
 import { calcularResultadoFinal } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
-import { currencyFormat, toFloat } from '../../utils/utils'
-import Avatar from '../common/Avatar'
+import { toFloat } from '../../utils/utils'
 import ArrowSVG from '../svg/ArrowSVG'
+import ExpenseCost from './ExpenseCost'
 
 const DivisionsList = () => {
     const persons = useGroupStore(state => state.persons)
@@ -49,28 +49,31 @@ const DivisionsList = () => {
             <div className='flex justify-between items-center px-1 py-2'>
                 <h3 className='uppercase'>Divisiones</h3>
             </div>
-            <ul className='shadow-md bg-white p-5 rounded-3xl border border-secondary '>
+            <ul className='shadow-lg bg-white p-5 rounded-xl '>
                 {resultados.map((division, index) => (
-                    <li key={index} className='grid grid-cols-3'>
-                        <div className='flex items-center  gap-3'>
-                            <Avatar size={'sm'} color={'bg-secondary'}>
+                    <li key={index} className='grid grid-cols-4 hover:bg-gray-50 justify-items-center'>
+                        <div className='flex items-center gap-3'>
+                            {/* <Avatar size={'sm'} color={'bg-secondary'}>
                                 {division.personaFrom.name.charAt(0)}
-                            </Avatar>
+                            </Avatar> */}
                             <div className='flex flex-col'>
-                                <h4 className='m-0'>{division.personaFrom.name}</h4>
+                                <h5 className='m-0'>{division.personaFrom.name}</h5>
                             </div>
                         </div>
-                        <div className='flex flex-col items-center '>
-                            <h3 className='m-3'>{`${currencyFormat(division.cantidad)}`}</h3>
+                        <div className='flex flex-col items-center justify-center '>
+                            {/* <h3 className='m-3'>{`${currencyFormat(division.cantidad)}`}</h3> */}
                             <ArrowSVG />
                         </div>
-                        <div className='flex items-center justify-center gap-3'>
-                            <Avatar size={'sm'} color={'bg-secondary'}>
+                        <div className='flex items-center gap-3'>
+                            {/* <Avatar size={'sm'} color={'bg-secondary'}>
                                 {division.personaTo.name.charAt(0)}
-                            </Avatar>
+                            </Avatar> */}
                             <div className='flex-grow'>
-                                <h4 className='m-0'>{division.personaTo.name}</h4>
+                                <h5 className='m-0'>{division.personaTo.name}</h5>
                             </div>
+                        </div>
+                        <div className='justify-self-end'>
+                            <ExpenseCost cost={division.cantidad} />
                         </div>
                     </li>
                 ))}
