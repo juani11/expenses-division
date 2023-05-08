@@ -2,9 +2,16 @@ import usePagination from '../../hooks/usePagination'
 import { useGroupStore } from '../../store/store'
 import Pagination from '../common/Pagination'
 import ExpensesListItem from './ExpensesListItem'
+import { DATE, PAYER } from './ExpensesListSorter'
 
-const ExpensesList = () => {
+const ExpensesList = ({ sortBy }) => {
     const expenses = useGroupStore(state => state.expenses)
+
+    const orderExpenses = [...expenses].sort((exp1, exp2) => {
+        if (sortBy === DATE) return expenses
+        if (sortBy === PAYER) return exp1.person - exp2.person
+        else return exp2.amount - exp1.amount
+    })
 
     const {
         cantPages,
@@ -14,7 +21,7 @@ const ExpensesList = () => {
         nextPage,
         showPagination,
         itemsInCurrentPage
-    } = usePagination(expenses)
+    } = usePagination(orderExpenses)
 
     return (
         <>

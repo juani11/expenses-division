@@ -1,6 +1,7 @@
 import React from 'react'
 import AddExpense from './AddExpense'
-import ExpensesList from './ExpensesList'
+import ExpensesListContainer from './ExpensesListContainer'
+
 const Expenses = () => {
     return (
         <>
@@ -8,10 +9,7 @@ const Expenses = () => {
                 <h3 className='uppercase'>Lista de gastos</h3>
                 <AddExpense />
             </div>
-
-            <div className='shadow-md bg-white p-5 rounded-3xl border border-secondary'>
-                <ExpensesList />
-            </div>
+            <ExpensesListContainer />
         </>
     )
 }

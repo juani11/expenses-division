@@ -1,5 +1,5 @@
 import { persons } from '../../mock/mockData'
-import Avatar from '../common/Avatar'
+import CreditCardSVG from '../svg/CreditCardSVG'
 import ExpenseCost from './ExpenseCost'
 import RemoveExpense from './RemoveExpense'
 import ViewDetailExpense from './ViewDetailExpense'
@@ -9,25 +9,24 @@ const ExpensesListItem = ({ expense }) => {
     const persona = persons.find(persona => persona.id === person)
 
     return (
-        <li key={id} className='grid grid-cols-4 hover:bg-gray-50 border-b'>
-            <div className='col-span-2 flex items-center gap-3'>
-                <Avatar size={'sm'} color={'bg-secondary'}>
-                    {persona?.name.charAt(0)}
-                </Avatar>
-                <div className='flex flex-col'>
-                    <h4 className='m-0'>{name}</h4>
-                    <p>{persona?.name}</p>
+        <>
+            <li key={id} className=' flex justify-between gap-4 hover:bg-gray-50 rounded-xl my-4 mx-2 px-2'>
+                <div className='flex-1 flex items-center gap-3'>
+                    <CreditCardSVG />
+                    <div className='flex flex-col'>
+                        <h4 className='m-0 capitalize '>{name}</h4>
+                        <h5 className='m-0 text-gray-400'> {persona?.name}</h5>
+                    </div>
                 </div>
-            </div>
-            <div className='flex'>
-                <ExpenseCost cost={amount} />
-            </div>
-
-            <div className='flex justify-center items-center gap-2'>
-                <RemoveExpense expenseName={name} expenseId={id} />
-                <ViewDetailExpense expense={expense} />
-            </div>
-        </li>
+                <div className='basis-48'>
+                    <ExpenseCost cost={amount} />
+                </div>
+                <div className='flex items-center gap-2 cursor-pointer'>
+                    <RemoveExpense expenseName={name} expenseId={id} />
+                    <ViewDetailExpense expense={expense} />
+                </div>
+            </li>
+        </>
     )
 }
 
