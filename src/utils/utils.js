@@ -7,4 +7,8 @@ const toFloat = num => {
     return parseFloat(fixedNum)
 }
 
-export { currencyFormat, toFloat }
+const getPercentaje = (number, total) => (number * 100) / total
+
+const roundedNumber = number => Math.round(number)
+
+export { currencyFormat, toFloat, getPercentaje, roundedNumber }

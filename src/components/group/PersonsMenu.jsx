@@ -1,7 +1,13 @@
 const menuOptionClassName = 'inline-block w-full p-4 hover:bg-gray-50  focus:outline-none'
 
-const PersonsMenu = ({ menuOptionSelected, handleClick }) => {
+export const PERSONS_LIST = 'listado'
+export const PERSONS_TOTALS = 'totales'
+
+const PersonsMenu = ({ menuOptionSelected, changeMenuOption }) => {
     const isActive = menuOption => menuOptionSelected === menuOption
+
+    const showPersonsList = () => changeMenuOption(PERSONS_LIST)
+    const showPersonsTotals = () => changeMenuOption(PERSONS_TOTALS)
 
     return (
         <div className='mb-2'>
@@ -20,23 +26,20 @@ const PersonsMenu = ({ menuOptionSelected, handleClick }) => {
             <ul className='hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex'>
                 <li className='w-full'>
                     <a
-                        href='#'
                         className={`${menuOptionClassName} rounded-l-lg ${
-                            isActive('listado') ? 'bg-gray-50' : 'bg-white'
+                            isActive(PERSONS_LIST) ? 'bg-gray-50' : 'bg-white'
                         }`}
-                        aria-current='page'
-                        onClick={() => handleClick('listado')}
+                        onClick={showPersonsList}
                     >
                         Listado
                     </a>
                 </li>
                 <li className='w-full'>
                     <a
-                        href='#'
                         className={`${menuOptionClassName} rounded-r-lg  ${
-                            isActive('totales') ? 'bg-gray-50' : 'bg-white'
+                            isActive(PERSONS_TOTALS) ? 'bg-gray-50' : 'bg-white'
                         }`}
-                        onClick={() => handleClick('totales')}
+                        onClick={showPersonsTotals}
                     >
                         Totales
                     </a>

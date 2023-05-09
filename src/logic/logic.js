@@ -138,12 +138,14 @@ function expensesPerPerson(expenses) {
         expensesPerPerson[person] = personExpense
             ? {
                   ...personExpense,
+                  person,
                   cant: personExpense.cant + 1,
                   amount: personExpense.amount + amount
               }
             : {
                   cant: 1,
-                  amount
+                  amount,
+                  person
               }
     })
     return expensesPerPerson
