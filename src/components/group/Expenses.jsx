@@ -1,14 +1,14 @@
 import React from 'react'
 import AddExpense from './AddExpense'
 import ExpensesListContainer from './ExpensesListContainer'
+import CardHeader from '../common/CardHeader'
 
 const Expenses = () => {
     return (
         <>
-            <div className='flex justify-between items-center px-1 py-2'>
-                <h3 className='uppercase'>Lista de gastos</h3>
+            <CardHeader title={'lista de gastos'}>
                 <AddExpense />
-            </div>
+            </CardHeader>
             <ExpensesListContainer />
         </>
     )

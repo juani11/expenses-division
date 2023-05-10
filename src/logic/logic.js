@@ -139,11 +139,11 @@ function expensesPerPerson(expenses) {
             ? {
                   ...personExpense,
                   person,
-                  cant: personExpense.cant + 1,
+                  cantExpenses: personExpense.cantExpenses + 1,
                   amount: personExpense.amount + amount
               }
             : {
-                  cant: 1,
+                  cantExpenses: 1,
                   amount,
                   person
               }

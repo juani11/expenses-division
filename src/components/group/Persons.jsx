@@ -1,19 +1,34 @@
 import { useState } from 'react'
-import PersonsMenu, { PERSONS_LIST } from './PersonsMenu'
+import PersonsMenu, { PERSONS_LIST, PERSONS_TOTALS } from './PersonsMenu'
 import PersonsTotals from './PersonsTotals'
 import PersonsList from './PersonsList'
+import CardHeader from '../common/CardHeader'
 
+const menuItemsComponents = {
+    [PERSONS_LIST]: PersonsList,
+    [PERSONS_TOTALS]: PersonsTotals
+}
+
+const usePersonsMenu = () => {
+    const [menuItemSelected, setMenuItemSelected] = useState(PERSONS_LIST)
+
+    const MenuItemContent = menuItemsComponents[menuItemSelected]
+
+    return {
+        menuItemSelected,
+        changeMenuOption: setMenuItemSelected,
+        MenuItemContent
+    }
+}
 const Persons = () => {
-    const [menuOptionSelected, setMenuOptionSelected] = useState(PERSONS_LIST)
-    const handleClick = setMenuOptionSelected
+    const { menuItemSelected, changeMenuOption, MenuItemContent } = usePersonsMenu()
 
     return (
         <>
-            <div className='flex justify-between items-center px-1 py-2'>
-                <h3 className='uppercase'>Personas</h3>
-            </div>
-            <PersonsMenu menuOptionSelected={menuOptionSelected} changeMenuOption={handleClick} />
-            {menuOptionSelected === PERSONS_LIST ? <PersonsList /> : <PersonsTotals />}
+            <CardHeader title={'personas'} />
+
+            <PersonsMenu menuItemSelected={menuItemSelected} changeMenuOption={changeMenuOption} />
+            <MenuItemContent />
         </>
     )
 }

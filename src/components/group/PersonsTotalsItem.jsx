@@ -1,30 +1,24 @@
-import { currencyFormat, getPercentaje, roundedNumber } from '../../utils/utils'
+import { currencyFormat, getRoundedPercentage } from '../../utils/utils'
 
 const PersonTotalItem = ({ personTotal, nameOfPerson, totalAmountExpenses }) => {
-    const { cant, amount } = personTotal
+    const { cantExpenses, amount } = personTotal
 
-    let personRoundedAmountPercentaje = 0
+    const personRoundedAmountPercentage = getRoundedPercentage(amount, totalAmountExpenses)
 
-    if (amount) {
-        const personAmountPercentaje = getPercentaje(amount, totalAmountExpenses)
-        personRoundedAmountPercentaje = roundedNumber(personAmountPercentaje)
-    }
+    const cantExpensesText = `${cantExpenses} ${cantExpenses > 1 ? 'Gastos' : 'Gasto'}`
 
     return (
         <li className='hover:bg-gray-50 rounded-xl p-3 my-2 animate-fade '>
             <div className='flex justify-between items-center mb-2'>
                 <h5 className='m-0'>{nameOfPerson}</h5>
-
-                <p className=''>{personRoundedAmountPercentaje}%</p>
-                <h6 className='m-0'>
-                    {cant} {cant > 1 ? 'Gastos' : 'Gasto'}
-                </h6>
+                <p>{personRoundedAmountPercentage}%</p>
+                <h6 className='m-0'>{cantExpensesText}</h6>
             </div>
             <div className='m-auto flex gap-2 items-center '>
                 <div className={`bg-gray-200 rounded-lg h-4 w-full`}>
                     <div
                         className='bg-primary rounded-lg h-4'
-                        style={{ width: `${personRoundedAmountPercentaje}%` }}
+                        style={{ width: `${personRoundedAmountPercentage}%` }}
                     ></div>
                 </div>
             </div>
