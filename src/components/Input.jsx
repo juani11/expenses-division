@@ -1,10 +1,9 @@
+import Label from './common/Label'
+
 const Input = ({ label, addOnBefore, width, className = '', controlledProps, error }) => {
     return (
         <div className={`flex flex-col ${width}`}>
-            <label htmlFor='name' className='text-md text-gray-800 mb-2 '>
-                {label}
-            </label>
-
+            <Label>{label}</Label>
             <div className={`flex items-center`}>
                 {addOnBefore ? (
                     <>
