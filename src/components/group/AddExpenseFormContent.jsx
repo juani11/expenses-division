@@ -1,9 +1,20 @@
+import { useFormContext } from 'react-hook-form'
 import { useGroupStore } from '../../store/store'
 import Select from '../common/Select'
 import Input from '../Input'
+import PersonsCheckBoxGroup from './PersonsCheckBoxGroup'
 
-const AddExpenseFormContent = ({ register, errors }) => {
+const AddExpenseFormContent = () => {
     const persons = useGroupStore(state => state.persons)
+
+    const {
+        register,
+        watch,
+        control,
+        formState: { errors }
+    } = useFormContext() // retrieve all hook methods
+
+    const amount = watch('amount')
 
     return (
         <>
@@ -37,7 +48,7 @@ const AddExpenseFormContent = ({ register, errors }) => {
                 />
             </div>
             <Select
-                className='flex-1 p-4'
+                className='flex-1 p-4 '
                 label='Persona'
                 options={persons}
                 // width='w-72'
@@ -48,6 +59,15 @@ const AddExpenseFormContent = ({ register, errors }) => {
                 }}
                 error={errors.person}
             />
+
+            <div className='p-4 mt-7'>
+                <PersonsCheckBoxGroup
+                    persons={persons}
+                    control={control}
+                    name='includedPersons'
+                    amount={amount}
+                />
+            </div>
         </>
     )
 }

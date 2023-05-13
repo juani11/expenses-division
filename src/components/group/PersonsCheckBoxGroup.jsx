@@ -15,7 +15,7 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
 
     const { error } = fieldState
 
-    const defaultCheckedList = persons.map(person => person.name)
+    const defaultCheckedList = persons.map(person => person.id)
 
     const {
         checkAll,
@@ -28,10 +28,12 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
     const amountPerCheckedPerson = currencyFormat(toFloat(amount / checkedList.length))
 
     useEffect(() => {
+        // send data to react hook form
         field.onChange(defaultCheckedList)
     }, [])
 
     useEffect(() => {
+        // send data to react hook form
         field.onChange(checkedList)
     }, [checkedList])
 
@@ -44,11 +46,16 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
             {persons.map(person => {
                 const { id, name } = person
 
-                const personChecked = personIsChecked(name)
+                const personChecked = personIsChecked(id)
 
                 return (
                     <div key={id} className='flex justify-between items-center '>
-                        <CheckBox label={name} checked={personChecked ?? false} onChange={onCheckBoxChange} />
+                        <CheckBox
+                            label={name}
+                            checked={personChecked ?? false}
+                            value={id}
+                            onChange={onCheckBoxChange}
+                        />
 
                         {personChecked && <p className='m-0 text-2xl'>{amountPerCheckedPerson}</p>}
                     </div>

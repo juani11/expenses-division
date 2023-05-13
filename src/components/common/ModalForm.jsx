@@ -13,7 +13,7 @@ const ModalForm = ({ title, subtitle, isOpen, closeModal, isLoading, callback, c
                     <h2 className='p-4 uppercase '>{title}</h2>
                     <CustomizationSVG width={150} height={150} />
                 </div>
-                <p className='max-w-xl p-4'>{subtitle}</p>
+                {subtitle && <p className='max-w-xl p-4'>{subtitle}</p>}
                 <div className='mt-3'>
                     <form onSubmit={callback}>
                         {children}

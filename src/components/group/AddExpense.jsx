@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import useModal from '../../hooks/useModal'
 import { useGroupStore } from '../../store/store'
 import Button from '../common/Button'
@@ -9,38 +9,35 @@ const AddExpense = () => {
     const addExpense = useGroupStore(state => state.addExpense)
 
     const addExpenseOnState = formData => {
-        const { name, person, amount } = formData
+        const { name, person, amount, includedPersons } = formData
         const newExpense = {
             name,
             amount: parseInt(amount),
             person: parseInt(person),
-            excludedPersons: []
+            excludedPersons: includedPersons
         }
         addExpense(newExpense)
     }
 
-    const { openModal, closeModal, modalIsOpen, modalIsLoading, onSubmit } = useModal(addExpenseOnState)
+    const methods = useForm()
 
-    const {
-        register,
-        formState: { errors },
-        handleSubmit
-    } = useForm()
+    const { openModal, closeModal, modalIsOpen, modalIsLoading, onSubmit } = useModal(addExpenseOnState)
 
     return (
         <>
             <Button onClick={openModal}>añadir gasto</Button>
 
-            <ModalForm
-                title='Nuevo gasto'
-                subtitle='El gasto será dividido entre todas las personas participantes del grupo. Si mas adelante se quisiera excluir una persona, se podrá hacer desde el detalle del gasto'
-                isOpen={modalIsOpen}
-                closeModal={closeModal}
-                isLoading={modalIsLoading}
-                callback={handleSubmit(onSubmit)}
-            >
-                <AddExpenseFormContent register={register} errors={errors} />
-            </ModalForm>
+            <FormProvider {...methods}>
+                <ModalForm
+                    title='Nuevo gasto'
+                    isOpen={modalIsOpen}
+                    closeModal={closeModal}
+                    isLoading={modalIsLoading}
+                    callback={methods.handleSubmit(onSubmit)}
+                >
+                    <AddExpenseFormContent />
+                </ModalForm>
+            </FormProvider>
         </>
     )
 }
