@@ -31,11 +31,18 @@ const useGroupStore = create((set, get) => ({
             expenses: state.expenses.filter(expense => expense.id !== expenseId)
         })),
 
-    includedPersonsInExpense: excludedPersonsInExpense => {
+    // includedPersonsInExpense: excludedPersonsInExpense => {
+    //     const persons = get().persons
+    //     return excludedPersonsInExpense.length === 0
+    //         ? persons
+    //         : persons.filter(person => !excludedPersonsInExpense.includes(person.id))
+    // },
+    excludedPersonsInExpense: includedPersonsInExpense => {
         const persons = get().persons
-        return excludedPersonsInExpense.length === 0
-            ? persons
-            : persons.filter(person => !excludedPersonsInExpense.includes(person.id))
+
+        return includedPersonsInExpense.length === persons.length
+            ? []
+            : persons.filter(person => !includedPersonsInExpense.includes(person.id))
     },
     personIsIncludedInExpense: (personId, excludedPersonsInExpense) =>
         !excludedPersonsInExpense.includes(personId),
@@ -51,14 +58,14 @@ const useGroupStore = create((set, get) => ({
 
         const expense = groupExpenses[expenseIndex]
 
-        const personsExcludedInExpenses = expense.excludedPersons
+        const personsIncludedInExpenses = expense.includedPersons
 
-        const newExcludedPersonsInExpense =
-            action === EXCLUDE
-                ? [...personsExcludedInExpenses, personId]
-                : personsExcludedInExpenses.filter(person => person !== personId)
+        const newIncludedPersonsInExpense =
+            action === INCLUDE
+                ? [...personsIncludedInExpenses, personId]
+                : personsIncludedInExpenses.filter(person => person !== personId)
 
-        const updatedExpense = { ...expense, excludedPersons: [...newExcludedPersonsInExpense] }
+        const updatedExpense = { ...expense, includedPersons: [...newIncludedPersonsInExpense] }
 
         groupExpenses[expenseIndex] = updatedExpense
 
