@@ -5,7 +5,7 @@ const IncludedPerson = ({ person, cost, callback }) => {
         callback(person.id)
     }
     return (
-        <PersonDetail personName={person.name} cost={cost}>
+        <PersonDetail personName={person} cost={cost}>
             {/* <button className=' text-white font-bold bg-red-500 px-4 hover:bg-red-300 '>Excluir</button> */}
             <Button size='xs' onClick={handleClick}>
                 Excluir

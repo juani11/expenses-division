@@ -13,11 +13,12 @@ import IncludedPerson from './IncludedPerson'
 // const cantPersons = persons.length - excludedPerson.length
 
 const ViewDetailExpense = ({ expense }) => {
-    const { id, person, name, date, amount, excludedPersons } = expense
+    const { id, person, name, date, amount, includedPersons } = expense
 
     const personName = useGroupStore(state => state.personName)
 
-    const includedPersonsInExpense = useGroupStore(state => state.includedPersonsInExpense)
+    // const includedPersonsInExpense = useGroupStore(state => state.includedPersonsInExpense)
+    const excludedPersonsInExpense = useGroupStore(state => state.excludedPersonsInExpense)
 
     const handlePersonInExpense = useGroupStore(state => state.handlePersonInExpense)
 
@@ -28,7 +29,8 @@ const ViewDetailExpense = ({ expense }) => {
     //     return person.name
     // }
 
-    const includedPersons = includedPersonsInExpense(excludedPersons)
+    // const includedPersons = includedPersonsInExpense(excludedPersons)
+    const excludedPersons = excludedPersonsInExpense(includedPersons)
 
     const excludePerson = personId => handlePersonInExpense(personId, id, EXCLUDE)
     const includePerson = personId => handlePersonInExpense(personId, id, INCLUDE)
@@ -62,8 +64,8 @@ const ViewDetailExpense = ({ expense }) => {
                 <ul>
                     {includedPersons.map(includedPerson => (
                         <IncludedPerson
-                            key={includedPerson.id}
-                            person={includedPerson}
+                            key={includedPerson}
+                            person={personName(includedPerson)}
                             cost={currencyFormat(toFloat(amount / includedPersons.length))}
                             callback={excludePerson}
                         />
@@ -80,7 +82,7 @@ const ViewDetailExpense = ({ expense }) => {
                             <ExcludedPerson
                                 key={excludedPerson}
                                 person={excludedPerson}
-                                personName={personName(excludedPerson)}
+                                personName={personName(excludedPerson.id)}
                                 callback={includePerson}
                             />
                         ))}

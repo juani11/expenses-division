@@ -14,7 +14,7 @@ const AddExpense = () => {
             name,
             amount: parseInt(amount),
             person: parseInt(person),
-            excludedPersons: includedPersons
+            includedPersons
         }
         addExpense(newExpense)
     }

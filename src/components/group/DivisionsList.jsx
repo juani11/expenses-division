@@ -1,28 +1,31 @@
 import { calcularResultadoFinal } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
-import { toFloat } from '../../utils/utils'
+import { currencyFormat, toFloat } from '../../utils/utils'
+import CardHeader from '../common/CardHeader'
 import ArrowSVG from '../svg/ArrowSVG'
-import ExpenseCost from './ExpenseCost'
 
 const DivisionsList = () => {
     const persons = useGroupStore(state => state.persons)
     const expenses = useGroupStore(state => state.expenses)
-    const includedPersonsInExpense = useGroupStore(state => state.includedPersonsInExpense)
-    const personIsIncludedInExpense = useGroupStore(state => state.personIsIncludedInExpense)
+    // const includedPersonsInExpense = useGroupStore(state => state.includedPersonsInExpense)
+    // const personIsIncludedInExpense = useGroupStore(state => state.personIsIncludedInExpense)
 
     let cantidadesADar = []
     let cantidadesARecibir = []
 
+    const personIsIncludedInExpense = (person, includedPersons) => {
+        includedPersons.includes(person)
+    }
     const calcularCantidadADarYRecibir = () => {
         persons.forEach(person => {
             let total = 0
             expenses.forEach(expense => {
-                const { excludedPersons, amount, person: owner } = expense
+                const { amount, person: owner, includedPersons } = expense
 
                 // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
 
-                if (personIsIncludedInExpense(person.id, excludedPersons)) {
-                    const includedPersons = includedPersonsInExpense(excludedPersons)
+                if (personIsIncludedInExpense(person.id, includedPersons)) {
+                    // const includedPersons = includedPersonsInExpense(excludedPersons)
                     total = toFloat(total + amount / includedPersons.length)
                 }
                 // Si la persona actual es dueña del gasto actual resto el valor en la persona
@@ -46,34 +49,20 @@ const DivisionsList = () => {
 
     return (
         <>
-            <div className='flex justify-between items-center px-1 py-2'>
-                <h3 className='uppercase'>Divisiones</h3>
-            </div>
-            <ul className='shadow-lg bg-white p-5 rounded-xl '>
+            <CardHeader title={'divisiones'} />
+            <ul className='shadow-lg bg-white py-5 px-2  rounded-xl '>
                 {resultados.map((division, index) => (
-                    <li key={index} className='grid grid-cols-4 hover:bg-gray-50 justify-items-center'>
-                        <div className='flex items-center gap-3'>
-                            {/* <Avatar size={'sm'} color={'bg-secondary'}>
-                                {division.personaFrom.name.charAt(0)}
-                            </Avatar> */}
-                            <div className='flex flex-col'>
-                                <h5 className='m-0'>{division.personaFrom.name}</h5>
-                            </div>
-                        </div>
-                        <div className='flex flex-col items-center justify-center '>
-                            {/* <h3 className='m-3'>{`${currencyFormat(division.cantidad)}`}</h3> */}
+                    <li key={index} className='flex justify-between items-center mb-4 hover:bg-gray-50 p-3'>
+                        <div className='flex gap-1 items-center'>
                             <ArrowSVG />
-                        </div>
-                        <div className='flex items-center gap-3'>
-                            {/* <Avatar size={'sm'} color={'bg-secondary'}>
-                                {division.personaTo.name.charAt(0)}
-                            </Avatar> */}
-                            <div className='flex-grow'>
+                            <div className='flex flex-col items-center '>
+                                <h5 className='m-0'>{division.personaFrom.name}</h5>
                                 <h5 className='m-0'>{division.personaTo.name}</h5>
                             </div>
                         </div>
-                        <div className='justify-self-end'>
-                            <ExpenseCost cost={division.cantidad} />
+
+                        <div className='bg-primary-300 w-24 rounded-2xl text-primary'>
+                            <h4 className='m-2 text-center'>{currencyFormat(division.cantidad)}</h4>
                         </div>
                     </li>
                 ))}
