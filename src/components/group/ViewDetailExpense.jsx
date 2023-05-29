@@ -6,34 +6,27 @@ import Avatar from '../common/Avatar'
 import MenuSVG from '../svg/MenuSVG'
 import Modal from './../common/Modal'
 import PieChartSVG from './../svg/PieChartSVG'
-import ExcludedPerson from './ExcludedPerson'
+import ExcludedPersons from './ExcludedPersons'
 import ExpenseCost from './ExpenseCost'
-import IncludedPerson from './IncludedPerson'
+import IncludedPersons from './IncludedPersons'
 
 // const cantPersons = persons.length - excludedPerson.length
 
 const ViewDetailExpense = ({ expense }) => {
     const { id, person, name, date, amount, includedPersons } = expense
 
-    const personName = useGroupStore(state => state.personName)
+    const costPerPerson = currencyFormat(toFloat(amount / includedPersons.length))
 
-    // const includedPersonsInExpense = useGroupStore(state => state.includedPersonsInExpense)
     const excludedPersonsInExpense = useGroupStore(state => state.excludedPersonsInExpense)
-
+    const personName = useGroupStore(state => state.personName)
     const handlePersonInExpense = useGroupStore(state => state.handlePersonInExpense)
 
-    const { openModal, closeModal, modalIsOpen, modalIsLoading } = useModal()
-
-    // const personName = personId => {
-    //     const person = persons.find(p => p.id === personId)
-    //     return person.name
-    // }
-
-    // const includedPersons = includedPersonsInExpense(excludedPersons)
     const excludedPersons = excludedPersonsInExpense(includedPersons)
 
-    const excludePerson = personId => handlePersonInExpense(personId, id, EXCLUDE)
-    const includePerson = personId => handlePersonInExpense(personId, id, INCLUDE)
+    const excludePerson = personId => () => handlePersonInExpense(personId, id, EXCLUDE)
+    const includePerson = personId => () => handlePersonInExpense(personId, id, INCLUDE)
+
+    const { openModal, closeModal, modalIsOpen, modalIsLoading } = useModal()
 
     return (
         <>
@@ -54,40 +47,19 @@ const ViewDetailExpense = ({ expense }) => {
                         <h3 className='underline text-2xl m-0'>{name}</h3>
                         <p className='uppercase'>{date}</p>
                         <ExpenseCost cost={amount} />
+                        <div className='bg-primary py-1 px-2 rounded-lg text-white font-bold'>
+                            <span>Pagado por </span>
+                            <span>{personName(person)}</span>
+                        </div>
                     </div>
                     <PieChartSVG width={180} height={150} />
                 </div>
-
-                <div className='flex items-center justify-between'>
-                    <h5 className=' rounded-xl w-max p-2 bg-gray-50'>Personas incluidas en el gasto</h5>
-                </div>
-                <ul>
-                    {includedPersons.map(includedPerson => (
-                        <IncludedPerson
-                            key={includedPerson}
-                            person={personName(includedPerson)}
-                            cost={currencyFormat(toFloat(amount / includedPersons.length))}
-                            callback={excludePerson}
-                        />
-                    ))}
-                </ul>
-                <hr></hr>
-
-                <h5 className='rounded-xl w-max p-2 bg-gray-50'>Personas excluidas en el gasto</h5>
-                {excludedPersons.length === 0 ? (
-                    <p className='px-2'>No hay personas excluidas en el gasto</p>
-                ) : (
-                    <ul>
-                        {excludedPersons.map(excludedPerson => (
-                            <ExcludedPerson
-                                key={excludedPerson}
-                                person={excludedPerson}
-                                personName={personName(excludedPerson.id)}
-                                callback={includePerson}
-                            />
-                        ))}
-                    </ul>
-                )}
+                <IncludedPersons
+                    persons={includedPersons}
+                    costPerPerson={costPerPerson}
+                    excludePerson={excludePerson}
+                />
+                <ExcludedPersons persons={excludedPersons} includePerson={includePerson} />
             </Modal>
         </>
     )
