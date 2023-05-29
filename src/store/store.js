@@ -1,17 +1,39 @@
 import { create } from 'zustand'
 import { expenses, persons } from '../mock/mockData'
+import { getGroup } from '../services/services'
 
 export const EXCLUDE = 'exclude'
 export const INCLUDE = 'include'
 
 const useGroupStore = create((set, get) => ({
-    info: {
-        id: 1,
-        name: 'Juntada ATR'
-    },
+    loading: false,
+    error: null,
+    fetch: groupId => {
+        set({ loading: true })
+        getGroup(groupId)
+            .then(res => {
+                const { data: expenseGroup, error } = res
+                console.log(error)
+                if (error) throw Error('Se produjo un error al consultar el grupo')
 
-    expenses,
-    persons,
+                console.log(expenseGroup)
+                const [group] = expenseGroup
+                console.log(group)
+
+                set({
+                    info: { id: groupId, name: group.name },
+                    persons: [...group.persons],
+                    expenses: [...group.expenses],
+                    loading: false
+                })
+            })
+            .catch(error => {
+                console.log('entra al catch')
+                console.log(error)
+                set({ error })
+            })
+        // set({ loading: false })
+    },
     totalAmountExpenses: () => {
         const groupExpenses = get().expenses
         const totalAmountExpenses = groupExpenses.reduce(

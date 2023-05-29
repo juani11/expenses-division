@@ -1,10 +1,10 @@
 const persons = [
     { id: 1, name: 'Juani' },
     { id: 2, name: 'Franco' },
-    { id: 3, name: 'Julia' },
-    { id: 4, name: 'Pedro' },
-    { id: 5, name: 'Javier' },
-    { id: 6, name: 'Laura' }
+    { id: 3, name: 'Julia' }
+    // { id: 4, name: 'Pedro' },
+    // { id: 5, name: 'Javier' },
+    // { id: 6, name: 'Maria Laura' }
 ]
 
 const expenses = [
@@ -14,7 +14,7 @@ const expenses = [
         date: '12/03/2023',
         amount: 4300,
         person: 2, //   id de la persona que hizo el expense
-        excludedPersons: [3] //   ids de las personas que no van a formar parte del expense
+        includedPersons: [1, 2]
     },
     {
         id: 2,
@@ -22,7 +22,7 @@ const expenses = [
         date: '12/03/2023',
         amount: 1350,
         person: 1,
-        excludedPersons: []
+        includedPersons: [1, 2]
     },
     {
         id: 3,
@@ -30,28 +30,36 @@ const expenses = [
         date: '12/03/2023',
         amount: 5705,
         person: 3,
-        excludedPersons: []
+        includedPersons: [1, 2]
     }
+    // {
+    //     id: 4,
+    //     name: 'empanadas',
+    //     date: '12/03/2023',
+    //     amount: 15705,
+    //     person: 2,
+    //     includedPersons: []
+    // },
     // {
     //     id: '4',
     //     name: 'fernet',
     //     amount: 700,
     //     person: 4,
-    //     excludedPersons: []
+    //     includedPersons: []
     // },
     // {
     //     id: '5',
     //     name: 'gaseosas',
     //     amount: 2600,
     //     person: 5,
-    //     excludedPersons: []
+    //     includedPersons: []
     // },
     // {
     //     id: '6',
     //     name: 'patys y pan',
     //     amount: 3210,
     //     person: 6,
-    //     excludedPersons: []
+    //     includedPersons: []
     // }
 ]
 const group = {

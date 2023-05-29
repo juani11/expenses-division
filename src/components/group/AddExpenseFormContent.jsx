@@ -50,7 +50,7 @@ const AddExpenseFormContent = () => {
             <Select
                 className='flex-1 p-4 '
                 label='Persona'
-                options={persons}
+                options={persons ?? []}
                 // width='w-72'
                 controlledProps={{
                     ...register('person', {
@@ -62,7 +62,7 @@ const AddExpenseFormContent = () => {
 
             <div className='p-4 mt-7'>
                 <PersonsCheckBoxGroup
-                    persons={persons}
+                    persons={persons ?? []}
                     control={control}
                     name='includedPersons'
                     amount={amount}
