@@ -3,6 +3,8 @@ import PersonsMenu, { PERSONS_LIST, PERSONS_TOTALS } from './PersonsMenu'
 import PersonsTotals from './PersonsTotals'
 import PersonsList from './PersonsList'
 import CardHeader from '../common/CardHeader'
+import PersonsLoading from './PersonsLoading'
+import { useGroupStore } from '../../store/store'
 
 const menuItemsComponents = {
     [PERSONS_LIST]: PersonsList,
@@ -21,14 +23,20 @@ const usePersonsMenu = () => {
     }
 }
 const Persons = () => {
-    const { menuItemSelected, changeMenuOption, MenuItemContent } = usePersonsMenu()
+    const loading = useGroupStore(state => state.loading)
 
+    const { menuItemSelected, changeMenuOption, MenuItemContent } = usePersonsMenu()
     return (
         <>
             <CardHeader title={'personas'} />
-
-            <PersonsMenu menuItemSelected={menuItemSelected} changeMenuOption={changeMenuOption} />
-            <MenuItemContent />
+            {loading ? (
+                <PersonsLoading />
+            ) : (
+                <>
+                    <PersonsMenu menuItemSelected={menuItemSelected} changeMenuOption={changeMenuOption} />
+                    <MenuItemContent />
+                </>
+            )}
         </>
     )
 }

@@ -2,11 +2,24 @@ import { calcularResultadoFinal } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 import { currencyFormat, toFloat } from '../../utils/utils'
 import CardHeader from '../common/CardHeader'
+import Skeleton from '../common/Skeleton/Skeleton'
+import SkeletonWrapper from '../common/Skeleton/SkeletonWrapper'
 import ArrowSVG from '../svg/ArrowSVG'
 
+const DivisionsLoading = () => {
+    return (
+        <SkeletonWrapper>
+            <div className='h-72'>
+                <Skeleton type='BOX' />
+            </div>
+        </SkeletonWrapper>
+    )
+}
 const DivisionsList = () => {
     const persons = useGroupStore(state => state.persons)
     const expenses = useGroupStore(state => state.expenses)
+    const loading = useGroupStore(state => state.loading)
+
     // const includedPersonsInExpense = useGroupStore(state => state.includedPersonsInExpense)
     // const personIsIncludedInExpense = useGroupStore(state => state.personIsIncludedInExpense)
 
@@ -50,23 +63,31 @@ const DivisionsList = () => {
     return (
         <>
             <CardHeader title={'divisiones'} />
-            <ul className='shadow-lg bg-white py-5 px-2  rounded-xl '>
-                {resultados.map((division, index) => (
-                    <li key={index} className='flex justify-between items-center mb-4 hover:bg-gray-50 p-3'>
-                        <div className='flex gap-1 items-center'>
-                            <ArrowSVG />
-                            <div className='flex flex-col items-center '>
-                                <h5 className='m-0'>{division.personaFrom.name}</h5>
-                                <h5 className='m-0'>{division.personaTo.name}</h5>
-                            </div>
-                        </div>
 
-                        <div className='bg-primary-300 w-24 rounded-2xl text-primary'>
-                            <h4 className='m-2 text-center'>{currencyFormat(division.cantidad)}</h4>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            {loading ? (
+                <DivisionsLoading />
+            ) : (
+                <ul className='shadow-lg bg-white py-5 px-2  rounded-xl '>
+                    {resultados.map((division, index) => (
+                        <li
+                            key={index}
+                            className='flex justify-between items-center mb-4 hover:bg-gray-50 p-3'
+                        >
+                            <div className='flex gap-1 items-center'>
+                                <ArrowSVG />
+                                <div className='flex flex-col items-center '>
+                                    <h5 className='m-0'>{division.personaFrom.name}</h5>
+                                    <h5 className='m-0'>{division.personaTo.name}</h5>
+                                </div>
+                            </div>
+
+                            <div className='bg-primary-300 w-24 rounded-2xl text-primary'>
+                                <h4 className='m-2 text-center'>{currencyFormat(division.cantidad)}</h4>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </>
     )
 }

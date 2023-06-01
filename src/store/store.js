@@ -36,7 +36,7 @@ const useGroupStore = create((set, get) => ({
     },
     totalAmountExpenses: () => {
         const groupExpenses = get().expenses
-        const totalAmountExpenses = groupExpenses.reduce(
+        const totalAmountExpenses = groupExpenses?.reduce(
             (accumulator, currentValue) => accumulator + currentValue.amount,
             0
         )

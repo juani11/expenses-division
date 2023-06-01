@@ -30,7 +30,7 @@ async function getGroup(groupId) {
     amount,
     person:person_id,
     date:created_at,
-    includedPersons:personsincluded
+    includedPersons:persons_included
   )
   `
         )
