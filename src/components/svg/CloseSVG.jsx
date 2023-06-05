@@ -1,4 +1,4 @@
-const CloseSVG = ({ color = 'black' }) => {
+const CloseSVG = ({ color = 'black', width = 25, height = 25 }) => {
     return (
         <svg
             part='svg'
@@ -7,8 +7,8 @@ const CloseSVG = ({ color = 'black' }) => {
             aria-labelledby='ic-close'
             focusable='false'
             viewBox='0 0 24 24'
-            width='25'
-            height='25'
+            width={width}
+            height={height}
             className='h-icon icon-gray icon-static-view-box h-icon--no-custom-width referral-banner__close-icon cursor-pointer'
             // dataV21f970be=''
         >

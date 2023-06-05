@@ -1,41 +1,27 @@
-import { useForm } from 'react-hook-form'
 import NewGroupFormContent from '../components/group/NewGroupFormContent'
+import NewGroupHeader from '../components/group/NewGroupHeader'
 import PeopleSVG from '../components/svg/PeopleSVG'
+import NewGroupFormProvider from '../context/newGorupContext'
 import useNewGroupForm from '../hooks/useNewGroupForm'
 
-const NewGroupHeader = () => {
-    return (
-        <div className='w-1/2 '>
-            <h2>Crea un nuevo grupo para dividir los gastos</h2>
-            <p>
-                Exercitation tempor anim officia cillum minim cupidatat occaecat qui esse cupidatat sunt
-                adipisicing.
-            </p>
-        </div>
-    )
-}
-
 const NewGroup = () => {
-    const {
-        register,
-        formState: { errors },
-        handleSubmit
-    } = useForm()
+    const newGroupFormProps = useNewGroupForm()
 
-    const { loading, error, onSubmit } = useNewGroupForm()
+    const { error, onFinish } = newGroupFormProps
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className='flex justify-center items-center'>
-                <div className='flex flex-col gap-10 font-primary mt-20 items-center'>
+        <form onSubmit={onFinish()}>
+            <div className='flex justify-center items-center gap-20 '>
+                <div className='flex flex-col gap-10 font-primary justify-center items-center h-screen '>
                     <NewGroupHeader />
 
-                    <NewGroupFormContent loading={loading} register={register} errors={errors} />
-
+                    <NewGroupFormProvider {...newGroupFormProps}>
+                        <NewGroupFormContent />
+                    </NewGroupFormProvider>
                     {error && <p className='text-red-500 border-red-500 bg-red-50 h-14 p-5'>{error}</p>}
                 </div>
                 <div className='hidden md:block'>
-                    <PeopleSVG width={538} height={338} />
+                    <PeopleSVG width={530} height={330} />
                 </div>
             </div>
         </form>
