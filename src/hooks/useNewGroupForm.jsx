@@ -1,20 +1,37 @@
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useLocation } from 'wouter'
 import { createGruop, mockCreateGroup } from '../services/services'
-import { useState } from 'react'
 
 const useNewGroupForm = () => {
+    const {
+        register,
+        formState: { errors },
+        handleSubmit
+    } = useForm()
+
     const [location, setLocation] = useLocation()
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
+    const [members, setMembers] = useState([])
+
+    const addMember = newMember => setMembers([...members, newMember])
+
+    const removeMember = member => {
+        const filteredMembers = members.filter(m => m !== member)
+
+        setMembers(filteredMembers)
+    }
+
     const onSubmit = data => {
         setLoading(true)
         setError(null)
-        mockCreateGroup(data)
+        createGruop({ ...data, members })
             .then(res => {
-                if (!res.ok) throw new Error(res.error)
-                console.log(res)
+                // if (!res.ok) throw new Error(res.error)
+                // console.log(res)
                 const { groupId } = res
                 setLocation(`/group/${groupId}`)
             })
@@ -25,10 +42,17 @@ const useNewGroupForm = () => {
             .finally(() => setLoading(false))
     }
 
+    const onFinish = () => handleSubmit(onSubmit)
+
     return {
         loading,
         error,
-        onSubmit
+        registerField: register,
+        errorsFields: errors,
+        onFinish,
+        members,
+        addMember,
+        removeMember
     }
 }
 export default useNewGroupForm
