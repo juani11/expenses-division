@@ -6,10 +6,10 @@ export const EXCLUDE = 'exclude'
 export const INCLUDE = 'include'
 
 const useGroupStore = create((set, get) => ({
-    loading: false,
+    loading: true,
     error: null,
     fetch: groupId => {
-        set({ loading: true })
+        // set({ loading: true })
         getGroup(groupId)
             .then(res => {
                 const { data: expenseGroup, error } = res
@@ -45,7 +45,7 @@ const useGroupStore = create((set, get) => ({
     addExpense: newExpense =>
         set(state => ({
             ...state,
-            expenses: [...state.expenses, { ...newExpense, id: state.expenses.length + 1 }]
+            expenses: [...state.expenses, { ...newExpense }]
         })),
     removeExpense: expenseId =>
         set(state => ({

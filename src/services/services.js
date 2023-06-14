@@ -1,5 +1,7 @@
 import { supabase } from './supabase'
 
+//  GROUP
+
 async function getGroups() {
     const { data: expenseGroup, error } = await supabase.from('expense_group').select(`
     *,
@@ -52,36 +54,83 @@ function mockCreateGroup(group) {
     })
 }
 async function createGruop(group) {
-    const { groupName, owner } = group
+    const { groupName, owner, members } = group
 
-    const resul = {}
+    // const resul = {}
 
-    try {
-        //  Create Group record  and return it
-        const { data: groupData, error: groupError } = await supabase
-            .from('expense_group')
-            .insert([{ name: groupName }])
-            .select()
+    // try {
+    //  Create Group record and return it
+    const { data: groupData, error: groupError } = await supabase
+        .from('expensse_group')
+        .insert([{ name: groupName }])
+        .select()
 
-        if (!groupError) {
-            console.log(groupData)
-            const [data] = groupData
-            const { id: groupId } = data
+    if (groupError) {
+        if (groupError.message === 'TypeError: Failed to fetch')
+            // Throw Error de Conexion a internet....
+            throw new Error('Error de conexión a internet...')
 
-            // Insertar al creador
-            const { data: personData, error } = await supabase
-                .from('person')
-                .insert([{ name: owner, group_id: groupId, is_group_owner: true }])
-
-            resul.groupId = 45
-            resul.ok = true
-        }
-    } catch (error) {
-        resul.ok = false
-        resul.error = error
+        // Throw otro error...
+        throw new Error('Se produjo un error al crear el grupo. Inténtelo nuevamente')
     }
 
-    return resul
+    console.log(groupData)
+    const [data] = groupData
+    const { id: groupId } = data
+
+    //  Agrego personas al grupo creado...
+    let personsToAdd = members.map(member => ({
+        name: member,
+        group_id: groupId,
+        is_group_owner: false
+    }))
+
+    personsToAdd = [
+        ...personsToAdd,
+        {
+            name: owner,
+            group_id: groupId,
+            is_group_owner: true
+        }
+    ]
+
+    const { error: personError } = await supabase.from('person').insert([...personsToAdd])
+
+    if (personError) throw new Error('Se produjo un error al agregar las personas al grupo')
+
+    // resul.groupId = groupId
+    // resul.ok = true
+    // } catch (error) {
+    //     resul.ok = false
+    //     resul.error = error
+    // }
+
+    // return resul
+    return groupId
 }
 
-export { mockCreateGroup, createGruop, getGroup, getGroups }
+//  EXPENSES
+
+async function createExpense(expense) {
+    const { name, amount, person, includedPersons, groupId } = expense
+
+    const { data: expenseData, error } = await supabase
+        .from('expense')
+        .insert([{ name, amount, person_id: person, group_id: groupId, persons_included: includedPersons }])
+        .select()
+
+    if (error) throw new Error('Se produjo un error al crear el gasto')
+
+    const [data] = expenseData
+    const { id } = data
+
+    return id
+}
+
+async function deleteExpense(expenseId) {
+    const { error } = await supabase.from('expense').delete().eq('id', expenseId)
+
+    if (error) throw new Error('Se produjo un error al eliminar el gasto')
+}
+
+export { mockCreateGroup, createGruop, getGroup, getGroups, createExpense, deleteExpense }

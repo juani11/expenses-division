@@ -1,13 +1,25 @@
 import { useState } from 'react'
-import TooltipTriangleSVG from '../svg/TooltipTriangleSVG'
+import TooltipTriangleSVG from './../svg/TooltipTriangleSVG'
 import Button from './Button'
 
 const Tooltip = ({ title, callbackOnOk, component: Component }) => {
     const [show, setShow] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const handleClick = () => setShow(!show)
     const hideTooltip = () => setShow(false)
 
+    const onOk = async () => {
+        setLoading(true)
+        try {
+            await callbackOnOk()
+            hideTooltip()
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
     return (
         <a
             tabIndex='0'
@@ -25,7 +37,7 @@ const Tooltip = ({ title, callbackOnOk, component: Component }) => {
                         <Button size='xs' onClick={hideTooltip}>
                             Cancelar
                         </Button>
-                        <Button size='xs' onClick={callbackOnOk} color='primary'>
+                        <Button size='xs' onClick={onOk} loading={loading} color='primary'>
                             Ok
                         </Button>
                     </div>

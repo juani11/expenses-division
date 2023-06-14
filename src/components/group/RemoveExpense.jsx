@@ -1,3 +1,4 @@
+import { deleteExpense } from '../../services/services'
 import { useGroupStore } from '../../store/store'
 import Avatar from '../common/Avatar'
 import Tooltip from '../common/Tooltip'
@@ -11,7 +12,17 @@ const RemoveIcon = ({ onClick }) => (
 const RemoveExpense = ({ expenseName, expenseId }) => {
     const removeExpense = useGroupStore(state => state.removeExpense)
 
-    const callbackOnOk = () => removeExpense(expenseId)
+    const callbackOnOk = () => {
+        return deleteExpense(expenseId)
+            .then(res => {
+                console.log(res)
+                removeExpense(expenseId)
+            })
+            .catch(err => {
+                console.log(err)
+                throw new Error(err)
+            })
+    }
 
     return (
         <Tooltip

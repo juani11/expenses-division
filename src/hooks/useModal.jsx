@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { mockService } from '../mock/mockService'
 
 const useModal = callback => {
     const [modalIsLoading, setModalIsLoading] = useState(false)
@@ -8,15 +7,18 @@ const useModal = callback => {
     const openModal = () => setModalIsOpen(true)
     const closeModal = () => setModalIsOpen(false)
 
-    const onSubmit = data => {
-        const promise = mockService(data)
+    const onSubmit = async data => {
         setModalIsLoading(true)
-        promise.then(res => {
+        try {
+            await callback(data)
+            console.log('exito dentro del modal')
             setModalIsLoading(false)
-            console.log(res)
-            callback(data)
             closeModal()
-        })
+        } catch (error) {
+            console.log('ERROR dentro del modal')
+
+            setModalIsLoading(false)
+        }
     }
 
     return {
