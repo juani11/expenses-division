@@ -1,7 +1,7 @@
 import { useFormContext } from 'react-hook-form'
 import { useGroupStore } from '../../store/store'
-import Select from '../common/Select'
 import Input from '../Input'
+import CustomSelect from '../common/CustomSelect'
 import PersonsCheckBoxGroup from './PersonsCheckBoxGroup'
 
 const AddExpenseFormContent = () => {
@@ -15,6 +15,11 @@ const AddExpenseFormContent = () => {
     } = useFormContext() // retrieve all hook methods
 
     const amount = watch('amount')
+
+    const personsOptions = persons.map(({ id, name }) => ({
+        id,
+        value: name
+    }))
 
     return (
         <>
@@ -47,20 +52,18 @@ const AddExpenseFormContent = () => {
                     error={errors.amount}
                 />
             </div>
-            <Select
-                className='flex-1 p-4 '
-                label='Persona'
-                options={persons ?? []}
-                // width='w-72'
-                controlledProps={{
-                    ...register('person', {
-                        required: 'Debe ingresar la persona'
-                    })
-                }}
-                error={errors.person}
-            />
 
-            <div className='p-4 mt-7'>
+            <div className='mt-4'>
+                <CustomSelect
+                    label='Persona que paga el gasto'
+                    placeholder='seleccione una persona'
+                    options={personsOptions}
+                    name='person'
+                    control={control}
+                />
+            </div>
+
+            <div className=' p-4 mt-2'>
                 <PersonsCheckBoxGroup
                     persons={persons ?? []}
                     control={control}
