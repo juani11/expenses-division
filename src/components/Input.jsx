@@ -7,20 +7,24 @@ const Input = ({ label, addOnBefore, width, className = '', controlledProps, err
             <div className={`flex items-center`}>
                 {addOnBefore ? (
                     <>
-                        <span className='border-l border-t border-b h-14 p-2 font-bold text-center text-3xl text-white border-black bg-gray-200 w-2/6'>
+                        <span className='outline-none  h-14 p-2 font-bold text-center text-3xl text-white border-2 border-primary-300 bg-primary-500 w-2/6'>
                             {addOnBefore}
                         </span>
                         <input
-                            className={`bg-white text-xl w-4/6 border appearance-none ${
-                                error ? 'text-red-500 border-red-500 bg-red-50' : 'text-black border-black'
+                            className={`outline-none focus-within:border-2 bg-white text-xl w-4/6  border-2 appearance-none ${
+                                error
+                                    ? 'text-red-500 border-red-200 bg-red-50 focus-within:border-red-300 '
+                                    : ' border-gray-200  focus-within:border-primary-300'
                             } h-14 px-5 `}
                             {...(controlledProps ?? { ref: reference })}
                         />
                     </>
                 ) : (
                     <input
-                        className={`uppercase bg-white text-xl w-full border appearance-none ${
-                            error ? 'text-red-500 border-red-500 bg-red-50' : 'text-black border-black'
+                        className={`outline-none focus-within:border-2 capitalize border-2 bg-white w-full appearance-none ${
+                            error
+                                ? 'text-red-400 border-red-200 bg-red-50 focus-within:border-red-300 '
+                                : 'border-gray-200  focus-within:border-primary-300 '
                         }   h-14 px-5 `}
                         {...(controlledProps ?? { ref: reference })}
                     />
