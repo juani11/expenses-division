@@ -1,18 +1,28 @@
 import { useState } from 'react'
+import { useGroupStore } from '../../store/store'
+import EmptyExpensesList from './EmptyExpensesList'
 import ExpensesList from './ExpensesList'
-import ExpensesListSorter, { DATE } from './ExpensesListSorter'
+import ExpensesListSorter from './ExpensesListSorter'
 
 const ExpensesListContainer = () => {
-    const [sortBy, setSortBy] = useState(DATE)
+    const expenses = useGroupStore(state => state.expenses)
 
-    const handleChange = e => setSortBy(e.target.value)
+    const [sortBy, setSortBy] = useState(null)
+
+    const handleChange = option => setSortBy(option.value)
 
     return (
         <div className='relative shadow-lg bg-white py-5 px-2 rounded-xl '>
-            <ExpensesListSorter sortBy={sortBy} onChangeSort={handleChange} />
-            <div className='mt-14'>
-                <ExpensesList sortBy={sortBy} />
-            </div>
+            {expenses?.length === 0 ? (
+                <EmptyExpensesList />
+            ) : (
+                <>
+                    <ExpensesListSorter sortBy={sortBy} onChangeSort={handleChange} />
+                    <div className='mt-14'>
+                        <ExpensesList sortBy={sortBy} expenses={expenses} />
+                    </div>
+                </>
+            )}
         </div>
     )
 }
