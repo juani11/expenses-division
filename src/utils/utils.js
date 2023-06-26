@@ -1,4 +1,6 @@
-const currencyFormat = num => (num ? '$' + num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : '$0')
+import dayjs from 'dayjs'
+
+const currencyFormat = num => (num ? num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : '0')
 
 const toFloat = num => {
     if (num % 1 === 0) return num
@@ -20,4 +22,6 @@ const getRoundedPercentage = (number, total) => {
     return roundedPercentage
 }
 
-export { currencyFormat, toFloat, getPercentage, getRoundedPercentage, roundedNumber }
+const formatedDate = date => dayjs(date).format('DD MMM. YYYY,  HH:mm A')
+
+export { currencyFormat, toFloat, getPercentage, getRoundedPercentage, roundedNumber, formatedDate }
