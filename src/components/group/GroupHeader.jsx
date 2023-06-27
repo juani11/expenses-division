@@ -1,8 +1,6 @@
 import { useGroupStore } from '../../store/store'
 import { currencyFormat } from '../../utils/utils'
 import Avatar from '../common/Avatar'
-import Button from '../common/Button'
-import EditSVG from '../svg/EditSVG'
 import MoneySVG from '../svg/MoneySVG'
 import PeopleSelfieSVG from '../svg/PeopleSelfieSVG'
 import GroupHeaderLoading from './GroupHeaderLoading'
@@ -15,7 +13,8 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
             <div className='flex items-center w-96 justify-center gap-5 mt-6'>
                 <Avatar>{groupName?.charAt(0)}</Avatar>
                 <div className='flex flex-col items-start gap-2'>
-                    <h2 className=''>{groupName}</h2>
+                    <h2 className='m-0 capitalize'>{groupName}</h2>
+                    {/* <Button size='xs'>Editar</Button> */}
                 </div>
             </div>
 
@@ -26,7 +25,10 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
                         <div className='shrink-0'>
                             <MoneySVG width={80} height={50} />
                         </div>
-                        <h1>$ {currencyFormat(totalAmountExpenses())}</h1>
+                        <div className='relative'>
+                            <h3 className='absolute top-2 '>$</h3>
+                            <h1 className='px-4'>{currencyFormat(totalAmountExpenses())}</h1>
+                        </div>
                     </div>
                 </div>
 
@@ -43,7 +45,7 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
 
 const GroupHeaderImage = () => {
     return (
-        <div className='absolute right-0 '>
+        <div className='md:absolute md:right-0 '>
             <PeopleSelfieSVG width={350} height={300} />
         </div>
     )
@@ -52,12 +54,12 @@ const GroupHeader = props => {
     const loading = useGroupStore(state => state.loading)
 
     return (
-        <div className='grid grid-cols-3 gap-10 '>
-            <div className='col-span-2 row-span-1 flex  relative rounded-3xl'>
+        <div className='grid grid-cols-1 md:gap-10 lg:grid-cols-3 md:grid-cols-2'>
+            <div className='flex flex-col-reverse items-center justify-between row-span-1 md:flex-row md:col-span-2 md:relative '>
                 <div className='flex flex-col '>
                     {loading ? <GroupHeaderLoading /> : <GroupHeaderInfo {...props} />}
                 </div>
-                {/* <GroupHeaderImage /> */}
+                <GroupHeaderImage />
             </div>
         </div>
     )
