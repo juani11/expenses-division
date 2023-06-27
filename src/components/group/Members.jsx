@@ -9,7 +9,7 @@ const Member = ({ member, removeMember }) => {
         <li className='flex justify-between items-center py-3 px-1 capitalize'>
             {member}
 
-            <Button className='py-1 px-2 ' onClick={() => removeMember(member)}>
+            <Button size='xxs' onClick={() => removeMember(member)}>
                 <CloseSVG color='white' width={20} height={20} />
             </Button>
         </li>
@@ -34,14 +34,16 @@ const Members = () => {
     const cantMembers = members.length
 
     return (
-        <div className='w-1/2 flex flex-col gap-2 px-10'>
+        <div className='flex flex-col gap-2 px-10 md:w-1/2'>
             <div className='w-full '>
                 <div className='flex justify-between items-end'>
-                    <div className='w-2/3'>
+                    <div className='w-full mt-10 md:mt-0 md:w-2/3'>
                         <Input label='Participantes' reference={memberRef} />
                     </div>
 
-                    <Button onClick={handleClick}>añadir</Button>
+                    <Button size='lg' type='button' onClick={handleClick}>
+                        añadir
+                    </Button>
                 </div>
             </div>
             <div className='w-full '>

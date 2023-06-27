@@ -28,8 +28,8 @@ const NewGroupFormContent = () => {
 
     return (
         <>
-            <div className='w-full flex  divide-x '>
-                <div className='w-1/2 flex flex-col gap-10 px-10'>
+            <div className='w-full flex flex-col md:divide-x md:flex-row '>
+                <div className='flex flex-col  gap-10 px-10 mb-10 md:mb-0 md:w-1/2'>
                     <div className='w-full'>
                         <Input
                             label='Nombre del grupo'

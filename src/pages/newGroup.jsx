@@ -12,8 +12,8 @@ const NewGroup = () => {
 
     return (
         <form onSubmit={onFinish()}>
-            <div className='flex justify-center items-center gap-20 '>
-                <div className='flex flex-col gap-10 font-primary justify-center items-center h-screen '>
+            <div className='flex flex-col-reverse justify-center items-center mt-10  md:gap-20 md:flex-row md:mt-0'>
+                <div className='flex flex-col gap-10 font-primary justify-center items-center md:h-screen '>
                     <NewGroupHeader />
 
                     <NewGroupFormProvider {...newGroupFormProps}>
@@ -26,7 +26,7 @@ const NewGroup = () => {
                         </p>
                     )}
                 </div>
-                <div className='hidden md:block'>
+                <div className='md:block'>
                     <PeopleSVG width={530} height={330} />
                 </div>
             </div>
