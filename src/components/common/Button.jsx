@@ -1,10 +1,10 @@
 import LoadingSVG from '../svg/LoadingSVG'
 
 const buttonSizes = {
-    xs: 'text-sm h-2',
-    sm: 'h-4',
-    md: 'h-13',
-    lg: 'h-13'
+    xs: 'text-sm h-2 py-4 px-5',
+    sm: 'text-sm h-9 py-4 px-6',
+    md: ' h-12 py-3 px-5',
+    lg: 'h-14 py-4 px-6'
 }
 const normalStyle = {
     primary: 'bg-primary',
@@ -24,7 +24,7 @@ const hoverStyle = {
 const Button = ({
     children,
     size = 'md',
-    className = 'py-4 px-6',
+    className = '',
     loading = false,
     color = 'secondary',
     width = 'w-auto',
@@ -37,8 +37,9 @@ const Button = ({
     const buttonSize = buttonSizes[size]
     return (
         <button
+            // type={type && type}
             onClick={onClick}
-            className={`flex justify-center items-center uppercase text-white font-bold ${loadingClassName} ${hoverClassName} ${buttonSize} ${width} ${className}`}
+            className={`flex justify-center items-center rounded capitalize text-white font-bold ${loadingClassName} ${hoverClassName} ${buttonSize} ${width} ${className}`}
             {...props}
         >
             {loading && <LoadingSVG />}
