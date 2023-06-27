@@ -1,6 +1,7 @@
 import LoadingSVG from '../svg/LoadingSVG'
 
 const buttonSizes = {
+    xxs: 'text-sm py-1 px-2',
     xs: 'text-sm h-2 py-4 px-5',
     sm: 'text-sm h-9 py-4 px-6',
     md: ' h-12 py-3 px-5',
