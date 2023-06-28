@@ -3,6 +3,7 @@ import { useGroupStore } from '../../store/store'
 import Input from '../Input'
 import CustomSelect from '../common/CustomSelect'
 import PersonsCheckBoxGroup from './PersonsCheckBoxGroup'
+import ExpenseOwnerSelectContainer from './CustomSelectContainer'
 
 const AddExpenseFormContent = () => {
     const persons = useGroupStore(state => state.persons)
@@ -29,7 +30,7 @@ const AddExpenseFormContent = () => {
                     width='w-3/5'
                     controlledProps={{
                         ...register('name', {
-                            required: 'Debe ingresar el nombre del gasto',
+                            required: 'Debe ingresar el nombre',
                             maxLength: { value: 20, message: `Debe ingresar un máximo de 20 carácteres` }
                         })
                     }}
@@ -42,7 +43,7 @@ const AddExpenseFormContent = () => {
                     width={'w-2/5'}
                     controlledProps={{
                         ...register('amount', {
-                            required: 'Debe ingresar el costo del gasto',
+                            required: 'Debe ingresar el costo',
                             pattern: {
                                 value: /^(0|[1-9]\d*)(\.\d+)?$/,
                                 message: 'Debe ingresar un número'
@@ -53,17 +54,11 @@ const AddExpenseFormContent = () => {
                 />
             </div>
 
-            <div className='mt-4'>
-                <CustomSelect
-                    label='Persona que paga el gasto'
-                    placeholder='seleccione una persona'
-                    options={personsOptions}
-                    name='person'
-                    control={control}
-                />
+            <div className='p-4'>
+                <ExpenseOwnerSelectContainer name='person' control={control} />
             </div>
 
-            <div className=' p-4 mt-2'>
+            <div className='p-4 mt-4'>
                 <PersonsCheckBoxGroup
                     persons={persons ?? []}
                     control={control}
