@@ -1,9 +1,9 @@
-import { Route } from 'wouter'
-import Index from './pages/Index'
 import { lazy, Suspense } from 'react'
-import LoadingSVG from './components/svg/LoadingSVG'
+import { Route } from 'wouter'
+import Fallback from './components/common/Fallback'
+import Index from './pages/Index'
+import NewGroup from './pages/NewGroup'
 
-const NewGroupLazy = lazy(() => import('./pages/NewGroup'))
 const GroupLazy = lazy(() => import('./pages/Group'))
 
 function App() {
@@ -12,10 +12,10 @@ function App() {
             <Route path='/'>
                 <Index />
             </Route>
-            <Suspense fallback={<LoadingSVG />}>
-                <Route path='/newGroup'>
-                    <NewGroupLazy />
-                </Route>
+            <Route path='/newGroup'>
+                <NewGroup />
+            </Route>
+            <Suspense fallback={<Fallback />}>
                 <Route path='/group/:id'>
                     <GroupLazy />
                 </Route>
