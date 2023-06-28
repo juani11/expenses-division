@@ -8,6 +8,8 @@ import { createExpense } from '../../services/services'
 
 const AddExpense = () => {
     const addExpense = useGroupStore(state => state.addExpense)
+    const groupInfo = useGroupStore(state => state.info)
+    const { id } = groupInfo
 
     const add = async formData => {
         const { name, person, amount, includedPersons } = formData
@@ -20,7 +22,7 @@ const AddExpense = () => {
 
         const request = {
             ...newExpense,
-            groupId: 24
+            groupId: id
         }
 
         return createExpense(request)
