@@ -3,6 +3,7 @@ import { expensesPerPerson, totalAmountExpenses } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 import PersonTotalItem from './PersonsTotalsItem'
 import SorterArrowsSVG from '../svg/SorterArrowsSVG'
+import PercentageSVG from '../svg/PercentageSVG'
 
 const SorterButton = ({ ascSort, handleClick }) => {
     return (
@@ -13,6 +14,16 @@ const SorterButton = ({ ascSort, handleClick }) => {
             {ascSort ? 'ASC' : 'DESC'}
             <SorterArrowsSVG />
         </button>
+    )
+}
+
+const EmptyPersonsTotals = () => {
+    return (
+        <div className='flex flex-col justify-center items-center p-10'>
+            <PercentageSVG width={160} height={180} />
+            <h4 className='text-center'>Aún no hay ningún gasto...</h4>
+            <p className='text-center'> Aquí verás los gastos totales por cada integrante</p>
+        </div>
     )
 }
 const PersonsTotals = () => {
@@ -34,21 +45,27 @@ const PersonsTotals = () => {
 
     return (
         <div className='relative shadow bg-white py-5 px-2 rounded animate-fade'>
-            <SorterButton ascSort={ascendingSort} handleClick={handleClick} />
-            <ul className='mt-12'>
-                {personsTotalsSorted.map(personTotal => {
-                    const personId = personTotal.person
-                    const nameOfPerson = personName(personId)
-                    return (
-                        <PersonTotalItem
-                            key={personId}
-                            personTotal={personTotal}
-                            nameOfPerson={nameOfPerson}
-                            totalAmountExpenses={totalAmount}
-                        />
-                    )
-                })}
-            </ul>
+            {personsTotalsSorted.length === 0 ? (
+                <EmptyPersonsTotals />
+            ) : (
+                <>
+                    <SorterButton ascSort={ascendingSort} handleClick={handleClick} />
+                    <ul className='mt-12'>
+                        {personsTotalsSorted.map(personTotal => {
+                            const personId = personTotal.person
+                            const nameOfPerson = personName(personId)
+                            return (
+                                <PersonTotalItem
+                                    key={personId}
+                                    personTotal={personTotal}
+                                    nameOfPerson={nameOfPerson}
+                                    totalAmountExpenses={totalAmount}
+                                />
+                            )
+                        })}
+                    </ul>
+                </>
+            )}
         </div>
     )
 }
