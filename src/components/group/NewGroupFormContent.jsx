@@ -52,7 +52,7 @@ const NewGroupFormContent = () => {
                 <Members />
             </div>
 
-            <div className='w-full px-10'>
+            <div className='w-full p-10'>
                 <Button type='submit' width='w-full' loading={loading}>
                     crear grupo de gastos
                 </Button>

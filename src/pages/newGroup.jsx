@@ -11,26 +11,28 @@ const NewGroup = () => {
     const { error, onFinish } = newGroupFormProps
 
     return (
-        <form onSubmit={onFinish()}>
-            <div className='flex flex-col-reverse justify-center items-center mt-10  md:gap-20 md:flex-row md:mt-0'>
-                <div className='flex flex-col gap-10 font-primary justify-center items-center md:h-screen '>
-                    <NewGroupHeader />
+        <>
+            <form onSubmit={onFinish()}>
+                <div className='flex flex-col-reverse justify-center items-center mt-10  md:gap-20 md:flex-row md:mt-0'>
+                    <div className='flex flex-col gap-10 font-primary justify-center items-center md:h-screen '>
+                        <NewGroupHeader />
 
-                    <NewGroupFormProvider {...newGroupFormProps}>
-                        <NewGroupFormContent />
-                    </NewGroupFormProvider>
-                    {error && (
-                        <p className='text-black flex justify-between gap-5 items-center border border-red-100 bg-red-100 p-4 text-lg rounded-lg'>
-                            <ErrorSVG />
-                            {error}
-                        </p>
-                    )}
+                        <NewGroupFormProvider {...newGroupFormProps}>
+                            <NewGroupFormContent />
+                        </NewGroupFormProvider>
+                        {error && (
+                            <p className='text-black flex justify-between gap-5 items-center border border-red-100 bg-red-100 p-4 text-lg rounded-lg'>
+                                <ErrorSVG />
+                                {error}
+                            </p>
+                        )}
+                    </div>
+                    <div className='md:block w-[430px] h-[230px] md:w-[530px] md:h-[330px]'>
+                        <PeopleSVG width='full' height='full' />
+                    </div>
                 </div>
-                <div className='md:block'>
-                    <PeopleSVG width={530} height={330} />
-                </div>
-            </div>
-        </form>
+            </form>
+        </>
     )
 }
 
