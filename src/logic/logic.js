@@ -74,6 +74,41 @@ function calcularDivisionPorGasto() {
     })
 }
 
+const personIsIncludedInExpense = (person, includedPersons) => {
+    return includedPersons.includes(person)
+}
+
+const calcularCantidadADarYRecibir = (persons, expenses) => {
+    let cantidadesADar = []
+    let cantidadesARecibir = []
+
+    persons?.forEach(person => {
+        let total = 0
+        expenses.forEach(expense => {
+            const { amount, person: owner, includedPersons } = expense
+
+            // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
+
+            if (personIsIncludedInExpense(person.id, includedPersons)) {
+                total = toFloat(total + amount / includedPersons.length)
+            }
+            // Si la persona actual es dueña del gasto actual resto el valor en la persona
+            if (owner === person.id) {
+                total = toFloat(total - amount)
+            }
+        })
+
+        if (total > 0) {
+            cantidadesADar = [...cantidadesADar, { person, amount: total }]
+            cantidadesARecibir = [...cantidadesARecibir, { person, amount: 0 }]
+        } else {
+            cantidadesADar = [...cantidadesADar, { person, amount: 0 }]
+            cantidadesARecibir = [...cantidadesARecibir, { person, amount: total * -1 }]
+        }
+    })
+    return { cantidadesADar, cantidadesARecibir }
+}
+
 function calcularResultadoFinal(cantidadesAdar, cantidadesARecibir) {
     let resultado = []
 
@@ -151,4 +186,18 @@ function expensesPerPerson(expenses) {
     return expensesPerPerson
 }
 
-export { calcularDivisionPorGasto, calcularResultadoFinal, expensesPerPerson }
+function totalAmountExpenses(groupExpenses) {
+    const totalAmountExpenses = groupExpenses?.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.amount,
+        0
+    )
+    return totalAmountExpenses
+}
+
+export {
+    calcularDivisionPorGasto,
+    calcularCantidadADarYRecibir,
+    calcularResultadoFinal,
+    expensesPerPerson,
+    totalAmountExpenses
+}

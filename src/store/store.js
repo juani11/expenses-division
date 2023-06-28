@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { expenses, persons } from '../mock/mockData'
 import { getGroup } from '../services/services'
 
 export const EXCLUDE = 'exclude'
@@ -34,58 +33,46 @@ const useGroupStore = create((set, get) => ({
             })
         // set({ loading: false })
     },
-    totalAmountExpenses: () => {
-        const groupExpenses = get().expenses
-        const totalAmountExpenses = groupExpenses?.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.amount,
-            0
-        )
-        return totalAmountExpenses
-    },
+
     addExpense: newExpense =>
         set(state => ({
             ...state,
             expenses: [...state.expenses, { ...newExpense }]
         })),
+
     removeExpense: expenseId =>
         set(state => ({
             ...state,
             expenses: state.expenses.filter(expense => expense.id !== expenseId)
         })),
 
-    // includedPersonsInExpense: excludedPersonsInExpense => {
-    //     const persons = get().persons
-    //     return excludedPersonsInExpense.length === 0
-    //         ? persons
-    //         : persons.filter(person => !excludedPersonsInExpense.includes(person.id))
-    // },
-    excludedPersonsInExpense: includedPersonsInExpense => {
-        const persons = get().persons
-
-        return includedPersonsInExpense.length === persons.length
-            ? []
-            : persons.filter(person => !includedPersonsInExpense.includes(person.id))
+    expense: expenseId => {
+        const groupExpenses = get().expenses
+        const expense = groupExpenses.find(expense => expense.id === expenseId)
+        return expense
     },
-    personIsIncludedInExpense: (personId, excludedPersonsInExpense) =>
-        !excludedPersonsInExpense.includes(personId),
+
+    excludedPersonsInExpense: expenseId => {
+        const persons = get().persons
+        const personsIds = persons.map(person => person.id)
+        const expense = get().expense(expenseId)
+        const { includedPersons } = expense
+
+        return includedPersons.length === persons.length
+            ? []
+            : personsIds.filter(person => !includedPersons.includes(person))
+    },
+
     personName: personId => {
         const person = get().persons.find(p => p.id === personId)
         return person.name
     },
 
-    //  Excluir o Incluir persona en un gasto especifico
-    handlePersonInExpense: (personId, expenseId, action) => {
+    updateIncludedPersonsInExpense: (expenseId, newIncludedPersonsInExpense) => {
         const groupExpenses = get().expenses
         const expenseIndex = groupExpenses.findIndex(expense => expense.id === expenseId)
 
         const expense = groupExpenses[expenseIndex]
-
-        const personsIncludedInExpenses = expense.includedPersons
-
-        const newIncludedPersonsInExpense =
-            action === INCLUDE
-                ? [...personsIncludedInExpenses, personId]
-                : personsIncludedInExpenses.filter(person => person !== personId)
 
         const updatedExpense = { ...expense, includedPersons: [...newIncludedPersonsInExpense] }
 
