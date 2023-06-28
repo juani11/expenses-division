@@ -40,7 +40,6 @@ async function getGroup(groupId) {
 }
 
 function mockCreateGroup(group) {
-    const { groupName, owner } = group
     const mockSuccess = true
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -61,7 +60,7 @@ async function createGruop(group) {
     // try {
     //  Create Group record and return it
     const { data: groupData, error: groupError } = await supabase
-        .from('expensse_group')
+        .from('expense_group')
         .insert([{ name: groupName }])
         .select()
 
@@ -106,7 +105,7 @@ async function createGruop(group) {
     // }
 
     // return resul
-    return groupId
+    return { groupId }
 }
 
 //  EXPENSES
@@ -133,4 +132,21 @@ async function deleteExpense(expenseId) {
     if (error) throw new Error('Se produjo un error al eliminar el gasto')
 }
 
-export { mockCreateGroup, createGruop, getGroup, getGroups, createExpense, deleteExpense }
+async function updateIncludedPersonsOnExpense(expenseId, includedPersons) {
+    const { error } = await supabase
+        .from('expense')
+        .update({ persons_included: includedPersons })
+        .eq('id', expenseId)
+
+    if (error) throw new Error('Se produjo un error al eliminar el gasto')
+}
+
+export {
+    mockCreateGroup,
+    createGruop,
+    getGroup,
+    getGroups,
+    createExpense,
+    deleteExpense,
+    updateIncludedPersonsOnExpense
+}
