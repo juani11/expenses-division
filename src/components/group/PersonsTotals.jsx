@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { expensesPerPerson } from '../../logic/logic'
+import { expensesPerPerson, totalAmountExpenses } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 import PersonTotalItem from './PersonsTotalsItem'
 import SorterArrowsSVG from '../svg/SorterArrowsSVG'
@@ -17,13 +17,12 @@ const SorterButton = ({ ascSort, handleClick }) => {
 }
 const PersonsTotals = () => {
     const expenses = useGroupStore(state => state.expenses)
-    const totalAmountExpenses = useGroupStore(state => state.totalAmountExpenses)
     const personName = useGroupStore(state => state.personName)
 
     const totalExpensesPerPerson = expensesPerPerson(expenses)
     const personsTotals = Object.values(totalExpensesPerPerson)
 
-    const totalAmount = totalAmountExpenses()
+    const totalAmount = totalAmountExpenses(expenses)
 
     const [ascendingSort, setAscendingSort] = useState(false)
 
@@ -34,7 +33,7 @@ const PersonsTotals = () => {
     const handleClick = () => setAscendingSort(!ascendingSort)
 
     return (
-        <div className='relative shadow-lg bg-white py-5 px-2 rounded-xl animate-fade'>
+        <div className='relative shadow bg-white py-5 px-2 rounded animate-fade'>
             <SorterButton ascSort={ascendingSort} handleClick={handleClick} />
             <ul className='mt-12'>
                 {personsTotalsSorted.map(personTotal => {

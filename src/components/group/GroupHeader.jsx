@@ -1,3 +1,4 @@
+import { totalAmountExpenses } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 import { currencyFormat } from '../../utils/utils'
 import Avatar from '../common/Avatar'
@@ -6,7 +7,9 @@ import PeopleSelfieSVG from '../svg/PeopleSelfieSVG'
 import GroupHeaderLoading from './GroupHeaderLoading'
 
 const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
-    const totalAmountExpenses = useGroupStore(state => state.totalAmountExpenses)
+    const expenses = useGroupStore(state => state.expenses)
+
+    const totalAmount = currencyFormat(totalAmountExpenses(expenses))
 
     return (
         <>
@@ -27,7 +30,7 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
                         </div>
                         <div className='relative'>
                             <h3 className='absolute top-2 '>$</h3>
-                            <h1 className='px-4'>{currencyFormat(totalAmountExpenses())}</h1>
+                            <h1 className='px-4'>{totalAmount}</h1>
                         </div>
                     </div>
                 </div>
