@@ -20,7 +20,7 @@ const EmptyDivisionsList = () => {
     return (
         <div className='flex flex-col justify-center items-center p-10'>
             <PeopleCoffeSVG width={160} height={180} />
-            <h4 className='text-center'>Aún no hay deudas...</h4>
+            <h4 className='text-center'>Aún no hay divisiones...</h4>
             <p className='text-center'> Aquí verás cuánto le corresponde pagar a cada integrante</p>
         </div>
     )

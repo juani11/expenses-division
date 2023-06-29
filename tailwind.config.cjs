@@ -8,7 +8,8 @@ module.exports = {
                 primary: {
                     DEFAULT: '#6c63ff',
                     500: '#818cf8',
-                    300: '#d3d0ff'
+                    300: '#d3d0ff',
+                    200: '#ECEBFF'
                 },
                 secondary: {
                     DEFAULT: '#2f2e41',
@@ -17,8 +18,8 @@ module.exports = {
 
                 avatar1: '#BCF8EC',
                 avatar2: '#36213E',
-                avatar3: '#FF6978',
-                avatar4: '#E86A92',
+                avatar3: '#039BE5',
+                avatar4: '#FF595E',
                 periwinkle: '#82C3EC'
             },
             fontFamily: {
@@ -27,13 +28,13 @@ module.exports = {
             },
             // that is animation class
             animation: {
-                fade: 'fade 0.5s ease',
+                fade: 'fade 0.3s ease-out',
                 loading: 'loading 1.3s infinite'
             },
             keyframes: {
                 fade: {
                     '0%': { opacity: 0 },
-                    '75%': { opacity: 1 }
+                    '80%': { opacity: 1 }
                 },
                 loading: {
                     '0%': { transform: 'translateX(-150%)' },

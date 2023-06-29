@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-const PAGINATION_MAX_ITEMS_PER_PAGE = 3
+const PAGINATION_MAX_ITEMS_PER_PAGE = 5
 
 const usePagination = items => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -21,10 +21,6 @@ const usePagination = items => {
     const nextPage = () => setCurrentPage(currentPage + 1)
 
     const itemsInCurrentPage = items && items.slice(indexBegin, indexEnd)
-
-    useEffect(() => {
-        if (itemsInCurrentPage.length === 0) prevPage()
-    })
 
     return {
         cantPages,

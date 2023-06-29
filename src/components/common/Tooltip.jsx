@@ -25,7 +25,7 @@ const Tooltip = ({ title, callbackOnOk, component: Component }) => {
             tabIndex='0'
             role='link'
             aria-label='tooltip 1'
-            className='focus:outline-none focus:ring-gray-300 rounded-full relative mt-20 md:mt-0'
+            className='focus:outline-none focus:ring-gray-300 rounded-full relative flex justify-center items-center'
         >
             <Component onClick={handleClick} />
 
@@ -34,10 +34,10 @@ const Tooltip = ({ title, callbackOnOk, component: Component }) => {
                     <TooltipTriangleSVG />
                     <p className='text-md font-bold text-gray-800 pb-1'>{title}</p>
                     <div className='flex justify-between mt-4'>
-                        <Button size='xs' onClick={hideTooltip}>
+                        <Button size='sm' onClick={hideTooltip}>
                             Cancelar
                         </Button>
-                        <Button size='xs' onClick={onOk} loading={loading} color='primary'>
+                        <Button size='sm' onClick={onOk} loading={loading} color='primary'>
                             Ok
                         </Button>
                     </div>

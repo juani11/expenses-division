@@ -31,7 +31,7 @@ const TotalsList = () => {
             <div className='flex justify-between items-center px-1 py-2'>
                 <h3 className='uppercase'>Totales</h3>
             </div>
-            <ul className='shadow-md bg-white p-5 rounded-3xl border border-secondary'>
+            <ul className='shadow-lg bg-white p-5 rounded '>
                 {totals.map((total, index) => (
                     <li key={index} className='flex items-center justify-between gap-2'>
                         <div className='flex justify-center items-center gap-3'>

@@ -1,7 +1,7 @@
 import Chart from 'react-apexcharts'
 import { useEffect, useState } from 'react'
 import { currencyFormat } from '../../utils/utils'
-import { expensesPerPerson } from '../../logic/logic'
+import { cantOfOwnExpensesPerPerson } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 
 const chartOptions = {
@@ -62,7 +62,7 @@ const chartOptions = {
 const PersonStatistics = ({ personsName }) => {
     const expenses = useGroupStore(state => state.expenses)
 
-    const totalSpendPerPerson = expensesPerPerson(expenses)
+    const totalSpendPerPerson = cantOfOwnExpensesPerPerson(expenses)
     const totalSpendPerPersonKeys = Object.keys(totalSpendPerPerson)
 
     const chartSeries = totalSpendPerPersonKeys.map(personId => totalSpendPerPerson[personId].amount)

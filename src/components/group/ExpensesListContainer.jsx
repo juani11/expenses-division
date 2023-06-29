@@ -12,7 +12,7 @@ const ExpensesListContainer = () => {
     const handleChange = option => setSortBy(option.value)
 
     return (
-        <div className='relative shadow-lg bg-white py-5 px-2 rounded-xl '>
+        <div className='relative shadow bg-white py-5 px-2 rounded '>
             {expenses?.length === 0 ? (
                 <EmptyExpensesList />
             ) : (

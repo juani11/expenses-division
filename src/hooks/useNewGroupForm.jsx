@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLocation } from 'wouter'
-import { createGruop, mockCreateGroup } from '../services/services'
+import { createGruop } from '../services/services'
 
 const useNewGroupForm = () => {
     const {
@@ -10,7 +10,7 @@ const useNewGroupForm = () => {
         handleSubmit
     } = useForm()
 
-    const [location, setLocation] = useLocation()
+    const [, setLocation] = useLocation()
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -31,7 +31,7 @@ const useNewGroupForm = () => {
         createGruop({ ...data, members })
             .then(res => {
                 // if (!res.ok) throw new Error(res.error)
-                // console.log(res)
+                console.log(res)
                 const { groupId } = res
                 setLocation(`/group/${groupId}`)
             })

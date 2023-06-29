@@ -49,7 +49,7 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
                 const personChecked = personIsChecked(id)
 
                 return (
-                    <div key={id} className='flex justify-between items-center '>
+                    <div key={id} className='flex justify-between items-center capitalize '>
                         <CheckBox
                             label={name}
                             checked={personChecked ?? false}
@@ -57,7 +57,7 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
                             onChange={onCheckBoxChange}
                         />
 
-                        {personChecked && <p className='m-0 text-2xl'>{amountPerCheckedPerson}</p>}
+                        {personChecked && <p className='m-0 text-xl'>$ {amountPerCheckedPerson}</p>}
                     </div>
                 )
             })}

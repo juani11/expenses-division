@@ -13,11 +13,7 @@ const PersonDetail = ({ person, cost, expenseId, children }) => {
         setShowButton(false)
     }
 
-    const {
-        loading,
-        error,
-        handleAction: updateIncludedPersonsInExpense
-    } = useIncludeExcludePerson(expenseId)
+    const { loading, handleAction: updateIncludedPersonsInExpense } = useIncludeExcludePerson(expenseId)
 
     const personName = useGroupStore(state => state.personName)
 

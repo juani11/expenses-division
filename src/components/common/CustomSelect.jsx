@@ -5,12 +5,12 @@ import ChevronUpSVG from '../svg/ChevronUpSVG'
 
 const types = {
     sorter: {
-        container: 'w-52',
-        button: 'h-10 rounded'
+        container: 'w-60',
+        button: 'h-8 rounded-lg bg-gray-50'
     },
     form: {
         container: 'w-full',
-        button: 'h-14'
+        button: 'h-14 border focus-within:border-1 border-gray-200 focus-within:border-primary-300'
     }
 }
 
@@ -37,11 +37,8 @@ const OptionList = ({ options, handleChange }) => {
 
 const Select = ({ placeholder, selectedValue, isOpen, btnClasses }) => {
     return (
-        <button
-            type='button'
-            className={`flex justify-between items-center w-full p-1 border focus-within:border-1 border-gray-200 focus-within:border-primary-300 ${btnClasses} `}
-        >
-            <span className={`px-5 uppercase ${selectedValue ?? 'text-slate-400'}`}>
+        <button type='button' className={`flex justify-between items-center w-full p-1  ${btnClasses} `}>
+            <span className={`px-5 uppercase ${selectedValue ?? 'text-slate-400 '}`}>
                 {selectedValue ?? placeholder}
             </span>
 

@@ -1,5 +1,3 @@
-import PersonsLoading from './PersonsLoading'
-
 const menuOptionClassName =
     'cursor-pointer capitalize inline-block w-full p-4 hover:bg-gray-50 focus:outline-none'
 

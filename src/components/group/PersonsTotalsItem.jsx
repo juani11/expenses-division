@@ -10,8 +10,8 @@ const PersonTotalItem = ({ personTotal, nameOfPerson, totalAmountExpenses }) => 
     return (
         <li className='hover:bg-gray-50 rounded-xl p-3 my-2 animate-fade '>
             <div className='flex justify-between items-center mb-2'>
-                <h5 className='m-0'>{nameOfPerson}</h5>
-                <p>{personRoundedAmountPercentage}%</p>
+                <h5 className='m-0 capitalize'>{nameOfPerson}</h5>
+                <p className='font-bold'>{personRoundedAmountPercentage}%</p>
                 <h6 className='m-0'>{cantExpensesText}</h6>
             </div>
             <div className='m-auto flex gap-2 items-center '>
