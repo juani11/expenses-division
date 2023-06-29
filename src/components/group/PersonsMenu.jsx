@@ -1,4 +1,7 @@
-const menuOptionClassName = 'capitalize inline-block w-full p-4 hover:bg-gray-50 focus:outline-none'
+import PersonsLoading from './PersonsLoading'
+
+const menuOptionClassName =
+    'cursor-pointer capitalize inline-block w-full p-4 hover:bg-gray-50 focus:outline-none'
 
 export const PERSONS_LIST = 'listado'
 export const PERSONS_TOTALS = 'totales'
@@ -24,7 +27,7 @@ const PersonsMenu = ({ menuItemSelected, changeMenuOption }) => {
 
     return (
         <div className='mb-2'>
-            <ul className='hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex'>
+            <ul className='flex text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow '>
                 {menuItems.map(menuItem => {
                     return (
                         <PersonsMenuItem
