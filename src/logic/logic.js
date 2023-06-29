@@ -164,13 +164,21 @@ function calcularResultadoFinal(cantidadesAdar, cantidadesARecibir) {
     return resultado
 }
 
-function expensesPerPerson(expenses) {
-    const expensesPerPerson = {}
+function totalAmountOfExpenses(groupExpenses) {
+    const totalAmountExpenses = groupExpenses?.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.amount,
+        0
+    )
+    return totalAmountExpenses
+}
+
+function cantOfOwnExpensesPerPerson(expenses) {
+    const ownExpensesPerPerson = {}
 
     expenses.forEach(expense => {
         const { person, amount } = expense
-        const personExpense = expensesPerPerson[person]
-        expensesPerPerson[person] = personExpense
+        const personExpense = ownExpensesPerPerson[person]
+        ownExpensesPerPerson[person] = personExpense
             ? {
                   ...personExpense,
                   person,
@@ -183,21 +191,32 @@ function expensesPerPerson(expenses) {
                   person
               }
     })
-    return expensesPerPerson
+    return ownExpensesPerPerson
 }
 
-function totalAmountExpenses(groupExpenses) {
-    const totalAmountExpenses = groupExpenses?.reduce(
-        (accumulator, currentValue) => accumulator + currentValue.amount,
-        0
-    )
-    return totalAmountExpenses
+const cantExpensesInWhichEachPersonIsIncluded = expenses => {
+    const resul = {}
+
+    expenses.forEach(expense => {
+        const { includedPersons } = expense
+
+        includedPersons.forEach(includedPerson => {
+            if (resul[includedPerson]) {
+                resul[includedPerson]++
+            } else {
+                resul[includedPerson] = 1
+            }
+        })
+    })
+
+    return resul
 }
 
 export {
     calcularDivisionPorGasto,
     calcularCantidadADarYRecibir,
     calcularResultadoFinal,
-    expensesPerPerson,
-    totalAmountExpenses
+    totalAmountOfExpenses,
+    cantOfOwnExpensesPerPerson,
+    cantExpensesInWhichEachPersonIsIncluded
 }

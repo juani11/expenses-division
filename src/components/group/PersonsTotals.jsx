@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { expensesPerPerson, totalAmountExpenses } from '../../logic/logic'
+import { cantOfOwnExpensesPerPerson, totalAmountOfExpenses } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
-import PersonTotalItem from './PersonsTotalsItem'
-import SorterArrowsSVG from '../svg/SorterArrowsSVG'
 import PercentageSVG from '../svg/PercentageSVG'
+import SorterArrowsSVG from '../svg/SorterArrowsSVG'
+import PersonTotalItem from './PersonsTotalsItem'
 
 const SorterButton = ({ ascSort, handleClick }) => {
     return (
@@ -30,10 +30,10 @@ const PersonsTotals = () => {
     const expenses = useGroupStore(state => state.expenses)
     const personName = useGroupStore(state => state.personName)
 
-    const totalExpensesPerPerson = expensesPerPerson(expenses)
+    const totalExpensesPerPerson = cantOfOwnExpensesPerPerson(expenses)
     const personsTotals = Object.values(totalExpensesPerPerson)
 
-    const totalAmount = totalAmountExpenses(expenses)
+    const totalAmount = totalAmountOfExpenses(expenses)
 
     const [ascendingSort, setAscendingSort] = useState(false)
 
