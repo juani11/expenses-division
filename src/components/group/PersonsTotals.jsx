@@ -4,6 +4,7 @@ import { useGroupStore } from '../../store/store'
 import PercentageSVG from '../svg/PercentageSVG'
 import SorterArrowsSVG from '../svg/SorterArrowsSVG'
 import PersonTotalItem from './PersonsTotalsItem'
+import Card from '../common/Card'
 
 const SorterButton = ({ ascSort, handleClick }) => {
     return (
@@ -44,7 +45,7 @@ const PersonsTotals = () => {
     const handleClick = () => setAscendingSort(!ascendingSort)
 
     return (
-        <div className='relative shadow bg-white py-5 px-2 rounded animate-fade dark:bg-slate-800 dark:border dark:border-slate-700'>
+        <Card className='relative animate-fade'>
             {personsTotalsSorted.length === 0 ? (
                 <EmptyPersonsTotals />
             ) : (
@@ -66,7 +67,7 @@ const PersonsTotals = () => {
                     </ul>
                 </>
             )}
-        </div>
+        </Card>
     )
 }
 

@@ -3,6 +3,7 @@ import { useGroupStore } from '../../store/store'
 import EmptyExpensesList from './EmptyExpensesList'
 import ExpensesList from './ExpensesList'
 import ExpensesListSorter from './ExpensesListSorter'
+import Card from '../common/Card'
 
 const ExpensesListContainer = () => {
     const expenses = useGroupStore(state => state.expenses)
@@ -12,7 +13,7 @@ const ExpensesListContainer = () => {
     const handleChange = option => setSortBy(option.value)
 
     return (
-        <div className='relative shadow bg-white py-5 px-2 rounded dark:bg-slate-800 dark:border dark:border-slate-700'>
+        <Card className='relative'>
             {expenses?.length === 0 ? (
                 <EmptyExpensesList />
             ) : (
@@ -23,7 +24,7 @@ const ExpensesListContainer = () => {
                     </div>
                 </>
             )}
-        </div>
+        </Card>
     )
 }
 

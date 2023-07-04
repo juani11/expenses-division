@@ -118,8 +118,10 @@ function calcularResultadoFinal(persons, expenses) {
 
     const personasPosiblesARecibir = cantidadesARecibir.filter(elem => elem.amount > 0)
     let indexPersonaPosible = 0
+    console.log('cantidadesADar', cantidadesADar)
 
     while (indexArrayCantidadAdar < cantidadesADar.length) {
+        console.log('entra al while', cantidadesADar)
         const cantidadAdar = cantidadesADar[indexArrayCantidadAdar]
         const { person, amount } = cantidadAdar
 

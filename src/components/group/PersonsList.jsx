@@ -1,6 +1,7 @@
 import { cantExpensesInWhichEachPersonIsIncluded } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 import AvatarSVG from '../svg/AvatarSVG'
+import Card from './../common/Card'
 
 const colors = ['bg-primary-300', 'bg-red-300', 'bg-yellow-500']
 
@@ -11,8 +12,8 @@ const PersonsList = () => {
     const cantExpensesPerPerson = cantExpensesInWhichEachPersonIsIncluded(expenses)
 
     return (
-        <div className='shadow bg-white py-5 px-2 rounded animate-fade dark:bg-slate-800  dark:border dark:border-slate-700'>
-            <ul className=''>
+        <Card className='animate-fade'>
+            <ul>
                 {persons.map(({ id, name }, index) => {
                     // const avatarColor = colors[Math.floor(Math.random() * colors.length)]
                     const cantExpensesPersonIsInlcuded = cantExpensesPerPerson[id] ?? 0
@@ -36,7 +37,7 @@ const PersonsList = () => {
                     )
                 })}
             </ul>
-        </div>
+        </Card>
     )
 }
 export default PersonsList

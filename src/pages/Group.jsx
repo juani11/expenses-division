@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useRoute } from 'wouter'
-import DivisionsList from '../components/group/DivisionsList'
+import Divisions from '../components/group/Divisions'
 import GroupHeader from '../components/group/GroupHeader'
 import Persons from '../components/group/Persons'
 import { useGroupStore } from '../store/store'
@@ -37,15 +37,11 @@ const Group = () => {
             {/* // GROUP INFORMATION */}
             <section className='w-full'>
                 <div className='rounded-lg grid grid-cols-1 gap-14 bg-gray-50 px-6 lg:px-24 2xl:px-72 py-20 md:rounded-l-[150px] lg:grid-cols-4 dark:bg-slate-900  '>
-                    <div className=''>
-                        <Persons />
-                    </div>
+                    <Persons />
                     <div className='gap-5 lg:col-span-2'>
                         <Expenses />
                     </div>
-                    <div className=' '>
-                        <DivisionsList />
-                    </div>
+                    <Divisions />
                 </div>
             </section>
         </div>
