@@ -5,7 +5,7 @@ import PersonDetail from './PersonDetail'
 const ExcludedPersons = ({ persons, expenseId, callback }) => {
     return (
         <>
-            <h5 className='rounded-xl w-max p-2 bg-gray-50'>Personas excluidas</h5>
+            <h5 className='rounded-xl w-max p-2 bg-gray-50 dark:bg-slate-700'>Personas excluidas</h5>
             {persons.length === 0 ? (
                 <p className='px-2'>No hay personas excluidas en el gasto</p>
             ) : (

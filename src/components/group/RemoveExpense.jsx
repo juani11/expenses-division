@@ -5,8 +5,8 @@ import Tooltip from '../common/Tooltip'
 import CloseSVG from '../svg/CloseSVG'
 
 const RemoveIcon = ({ onClick }) => (
-    <Avatar size={'xs'} color={'hover:bg-gray-100'} onClick={onClick}>
-        <CloseSVG width={25} height={25} />
+    <Avatar size={'xs'} onClick={onClick}>
+        <CloseSVG width={22} height={22} color='black' />
     </Avatar>
 )
 const RemoveExpense = ({ expenseName, expenseId }) => {

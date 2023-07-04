@@ -61,8 +61,8 @@ const ViewDetailExpense = ({ expense }) => {
 
     return (
         <>
-            <Avatar size={'xs'} color={'hover:bg-gray-100'} onClick={openModal}>
-                <MenuSVG width={20} height={20} />
+            <Avatar size={'xs'} onClick={openModal}>
+                <MenuSVG width={18} height={18} />
             </Avatar>
 
             <Modal

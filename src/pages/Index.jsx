@@ -6,11 +6,11 @@ function Index() {
     const [, setLocation] = useLocation()
 
     return (
-        <div className='App h-screen w-screen font-primary'>
+        <div className='App h-screen font-primary '>
             <div className='flex flex-col justify-center items-center gap-10 h-full text-center'>
                 <PeopleFunSVG width={300} height={250} />
-                <div className='text-4xl '> Organizá y Dividí los gastos De la juntada</div>
-                <div>
+                <div className='text-4xl dark:text-white'> Organizá y Dividí los gastos De la juntada</div>
+                <div className=''>
                     <p>Creá un grupo, añadí gastos</p>
                     <p> y calculá la división que le corresponde a cada participante</p>
                 </div>

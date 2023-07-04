@@ -8,7 +8,7 @@ const PersonTotalItem = ({ personTotal, nameOfPerson, totalAmountExpenses }) => 
     const cantExpensesText = `${cantExpenses} ${cantExpenses > 1 ? 'Gastos' : 'Gasto'}`
 
     return (
-        <li className='hover:bg-gray-50 rounded-xl p-3 my-2 animate-fade '>
+        <li className='hover:bg-gray-50 rounded-xl p-3 my-2 animate-fade dark:hover:bg-slate-600 '>
             <div className='flex justify-between items-center mb-2'>
                 <h5 className='m-0 capitalize'>{nameOfPerson}</h5>
                 <p className='font-bold'>{personRoundedAmountPercentage}%</p>

@@ -109,7 +109,9 @@ const calcularCantidadADarYRecibir = (persons, expenses) => {
     return { cantidadesADar, cantidadesARecibir }
 }
 
-function calcularResultadoFinal(cantidadesAdar, cantidadesARecibir) {
+function calcularResultadoFinal(persons, expenses) {
+    const { cantidadesADar, cantidadesARecibir } = calcularCantidadADarYRecibir(persons, expenses)
+
     let resultado = []
 
     let indexArrayCantidadAdar = 0
@@ -117,8 +119,8 @@ function calcularResultadoFinal(cantidadesAdar, cantidadesARecibir) {
     const personasPosiblesARecibir = cantidadesARecibir.filter(elem => elem.amount > 0)
     let indexPersonaPosible = 0
 
-    while (indexArrayCantidadAdar < cantidadesAdar.length) {
-        const cantidadAdar = cantidadesAdar[indexArrayCantidadAdar]
+    while (indexArrayCantidadAdar < cantidadesADar.length) {
+        const cantidadAdar = cantidadesADar[indexArrayCantidadAdar]
         const { person, amount } = cantidadAdar
 
         if (amount === 0) {
@@ -214,7 +216,6 @@ const cantExpensesInWhichEachPersonIsIncluded = expenses => {
 
 export {
     calcularDivisionPorGasto,
-    calcularCantidadADarYRecibir,
     calcularResultadoFinal,
     totalAmountOfExpenses,
     cantOfOwnExpensesPerPerson,

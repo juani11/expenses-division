@@ -1,4 +1,4 @@
-import CustomizationSVG from '../svg/CustomizationSVG'
+// import CustomizationSVG from '../svg/CustomizationSVG'
 import Button from './Button'
 const ModalForm = ({ title, subtitle, isOpen, closeModal, isLoading, callback, children }) => {
     return (
@@ -8,7 +8,7 @@ const ModalForm = ({ title, subtitle, isOpen, closeModal, isLoading, callback, c
             } inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full animate-fade font-primary z-50`}
             id='my-modal'
         >
-            <div className='relative top-10 mx-auto p-5 border md:w-[565px] shadow-xl rounded-md bg-white '>
+            <div className='relative top-10 mx-auto p-5 border md:w-[565px] shadow-xl rounded-md bg-white dark:bg-slate-800 dark:border-slate-700 '>
                 <div className='flex justify-between'>
                     <h2 className='p-4 uppercase m-0 '>{title}</h2>
                     {/* <CustomizationSVG width={150} height={150} /> */}

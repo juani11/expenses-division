@@ -42,7 +42,7 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
             <Label>Personas a incluir en el gasto</Label>
 
             <CheckBox label='TODOS' checked={checkAll} onChange={onCheckAllChange} />
-            <hr />
+            <hr className='dark:border-t-slate-700' />
             {persons.map(person => {
                 const { id, name } = person
 

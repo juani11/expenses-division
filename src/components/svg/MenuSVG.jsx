@@ -1,4 +1,4 @@
-const MenuSVG = () => {
+const MenuSVG = ({ width, height }) => {
     return (
         <svg
             part='svg'
@@ -7,9 +7,9 @@ const MenuSVG = () => {
             aria-labelledby='actionDots'
             focusable='false'
             viewBox='0 0 24 24'
-            className='h-icon icon-primary cursor-pointer d-none d-md-flex'
-            width='20'
-            height='20'
+            className='h-icon icon-primary cursor-pointer d-none d-md-flex fill-black dark:fill-gray-200'
+            width={width}
+            height={height}
             // dataV68e5bb38=''
             // block=''
         >

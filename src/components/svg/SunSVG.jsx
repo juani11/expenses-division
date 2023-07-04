@@ -1,4 +1,4 @@
-const CreditCardSVG = ({ width, height }) => {
+const SunSVG = () => {
     return (
         <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -6,15 +6,15 @@ const CreditCardSVG = ({ width, height }) => {
             viewBox='0 0 24 24'
             strokeWidth={1.5}
             stroke='currentColor'
-            className='w-6 h-6'
+            className='w-5 h-5 fill-yellow-200 text-yellow-200'
         >
             <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
-                d='M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z'
+                d='M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z'
             />
         </svg>
     )
 }
 
-export default CreditCardSVG
+export default SunSVG

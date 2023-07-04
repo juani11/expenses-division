@@ -19,7 +19,7 @@ const PersonDetail = ({ person, cost, expenseId, children }) => {
 
     return (
         <li
-            className='flex items-center gap-5 p-2 hover:bg-gray-50'
+            className='flex items-center gap-5 p-2 hover:bg-gray-50 dark:hover:bg-slate-600'
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
         >

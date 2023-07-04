@@ -8,8 +8,8 @@ const buttonSizes = {
     lg: 'h-14 py-4 px-6'
 }
 const normalStyle = {
-    primary: 'bg-primary',
-    secondary: 'bg-secondary'
+    primary: 'bg-primary ',
+    secondary: 'bg-secondary dark:bg-slate-600'
 }
 
 const loadingStyle = {
@@ -19,7 +19,7 @@ const loadingStyle = {
 
 const hoverStyle = {
     primary: 'hover:bg-primary-500',
-    secondary: 'hover:bg-secondary-500'
+    secondary: 'hover:bg-secondary-500 dark:hover:bg-slate-500'
 }
 
 const Button = ({

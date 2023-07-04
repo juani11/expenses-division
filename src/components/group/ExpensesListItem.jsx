@@ -14,7 +14,7 @@ const ExpensesListItem = ({ expense }) => {
         <>
             <li
                 key={id}
-                className='flex justify-between items-center gap-4 hover:bg-gray-50 rounded-xl mx-2 px-2'
+                className='flex justify-between items-center gap-4 hover:bg-gray-50 rounded-xl mx-2 px-2 dark:hover:bg-slate-600'
             >
                 <div className='flex-1 flex items-center gap-10'>
                     <CreditCardSVG />

@@ -10,7 +10,7 @@ const Member = ({ member, removeMember }) => {
             {member}
 
             <Button size='xxs' onClick={() => removeMember(member)}>
-                <CloseSVG color='white' width={20} height={20} />
+                <CloseSVG width={20} height={20} />
             </Button>
         </li>
     )
@@ -47,7 +47,7 @@ const Members = () => {
                 </div>
             </div>
             <div className='w-full '>
-                <div className='bg-gray-100 rounded-lg '>
+                <div className='bg-gray-100 rounded-lg dark:bg-slate-800 '>
                     {cantMembers === 0 ? (
                         <p className='p-3'>Aún no agregaste participantes...</p>
                     ) : (

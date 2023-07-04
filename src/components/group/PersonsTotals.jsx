@@ -8,7 +8,7 @@ import PersonTotalItem from './PersonsTotalsItem'
 const SorterButton = ({ ascSort, handleClick }) => {
     return (
         <button
-            className='absolute flex gap-2 items-center right-4 bg-gray-100 hover:bg-gray-50 py-1 px-3'
+            className='absolute flex gap-2 items-center right-4 bg-gray-100 hover:bg-gray-50 py-1 px-3 dark:bg-slate-600 dark:hover:bg-slate-500 '
             onClick={handleClick}
         >
             {ascSort ? 'ASC' : 'DESC'}
@@ -44,7 +44,7 @@ const PersonsTotals = () => {
     const handleClick = () => setAscendingSort(!ascendingSort)
 
     return (
-        <div className='relative shadow bg-white py-5 px-2 rounded animate-fade'>
+        <div className='relative shadow bg-white py-5 px-2 rounded animate-fade dark:bg-slate-800 dark:border dark:border-slate-700'>
             {personsTotalsSorted.length === 0 ? (
                 <EmptyPersonsTotals />
             ) : (

@@ -30,20 +30,18 @@ const Group = () => {
     return (
         <div className='h-screen font-primary'>
             {/* // GROUP HEADER INFORMATION */}
-            <section className='md:mx-20 2xl:mx-40 md:mt-14 mt-10 rounded-lg'>
+            <section className='md:mx-20 2xl:mx-40 md:pt-24 rounded-lg'>
                 <GroupHeader groupName={groupName} cantPersons={cantPersons} />
             </section>
 
             {/* // GROUP INFORMATION */}
             <section className='w-full'>
-                <div className='rounded-lg grid grid-cols-1 gap-14 bg-gray-50 px-6 lg:px-24 2xl:px-72 py-20 md:rounded-l-[150px] lg:grid-cols-4 '>
+                <div className='rounded-lg grid grid-cols-1 gap-14 bg-gray-50 px-6 lg:px-24 2xl:px-72 py-20 md:rounded-l-[150px] lg:grid-cols-4 dark:bg-slate-900  '>
                     <div className=''>
                         <Persons />
                     </div>
                     <div className='gap-5 lg:col-span-2'>
-                        <div className=''>
-                            <Expenses />
-                        </div>
+                        <Expenses />
                     </div>
                     <div className=' '>
                         <DivisionsList />

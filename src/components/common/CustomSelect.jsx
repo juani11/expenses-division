@@ -6,18 +6,18 @@ import ChevronUpSVG from '../svg/ChevronUpSVG'
 const types = {
     sorter: {
         container: 'w-60',
-        button: 'h-8 rounded-lg bg-gray-50'
+        button: 'h-8 rounded bg-gray-50 dark:bg-slate-900 dark:border dark:border-slate-700'
     },
     form: {
         container: 'w-full',
-        button: 'h-14 border focus-within:border-1 border-gray-200 focus-within:border-primary-300'
+        button: 'h-14 border focus-within:border-1 border-gray-200 focus-within:border-primary-300  dark:border-slate-700'
     }
 }
 
 const Option = ({ onClick, option }) => {
     return (
         <li
-            className='cursor-pointer select-none py-1 px-5 bg-white hover:bg-primary-300 hover:text-white '
+            className='cursor-pointer select-none py-1 px-5 bg-white hover:bg-primary-300 hover:text-white dark:bg-slate-700 dark:hover:bg-slate-800 '
             onClick={() => onClick(option)}
         >
             <div className='m-1'> {option.value}</div>
@@ -27,7 +27,7 @@ const Option = ({ onClick, option }) => {
 
 const OptionList = ({ options, handleChange }) => {
     return (
-        <ul className='z-10 absolute mt-2 w-full uppercase border border-primary-300 bg-white py-4 max-h-80 overflow-y-auto'>
+        <ul className='z-10 absolute mt-2 w-full uppercase border rounded border-primary-300 bg-white py-4 max-h-80 overflow-y-auto dark:bg-slate-700 dark:border-slate-600'>
             {options.map(option => (
                 <Option key={option.id} option={option} onClick={handleChange} />
             ))}

@@ -1,5 +1,5 @@
 const menuOptionClassName =
-    'cursor-pointer capitalize inline-block w-full p-4 hover:bg-gray-50 focus:outline-none'
+    'cursor-pointer capitalize inline-block w-full p-4 hover:bg-gray-50 focus:outline-none hover:dark:bg-slate-500'
 
 export const PERSONS_LIST = 'listado'
 export const PERSONS_TOTALS = 'totales'
@@ -11,8 +11,8 @@ const PersonsMenuItem = ({ isActive, onClick, name }) => {
         <li className='w-full'>
             <a
                 className={`${menuOptionClassName} 
-                ${name === PERSONS_LIST ? 'rounded-l-lg' : 'rounded-r-lg'}  
-                ${isActive(name) ? 'bg-gray-50' : 'bg-white'}`}
+                ${name === PERSONS_LIST ? 'rounded-l' : 'rounded-r'}  
+                ${isActive(name) ? 'bg-gray-50 dark:bg-slate-600' : 'bg-white dark:bg-slate-700'}`}
                 onClick={() => onClick(name)}
             >
                 {name}
@@ -25,7 +25,7 @@ const PersonsMenu = ({ menuItemSelected, changeMenuOption }) => {
 
     return (
         <div className='mb-2'>
-            <ul className='flex text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow '>
+            <ul className='flex text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded shadow dark:text-white dark:divide-slate-700'>
                 {menuItems.map(menuItem => {
                     return (
                         <PersonsMenuItem

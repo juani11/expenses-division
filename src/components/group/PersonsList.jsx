@@ -11,14 +11,17 @@ const PersonsList = () => {
     const cantExpensesPerPerson = cantExpensesInWhichEachPersonIsIncluded(expenses)
 
     return (
-        <div className='shadow bg-white py-5 px-2 rounded animate-fade '>
+        <div className='shadow bg-white py-5 px-2 rounded animate-fade dark:bg-slate-800  dark:border dark:border-slate-700'>
             <ul className=''>
                 {persons.map(({ id, name }, index) => {
                     // const avatarColor = colors[Math.floor(Math.random() * colors.length)]
                     const cantExpensesPersonIsInlcuded = cantExpensesPerPerson[id] ?? 0
                     const avatarColor = colors[0]
                     return (
-                        <li key={id} className='hover:bg-gray-50 rounded-xl p-3 my-2 '>
+                        <li
+                            key={id}
+                            className='hover:bg-gray-50 rounded-xl p-3 my-2 dark:hover:bg-slate-600  '
+                        >
                             <div className='flex gap-5 items-center mb-2'>
                                 <AvatarSVG width={30} height={30} backgroundColor={avatarColor} />
 
