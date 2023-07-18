@@ -14,7 +14,7 @@ const ExpensesListItem = ({ expense }) => {
         <>
             <li
                 key={id}
-                className='flex justify-between items-center gap-4 hover:bg-gray-50 rounded-xl mx-2 px-2 dark:hover:bg-slate-600'
+                className='flex  justify-between items-center gap-4 hover:bg-gray-50 rounded-xl mx-2 px-2 dark:hover:bg-slate-600'
             >
                 <div className='flex-1 flex items-center gap-10'>
                     <CreditCardSVG />
@@ -23,7 +23,7 @@ const ExpensesListItem = ({ expense }) => {
                         <h5 className='m-0 text-gray-400 capitalize  '> {persona?.name}</h5>
                     </div>
                 </div>
-                <div className='basis-48'>
+                <div className='basis-48 min-w-[128px]'>
                     <MoneyAmount amount={amount} className='m-4 bg-primary text-white font-bold' />
                 </div>
                 <div className='flex items-center gap-2 cursor-pointer'>

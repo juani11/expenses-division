@@ -1,6 +1,6 @@
 const Fallback = () => {
     return (
-        <div className='flex flex-col items-center justify-center h-screen font-primary animate-pulse'>
+        <div className='flex flex-col items-center justify-center h-screen animate-pulse'>
             {/* <div className='animate-spin'></div> */}
             <svg
                 className='w-6 h-6 animate-spin'

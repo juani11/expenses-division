@@ -28,22 +28,22 @@ const Group = () => {
     }, [])
 
     return (
-        <div className='h-screen font-primary'>
+        <div className=' '>
             {/* // GROUP HEADER INFORMATION */}
-            <section className='md:mx-20 2xl:mx-40 md:pt-24 rounded-lg'>
+            <header className='md:pt-24 w-[87%] 2xl:w-[78%] mx-auto'>
                 <GroupHeader groupName={groupName} cantPersons={cantPersons} />
-            </section>
+            </header>
 
             {/* // GROUP INFORMATION */}
-            <section className='w-full'>
-                <div className='rounded-lg grid grid-cols-1 gap-14 bg-gray-50 px-6 lg:px-24 2xl:px-72 py-20 md:rounded-l-[150px] lg:grid-cols-4 dark:bg-slate-900  '>
+            <main className='bg-gray-50 dark:bg-slate-900 md:rounded-l-[150px]'>
+                <div className='grid grid-cols-1 gap-14 py-14 lg:grid-cols-4 w-[87%] 2xl:w-[78%] mx-auto'>
                     <Persons />
-                    <div className='gap-5 lg:col-span-2'>
+                    <section id='expenses' className='gap-5 lg:col-span-2'>
                         <Expenses />
-                    </div>
+                    </section>
                     <Divisions />
                 </div>
-            </section>
+            </main>
         </div>
     )
 }

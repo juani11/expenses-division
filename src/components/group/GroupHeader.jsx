@@ -21,7 +21,7 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
                 </div>
             </div>
 
-            <div className='flex items-center justify-evenly gap-10 mt-6 w-96'>
+            <div className='flex items-center justify-between gap-10 mt-6 w-96'>
                 <div className='flex flex-col items-center'>
                     <h4 className='m-0'>Total Gastos</h4>
                     <div className='flex justify-start items-center'>
@@ -35,7 +35,7 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
                     </div>
                 </div>
 
-                <div className='flex flex-col items-center'>
+                <div className='flex flex-col items-center  m-auto'>
                     <h4 className='m-0'>Personas </h4>{' '}
                     <div className='flex justify-between items-center gap-4 '>
                         <h1 className='grow'>{cantPersons}</h1>
@@ -48,7 +48,7 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
 
 const GroupHeaderImage = () => {
     return (
-        <div className='md:absolute md:right-0 lg:right-80 '>
+        <div className='hidden md:block md:absolute md:right-0 lg:right-80 '>
             <PeopleSelfieSVG width={350} height={300} />
         </div>
     )
@@ -58,7 +58,7 @@ const GroupHeader = props => {
 
     return (
         <div className='flex flex-col-reverse items-center md:flex-row md:relative '>
-            <div className='flex flex-col '>
+            <div className='flex flex-col gap-3 '>
                 {loading ? <GroupHeaderLoading /> : <GroupHeaderInfo {...props} />}
             </div>
             <GroupHeaderImage />

@@ -27,7 +27,7 @@ const Persons = () => {
 
     const { menuItemSelected, changeMenuOption, MenuItemContent } = usePersonsMenu()
     return (
-        <div>
+        <section id='persons'>
             <CardHeader title={'personas'} />
             {loading ? (
                 <PersonsLoading />
@@ -37,7 +37,7 @@ const Persons = () => {
                     <MenuItemContent />
                 </>
             )}
-        </div>
+        </section>
     )
 }
 

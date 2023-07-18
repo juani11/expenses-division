@@ -5,7 +5,7 @@ const ModalForm = ({ title, subtitle, isOpen, closeModal, isLoading, callback, c
         <div
             className={`fixed ${
                 isOpen ? 'block' : 'hidden'
-            } inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full animate-fade font-primary z-50`}
+            } inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full animate-fade z-50`}
             id='my-modal'
         >
             <div className='relative top-10 mx-auto p-5 border md:w-[565px] shadow-xl rounded-md bg-white dark:bg-slate-800 dark:border-slate-700 '>

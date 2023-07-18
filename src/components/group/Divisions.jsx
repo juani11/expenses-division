@@ -18,10 +18,10 @@ const Divisions = () => {
     const loading = useGroupStore(state => state.loading)
 
     return (
-        <div>
+        <section id='divisions'>
             <CardHeader title={'divisiones'} />
             {loading ? <DivisionsLoading /> : <DivisionsList />}
-        </div>
+        </section>
     )
 }
 
