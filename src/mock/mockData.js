@@ -31,7 +31,7 @@ const expenses = [
         amount: 5705,
         person: 3,
         includedPersons: [1, 2]
-    }
+    },
     // {
     //     id: 4,
     //     name: 'empanadas',
@@ -61,6 +61,47 @@ const expenses = [
     //     person: 6,
     //     includedPersons: []
     // }
+    {
+        id: 23,
+        created_at: '2023-07-05T19:17:49.648421+00:00',
+        name: 'estacionamiento hotel',
+        amount: 25000,
+        person: 2, //   Fran
+        group_id: 30,
+        includedPersons: [
+            1, //  Juani
+            2, //  Fran
+            3 //   Juli
+        ],
+        type: 'PAYMENTS',
+        cant_payments: 3,
+        amount_per_payment: 8333.33,
+        dates_payments: {
+            start_month: 7,
+            start_year: 2023
+        }
+    },
+
+    {
+        id: 24,
+        created_at: '2023-07-05T19:17:49.648421+00:00',
+        name: 'hotel',
+        amount: 80000,
+        person: 3, //   Juli
+        group_id: 30,
+        includedPersons: [
+            1, //  Juani
+            2, //  Fran
+            3 //   Juli
+        ],
+        type: 'PAYMENTS',
+        cant_payments: 6,
+        amount_per_payment: 13333.33,
+        dates_payments: {
+            start_month: 7,
+            start_year: 2023
+        }
+    }
 ]
 const group = {
     id: '1',

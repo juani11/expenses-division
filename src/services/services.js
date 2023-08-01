@@ -1,3 +1,4 @@
+import { group } from '../mock/mockData'
 import { supabase } from './supabase'
 
 //  GROUP
@@ -13,6 +14,21 @@ async function getGroups() {
   `)
 
     console.log({ expenseGroup, error })
+}
+
+function mockGetGroup(groupId) {
+    const mockSuccess = true
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            mockSuccess
+                ? resolve({
+                      ok: true,
+                      error: null,
+                      data: [group]
+                  })
+                : reject(new Error('Se produjo un error al crear el grupo'))
+        }, 200)
+    })
 }
 
 async function getGroup(groupId) {
@@ -144,6 +160,7 @@ async function updateIncludedPersonsOnExpense(expenseId, includedPersons) {
 export {
     mockCreateGroup,
     createGruop,
+    mockGetGroup,
     getGroup,
     getGroups,
     createExpense,
