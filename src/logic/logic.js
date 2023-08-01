@@ -8,7 +8,7 @@ const personIsIncludedInExpense = (person, includedPersons) => {
     return includedPersons.includes(person)
 }
 
-const amountOfMoneyToGiveAndReceivePerPerson = () => {
+const amountOfMoneyToGiveAndReceivePerPerson = (persons, expenses) => {
     let amountsToGivePerPerson = []
     let amountsToReceivePerPerson = []
 
@@ -40,9 +40,6 @@ const amountOfMoneyToGiveAndReceivePerPerson = () => {
 }
 
 function calculateDivisions(amountsToGivePerPerson, amountsToReceivePerPerson) {
-    // const { cantidadesADar, cantidadesARecibir } = calcularCantidadADarYRecibir(persons, expenses)
-    // const { cantidadesADar, cantidadesARecibir } = testCuotas()
-
     let resultado = []
 
     let indexArrayCantidadAdar = 0
@@ -145,8 +142,11 @@ const cantExpensesInWhichEachPersonIsIncluded = expenses => {
     return resul
 }
 
-const calculateFinalResult = () => {
-    const { amountsToGivePerPerson, amountsToReceivePerPerson } = amountOfMoneyToGiveAndReceivePerPerson()
+const calculateFinalResult = (persons, expenses) => {
+    const { amountsToGivePerPerson, amountsToReceivePerPerson } = amountOfMoneyToGiveAndReceivePerPerson(
+        persons,
+        expenses
+    )
 
     const finalResult = calculateDivisions(amountsToGivePerPerson, amountsToReceivePerPerson)
 

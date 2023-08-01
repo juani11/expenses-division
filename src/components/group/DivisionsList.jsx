@@ -1,4 +1,4 @@
-import { calcularResultadoFinal } from '../../logic/logic'
+import { calculateFinalResult } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 import Card from '../common/Card'
 import MoneyAmount from '../common/MoneyAmount'
@@ -40,15 +40,15 @@ const DivisionsList = () => {
     const persons = useGroupStore(state => state.persons)
     const expenses = useGroupStore(state => state.expenses)
 
-    const resultados = calcularResultadoFinal(persons, expenses)
+    const results = calculateFinalResult(persons, expenses)
 
     return (
         <Card>
-            {resultados.length === 0 ? (
+            {results.length === 0 ? (
                 <EmptyDivisionsList />
             ) : (
                 <ul>
-                    {resultados.map((division, index) => (
+                    {results.map((division, index) => (
                         <DivisionListItem key={index} division={division} />
                     ))}
                 </ul>
