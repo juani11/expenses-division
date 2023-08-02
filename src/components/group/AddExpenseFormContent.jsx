@@ -4,6 +4,9 @@ import Input from '../Input'
 import CustomSelect from '../common/CustomSelect'
 import PersonsCheckBoxGroup from './PersonsCheckBoxGroup'
 import ExpenseOwnerSelectContainer from './CustomSelectContainer'
+import RadioButton from '../common/RadioItem'
+import ExpenseTypeSelection from './ExpenseTypeSelection'
+import ExpenseType from './ExpenseType'
 
 const AddExpenseFormContent = () => {
     const persons = useGroupStore(state => state.persons)
@@ -58,7 +61,11 @@ const AddExpenseFormContent = () => {
                 <ExpenseOwnerSelectContainer name='person' control={control} />
             </div>
 
-            <div className='p-4 mt-4'>
+            <div className='p-4'>
+                <ExpenseType control={control} />
+            </div>
+
+            <div className='p-4 +'>
                 <PersonsCheckBoxGroup
                     persons={persons ?? []}
                     control={control}

@@ -1,4 +1,4 @@
-const CreditCardSVG = ({ width, height }) => {
+const CreditCardSVG = ({ width = 'w-6', height = 'h-6' }) => {
     return (
         <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -6,7 +6,7 @@ const CreditCardSVG = ({ width, height }) => {
             viewBox='0 0 24 24'
             strokeWidth={1.5}
             stroke='currentColor'
-            className='w-6 h-6'
+            className={`${width} ${height}`}
         >
             <path
                 strokeLinecap='round'

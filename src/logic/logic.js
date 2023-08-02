@@ -1,8 +1,7 @@
 // import dayjs from 'dayjs'
+import { PAYMENTS } from '../constants'
 import { expenses, persons } from '../mock/mockData'
 import { toFloat } from '../utils/utils'
-
-const PAYMENTS = 'PAYMENTS'
 
 const personIsIncludedInExpense = (person, includedPersons) => {
     return includedPersons.includes(person)
