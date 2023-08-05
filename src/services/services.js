@@ -48,7 +48,9 @@ async function getGroup(groupId) {
     amount,
     person:person_id,
     date:created_at,
-    includedPersons:persons_included
+    includedPersons:persons_included,
+    type,
+    creditTypeInfo:credit_type_info
   )
   `
         )
@@ -127,11 +129,21 @@ async function createGruop(group) {
 //  EXPENSES
 
 async function createExpense(expense) {
-    const { name, amount, person, includedPersons, groupId } = expense
+    const { name, amount, person, includedPersons, groupId, type, creditTypeInfo } = expense
 
     const { data: expenseData, error } = await supabase
         .from('expense')
-        .insert([{ name, amount, person_id: person, group_id: groupId, persons_included: includedPersons }])
+        .insert([
+            {
+                name,
+                amount,
+                person_id: person,
+                group_id: groupId,
+                persons_included: includedPersons,
+                type,
+                credit_type_info: creditTypeInfo
+            }
+        ])
         .select()
 
     if (error) throw new Error('Se produjo un error al crear el gasto')

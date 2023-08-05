@@ -1,4 +1,4 @@
-import { CASH, PAYMENTS } from '../../constants'
+import { CASH, CREDIT } from '../../constants'
 import Label from '../common/Label'
 import RadioItem from '../common/RadioItem'
 import CashSVG from '../svg/CashSVG'
@@ -6,20 +6,21 @@ import CreditCardSVG from '../svg/CreditCardSVG'
 
 const radioItems = [
     {
-        name: CASH,
-        title: 'Efectivo/Débito',
+        id: CASH,
+        value: 'Efectivo/Débito',
         description: 'Si ya pagaste por el gasto',
-        icon: <CashSVG />
+        icon: <CashSVG width='w-5' height='h-5' />
     },
     {
-        name: PAYMENTS,
-        title: 'Crédito',
+        id: CREDIT,
+        value: 'Crédito',
         description: 'Si pagás en cuotas',
         icon: <CreditCardSVG width='w-5' height='h-5' />
     }
 ]
 
 const label = 'Tipo de gasto'
+
 const ExpenseTypeSelection = ({ selectedValue, onClick }) => {
     return (
         <div className='flex flex-col'>
@@ -35,7 +36,7 @@ const ExpenseTypeSelection = ({ selectedValue, onClick }) => {
                     >
                         <div className='flex mt-4 ml-4 mr-4 items-center gap-3'>
                             {radioItem.icon && radioItem.icon}
-                            <h5 className='m-0'>{radioItem.title}</h5>
+                            <h5 className='m-0'>{radioItem.value}</h5>
                         </div>
                     </RadioItem>
                 ))}

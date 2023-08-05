@@ -1,12 +1,9 @@
 import { useFormContext } from 'react-hook-form'
 import { useGroupStore } from '../../store/store'
 import Input from '../Input'
-import CustomSelect from '../common/CustomSelect'
-import PersonsCheckBoxGroup from './PersonsCheckBoxGroup'
 import ExpenseOwnerSelectContainer from './CustomSelectContainer'
-import RadioButton from '../common/RadioItem'
-import ExpenseTypeSelection from './ExpenseTypeSelection'
 import ExpenseType from './ExpenseType'
+import PersonsCheckBoxGroup from './PersonsCheckBoxGroup'
 
 const AddExpenseFormContent = () => {
     const persons = useGroupStore(state => state.persons)
@@ -19,11 +16,6 @@ const AddExpenseFormContent = () => {
     } = useFormContext() // retrieve all hook methods
 
     const amount = watch('amount')
-
-    const personsOptions = persons.map(({ id, name }) => ({
-        id,
-        value: name
-    }))
 
     return (
         <>

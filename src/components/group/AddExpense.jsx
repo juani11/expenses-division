@@ -5,6 +5,7 @@ import Button from '../common/Button'
 import ModalForm from '../common/ModalForm'
 import AddExpenseFormContent from './AddExpenseFormContent'
 import { createExpense } from '../../services/services'
+import { CREDIT } from '../../constants'
 
 const AddExpense = () => {
     const addExpense = useGroupStore(state => state.addExpense)
@@ -12,12 +13,25 @@ const AddExpense = () => {
     const { id } = groupInfo
 
     const add = async formData => {
-        const { name, person, amount, includedPersons } = formData
+        const { name, person, amount, includedPersons, type, initialMonth, initialYear, cantPayments } =
+            formData
+
+        const creditTypeInfo =
+            type === CREDIT
+                ? {
+                      initialMonth,
+                      initialYear,
+                      cantPayments
+                  }
+                : null
+
         const newExpense = {
             name,
             amount: parseInt(amount),
             person: parseInt(person),
-            includedPersons
+            includedPersons,
+            type,
+            creditTypeInfo
         }
 
         const request = {
@@ -25,6 +39,7 @@ const AddExpense = () => {
             groupId: id
         }
 
+        console.log(request)
         return createExpense(request)
             .then(res => {
                 console.log('rta create expense..')

@@ -1,5 +1,5 @@
 // import dayjs from 'dayjs'
-import { PAYMENTS } from '../constants'
+import { CREDIT } from '../constants'
 import { expenses, persons } from '../mock/mockData'
 import { toFloat } from '../utils/utils'
 
@@ -195,7 +195,7 @@ const groupTotalPerPaymentByMonth = ({
 
 //  Prueba de calculo de division de gastos para gastos que son del tipo "en cuotas"
 const amountOfMoneyToGiveAndReceivePerPersonPerPayment = () => {
-    const paymentsExpenses = expenses.filter(expense => expense.type === PAYMENTS)
+    const paymentsExpenses = expenses.filter(expense => expense.type === CREDIT)
     const amountsToGivePerPersonPerPayment = {}
     const amountsToReceivePerPersonPerPayment = {}
 

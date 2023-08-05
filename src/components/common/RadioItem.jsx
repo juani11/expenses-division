@@ -7,38 +7,22 @@ import CheckSVG from '../svg/CheckSVG'
 // }
 
 const RadioItem = ({ item, selectedValue, onClick, withCheckIcon, children }) => {
-    const { name, title, description, icon } = item
+    const { id, description } = item
     return (
         <>
             <div
-                className={`border cursor-pointer relative hover:bg-gray-50
-                ${selectedValue === name && 'border-primary-500'}
-               
+                className={`border rounded cursor-pointer relative hover:bg-gray-50
+                ${selectedValue === id && 'border-primary-500'}
                 `}
-                onClick={() => onClick(name)}
+                onClick={() => onClick(id)}
             >
                 {children}
 
-                {selectedValue === name && withCheckIcon && (
+                {selectedValue === id && withCheckIcon && (
                     <CheckSVG className=' fill-primary absolute right-4 top-2' />
                 )}
                 {description && <p className='text-xs pb-4 pl-4 ml-0.5 my-2 '>{description}</p>}
             </div>
-
-            {/* <div
-                className={`border p-4 cursor-pointer relative hover:bg-gray-50 ${
-                    selectedValue === name && 'border-primary-500 '
-                }`}
-                onClick={() => onClick(name)}
-            >
-                <div className='flex  items-center gap-3'>
-                    {icon && icon}
-                    <h5 className='m-0'>{title}</h5>
-                </div>
-
-                {selectedValue === name && <CheckSVG className=' fill-primary absolute right-4 top-2' />}
-                {description && <p className='text-xs my-2 mx-0.5'>{description}</p>}
-            </div> */}
         </>
     )
 }
