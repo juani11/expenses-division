@@ -1,19 +1,20 @@
 // import dayjs from 'dayjs'
-import { CREDIT } from '../constants'
-import { expenses, persons } from '../mock/mockData'
-import { toFloat } from '../utils/utils'
+import { CASH, CREDIT, MONTHS } from '../constants'
+import { currentDate, generatePaymentKey, toFloat, translatePaymentKey } from '../utils/utils'
 
 const personIsIncludedInExpense = (person, includedPersons) => {
     return includedPersons.includes(person)
 }
 
 const amountOfMoneyToGiveAndReceivePerPerson = (persons, expenses) => {
+    const cashEpenses = expenses.filter(expense => expense.type === CASH)
+
     let amountsToGivePerPerson = []
     let amountsToReceivePerPerson = []
 
     persons?.forEach(person => {
         let total = 0
-        expenses.forEach(expense => {
+        cashEpenses.forEach(expense => {
             const { amount, person: owner, includedPersons } = expense
 
             // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
@@ -168,21 +169,15 @@ const add = ({ totalsPerPayment, totalPerPayment, paymentKey, person }) => {
         totalsPerPayment[paymentKey].push({ person, amount: totalPerPayment })
     }
 }
-const groupTotalPerPaymentByMonth = ({
-    paymentDates,
-    cantPayments,
-    totalsPerPayment,
-    person,
-    totalPerPayment
-}) => {
-    const { start_month: startMonth, start_year: startYear } = paymentDates
+const groupTotalPerPaymentByMonth = ({ creditTypeInfo, totalsPerPayment, person, totalPerPayment }) => {
+    const { initialMonth, initialYear, cantPayments } = creditTypeInfo
 
-    const paymentDate = new Date(startYear, startMonth)
+    const paymentDate = currentDate(initialYear, initialMonth)
+
     console.log(paymentDate)
 
     for (let i = 1; i <= cantPayments; i++) {
-        const paymentKey = `${paymentDate.getMonth()}_${paymentDate.getUTCFullYear()}`
-        //  Ej key para agosto 2023: --> [7_2023]
+        const paymentKey = generatePaymentKey(paymentDate)
 
         totalsPerPayment[paymentKey] = totalsPerPayment[paymentKey] ?? []
 
@@ -194,7 +189,7 @@ const groupTotalPerPaymentByMonth = ({
 }
 
 //  Prueba de calculo de division de gastos para gastos que son del tipo "en cuotas"
-const amountOfMoneyToGiveAndReceivePerPersonPerPayment = () => {
+const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, expenses) => {
     const paymentsExpenses = expenses.filter(expense => expense.type === CREDIT)
     const amountsToGivePerPersonPerPayment = {}
     const amountsToReceivePerPersonPerPayment = {}
@@ -204,16 +199,11 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = () => {
         let totalPerPayment = 0
 
         paymentsExpenses.forEach(expense => {
-            const {
-                person: owner,
-                includedPersons,
-                amount_per_payment: amountPerpayment,
-                cant_payments: cantPayments,
-                dates_payments: paymentDates
-            } = expense
+            const { person: owner, includedPersons, amount, creditTypeInfo } = expense
+
+            const amountPerpayment = amount / creditTypeInfo.cantPayments
 
             // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
-
             if (personIsIncludedInExpense(person.id, includedPersons)) {
                 // total por cada cuota
                 totalPerPayment = toFloat(amountPerpayment / includedPersons.length)
@@ -225,8 +215,7 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = () => {
 
             //  Guardar por cada mes el totalPerPayment
             groupTotalPerPaymentByMonth({
-                paymentDates,
-                cantPayments,
+                creditTypeInfo,
                 totalsPerPayment,
                 person,
                 totalPerPayment
@@ -255,10 +244,11 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = () => {
     return { amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment }
 }
 
-const calculateFinalResultPayments = () => {
+const calculateFinalResultPayments = (persons, expenses) => {
     const { amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment } =
-        amountOfMoneyToGiveAndReceivePerPersonPerPayment()
+        amountOfMoneyToGiveAndReceivePerPersonPerPayment(persons, expenses)
 
+    console.log({ amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment })
     const finalResults = {}
     Object.keys(amountsToGivePerPersonPerPayment).forEach(item => {
         const result = calculateDivisions(
@@ -274,8 +264,8 @@ const calculateFinalResultPayments = () => {
 
 export {
     calculateFinalResult,
-    totalAmountOfExpenses,
-    cantOfOwnExpensesPerPerson,
+    calculateFinalResultPayments,
     cantExpensesInWhichEachPersonIsIncluded,
-    calculateFinalResultPayments
+    cantOfOwnExpensesPerPerson,
+    totalAmountOfExpenses
 }
