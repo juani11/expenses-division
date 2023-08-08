@@ -1,31 +1,25 @@
-import { useState } from 'react'
-import PersonsMenu, { PERSONS_LIST, PERSONS_TOTALS } from './PersonsMenu'
-import PersonsTotals from './PersonsTotals'
-import PersonsList from './PersonsList'
-import CardHeader from '../common/CardHeader'
-import PersonsLoading from './PersonsLoading'
+import useCardMenu from '../../hooks/useCardMenu'
 import { useGroupStore } from '../../store/store'
+import CardHeader from '../common/CardHeader'
+import CardMenu from '../common/CardMenu'
+import PersonsList from './PersonsList'
+import PersonsLoading from './PersonsLoading'
+import PersonsTotals from './PersonsTotals'
+
+const PERSONS_LIST = 'listado'
+const PERSONS_TOTALS = 'totales'
 
 const menuItemsComponents = {
     [PERSONS_LIST]: PersonsList,
     [PERSONS_TOTALS]: PersonsTotals
 }
 
-const usePersonsMenu = () => {
-    const [menuItemSelected, setMenuItemSelected] = useState(PERSONS_LIST)
+const menuItems = [PERSONS_LIST, PERSONS_TOTALS]
 
-    const MenuItemContent = menuItemsComponents[menuItemSelected]
-
-    return {
-        menuItemSelected,
-        changeMenuOption: setMenuItemSelected,
-        MenuItemContent
-    }
-}
 const Persons = () => {
     const loading = useGroupStore(state => state.loading)
 
-    const { menuItemSelected, changeMenuOption, MenuItemContent } = usePersonsMenu()
+    const { menuItemSelected, changeMenuOption, MenuItemContent } = useCardMenu(menuItemsComponents)
     return (
         <section id='persons'>
             <CardHeader title={'personas'} />
@@ -33,7 +27,11 @@ const Persons = () => {
                 <PersonsLoading />
             ) : (
                 <>
-                    <PersonsMenu menuItemSelected={menuItemSelected} changeMenuOption={changeMenuOption} />
+                    <CardMenu
+                        menuItems={menuItems}
+                        menuItemSelected={menuItemSelected}
+                        changeMenuOption={changeMenuOption}
+                    />
                     <MenuItemContent />
                 </>
             )}
