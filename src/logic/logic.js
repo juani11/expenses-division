@@ -1,6 +1,6 @@
 // import dayjs from 'dayjs'
-import { CASH, CREDIT, MONTHS } from '../constants'
-import { currentDate, generatePaymentKey, toFloat, translatePaymentKey } from '../utils/utils'
+import { CASH, CREDIT } from '../constants'
+import { currentDate, generatePaymentKey, toFloat } from '../utils/utils'
 
 const personIsIncludedInExpense = (person, includedPersons) => {
     return includedPersons.includes(person)
@@ -67,7 +67,7 @@ function calculateDivisions(amountsToGivePerPerson, amountsToReceivePerPerson) {
                 let cantidadResultado
                 if (cantidadRestanteProcesar <= personaPosible.amount) {
                     cantidadResultado = cantidadRestanteProcesar
-                    personaPosible.cantidad = toFloat(personaPosible.amount - cantidadRestanteProcesar)
+                    personaPosible.amount = toFloat(personaPosible.amount - cantidadRestanteProcesar)
 
                     cantidadRestanteProcesar = 0
                     indexArrayCantidadAdar = indexArrayCantidadAdar + 1
@@ -148,8 +148,12 @@ const calculateFinalResult = (persons, expenses) => {
         expenses
     )
 
+    console.log('amountsToGivePerPerson', amountsToGivePerPerson)
+    console.log('amountsToReceivePerPerson', amountsToReceivePerPerson)
+
     const finalResult = calculateDivisions(amountsToGivePerPerson, amountsToReceivePerPerson)
 
+    console.log('finalResult', finalResult)
     return finalResult
 }
 
