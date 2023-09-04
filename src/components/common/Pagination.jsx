@@ -1,14 +1,9 @@
-import ChevronLeft from '../svg/ChevronLeft'
-import ChevronRight from '../svg/ChevronRight'
+import { ChevronLeftBtn, ChevronRightBtn } from './ChevronBtn/chevronBtn'
 
 const Pagination = ({ cantPages, currentPage, prevPage, nextPage, changeCurrentPage }) => {
     return (
         <div className='flex justify-end items-center gap-2 mt-10'>
-            {currentPage > 1 && (
-                <button className='px-3 py-2  hover:bg-gray-100 dark:hover:bg-slate-700' onClick={prevPage}>
-                    <ChevronLeft />
-                </button>
-            )}
+            {currentPage > 1 && <ChevronLeftBtn onClick={prevPage} />}
             {[...Array(cantPages)].map((_, index) => (
                 <button
                     key={index}
@@ -21,16 +16,7 @@ const Pagination = ({ cantPages, currentPage, prevPage, nextPage, changeCurrentP
                     {index + 1}
                 </button>
             ))}
-            <div>
-                {currentPage < cantPages && (
-                    <button
-                        className='px-3 py-2  hover:bg-gray-100 dark:hover:bg-slate-700'
-                        onClick={nextPage}
-                    >
-                        <ChevronRight />
-                    </button>
-                )}
-            </div>
+            <div>{currentPage < cantPages && <ChevronRightBtn onClick={nextPage} />}</div>
         </div>
     )
 }

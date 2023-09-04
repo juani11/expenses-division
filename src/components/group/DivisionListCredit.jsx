@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { calculateFinalResultPayments } from '../../logic/logic'
 import { useGroupStore } from '../../store/store'
 import Card from '../common/Card'
 import MoneyAmount from '../common/MoneyAmount'
 import ArrowSVG from '../svg/ArrowSVG'
-import ChevronLeft from '../svg/ChevronLeft'
-import ChevronRight from '../svg/ChevronRight'
+
 import PeopleCoffeSVG from '../svg/PeopleCofeeSVG'
 import { translatePaymentKey } from '../../utils/utils'
+import { ChevronLeftBtn, ChevronRightBtn } from '../common/ChevronBtn/chevronBtn'
 
 const EmptyDivisionsList = () => {
     return (
@@ -16,7 +16,7 @@ const EmptyDivisionsList = () => {
             <h4 className='text-center'>Aún no hay divisiones con crédito...</h4>
             <p className='text-center'>
                 {' '}
-                Aquí verás cuánto le corresponde pagar a cada integrante por cada cuota
+                Aquí verás cuánto le corresponde pagar a cada integrante por cada mes
             </p>
         </div>
     )
@@ -48,13 +48,21 @@ const DivisionListCredit = () => {
     const persons = useGroupStore(state => state.persons)
     const expenses = useGroupStore(state => state.expenses)
 
-    const resultsCredit = calculateFinalResultPayments(persons, expenses)
+    // const resultsCredit = calculateFinalResultPayments(persons, expenses)
 
-    const creditPayments = Object.keys(resultsCredit)
+    const memoizedResultsCredit = useMemo(() => {
+        return calculateFinalResultPayments(persons, expenses)
+    }, [expenses])
 
-    const [currentPayment, setCurrentPayment] = useState(0)
+    const creditPayments = Object.keys(memoizedResultsCredit)
 
-    console.log(resultsCredit)
+    const [payment, setPayment] = useState(0)
+
+    console.log(memoizedResultsCredit)
+
+    useEffect(() => {
+        console.log('Render DivisionListCredit...')
+    })
     return (
         <Card className='animate-fade'>
             {creditPayments.length === 0 ? (
@@ -63,31 +71,21 @@ const DivisionListCredit = () => {
                 <>
                     <div className='flex justify-between items-center px-4'>
                         <div className='w-11'>
-                            {currentPayment !== 0 && (
-                                <button
-                                    className='px-3 py-2  hover:bg-gray-100 dark:hover:bg-slate-700'
-                                    onClick={() => setCurrentPayment(currentPayment - 1)}
-                                >
-                                    <ChevronLeft />
-                                </button>
-                            )}
+                            {payment !== 0 && <ChevronLeftBtn onClick={() => setPayment(payment - 1)} />}
                         </div>
 
-                        <h5 className='capitalize'>{translatePaymentKey(creditPayments[currentPayment])}</h5>
+                        <h5 key={creditPayments[payment]} className='capitalize '>
+                            {translatePaymentKey(creditPayments[payment])}
+                        </h5>
 
                         <div className='w-11'>
-                            {currentPayment !== creditPayments.length - 1 && (
-                                <button
-                                    className='px-3 py-2  hover:bg-gray-100 dark:hover:bg-slate-700'
-                                    onClick={() => setCurrentPayment(currentPayment + 1)}
-                                >
-                                    <ChevronRight />
-                                </button>
+                            {payment !== creditPayments.length - 1 && (
+                                <ChevronRightBtn onClick={() => setPayment(payment + 1)} />
                             )}
                         </div>
                     </div>
-                    <ul className='py-2 '>
-                        {resultsCredit[creditPayments[currentPayment]].map((division, index) => (
+                    <ul className='py-2 animate-fade' key={creditPayments[payment]}>
+                        {memoizedResultsCredit[creditPayments[payment]].map((division, index) => (
                             <DivisionListItem key={index} division={division} />
                         ))}
                     </ul>
