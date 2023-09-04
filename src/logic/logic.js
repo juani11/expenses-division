@@ -158,7 +158,7 @@ const calculateFinalResult = (persons, expenses) => {
 }
 
 const add = ({ totalsPerPayment, totalPerPayment, paymentKey, person }) => {
-    // TODO: Buscar en el array del mes (totalsPerMonth[paymentKey]) si ya existe la persona, si ya existe se suma a lo que ya tiene
+    // Buscar en el array del mes (totalsPerMonth[paymentKey]) si ya existe la persona, si ya existe se suma a lo que ya tiene
     const personPaymentIndex = totalsPerPayment[paymentKey].findIndex(
         personPayment => personPayment.person.id === person.id
     )
@@ -177,8 +177,6 @@ const groupTotalPerPaymentByMonth = ({ creditTypeInfo, totalsPerPayment, person,
     const { initialMonth, initialYear, cantPayments } = creditTypeInfo
 
     const paymentDate = currentDate(initialYear, initialMonth)
-
-    console.log(paymentDate)
 
     for (let i = 1; i <= cantPayments; i++) {
         const paymentKey = generatePaymentKey(paymentDate)
@@ -200,10 +198,9 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, expenses) => 
 
     const totalsPerPayment = {}
     persons?.forEach(person => {
-        let totalPerPayment = 0
-
         paymentsExpenses.forEach(expense => {
             const { person: owner, includedPersons, amount, creditTypeInfo } = expense
+            let totalPerPayment = 0
 
             const amountPerpayment = amount / creditTypeInfo.cantPayments
 
