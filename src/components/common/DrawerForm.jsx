@@ -1,19 +1,21 @@
 import { useEffect } from 'react'
 import CloseSVG from '../svg/CloseSVG'
+import Button from './Button'
 
-const Drawer = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, children, withFooter }) => {
+const DrawerForm = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, children }) => {
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : 'auto'
     }, [isOpen])
+
     return (
         <>
             <div
-                className={`fixed top-0 right-0 z-40 h-full p-4 overflow-y-scroll transition-transform bg-white w-full md:w-[654px] dark:bg-gray-800  ${
-                    isOpen ? 'translate-x-0 shadow-2xl' : 'translate-x-full'
+                className={`fixed top-0 right-0 z-40 h-full p-4 overflow-y-scroll transition-transform bg-white w-full  md:w-[654px] dark:bg-gray-800  ${
+                    isOpen ? 'translate-x-0 shadow-xl' : 'translate-x-full'
                 }`}
             >
                 <header className='flex justify-between items-center'>
-                    <h2 className='py-4 uppercase m-0 '>{title}</h2>
+                    <h2 className='uppercase m-0 p-4'>{title}</h2>
                     <button
                         type='button'
                         data-drawer-hide='drawer-example'
@@ -26,10 +28,21 @@ const Drawer = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, childre
                     </button>
                 </header>
                 <hr />
-                <div className='grid grid-rows-[300px_1fr] gap-5 px-10 '>{children}</div>
+
+                <form onSubmit={callback}>
+                    {children}
+                    <footer className='flex gap-4 justify-end mt-7 p-4'>
+                        <Button type='button' onClick={closeDrawer} width='w-full'>
+                            cancelar
+                        </Button>{' '}
+                        <Button loading={drawerIsLoading} color='primary' width='w-full'>
+                            aceptar
+                        </Button>
+                    </footer>
+                </form>
             </div>
         </>
     )
 }
 
-export default Drawer
+export default DrawerForm
