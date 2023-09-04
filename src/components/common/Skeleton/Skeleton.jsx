@@ -10,7 +10,7 @@ const skeletonTypes = {
 
 const Skeleton = ({ type }) => {
     const classes = skeletonTypes[type]
-    return <div className={`my-2 bg-gray-200 ${classes}`}></div>
+    return <div className={`my-2 bg-gray-200 dark:bg-slate-800 ${classes}`}></div>
 }
 
 export default Skeleton

@@ -7,8 +7,8 @@ const Input = ({ label, addOnBefore, width, className = '', controlledProps, err
             <div className={`flex items-center`}>
                 {addOnBefore ? (
                     <>
-                        <div className='outline-none rounded-tl rounded-bl  h-14 p-0.5  font-bold text-center text-2xl text-slate-400 border-l border-t border-b border-gray-200   w-2/6 dark:bg-slate-500'>
-                            <div className='bg-gray-100 flex items-center justify-center h-full rounded'>
+                        <div className='outline-none rounded-tl rounded-bl  h-14 p-0.5  font-bold text-center text-2xl text-slate-400 border-l border-t border-b border-gray-200   w-2/6 dark:bg-slate-700 dark:border-slate-700'>
+                            <div className='bg-gray-100 flex items-center justify-center h-full rounded dark:bg-slate-700 '>
                                 {addOnBefore}
                             </div>
                         </div>

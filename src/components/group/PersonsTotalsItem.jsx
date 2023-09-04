@@ -15,7 +15,7 @@ const PersonTotalItem = ({ personTotal, nameOfPerson, totalAmountExpenses }) => 
                 <h6 className='m-0'>{cantExpensesText}</h6>
             </div>
             <div className='m-auto flex gap-2 items-center '>
-                <div className={`bg-gray-200 rounded-lg h-4 w-full`}>
+                <div className={`bg-gray-200 rounded-lg h-4 w-full dark:bg-slate-700`}>
                     <div
                         className='bg-primary rounded-lg h-4'
                         style={{ width: `${personRoundedAmountPercentage}%` }}
