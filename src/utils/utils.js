@@ -15,6 +15,14 @@ const toFloat = num => {
     return parseFloat(fixedNum)
 }
 
+const floorNumber = number => {
+    const flooredNumber = Math.floor(number * 100)
+
+    const formattedNumber = flooredNumber / 100
+
+    return formattedNumber
+}
+
 const getPercentage = (number, total) => (number * 100) / total
 
 const roundedNumber = number => Math.round(number)
@@ -67,5 +75,6 @@ export {
     relativeDate,
     currentDate,
     generatePaymentKey,
-    translatePaymentKey
+    translatePaymentKey,
+    floorNumber
 }

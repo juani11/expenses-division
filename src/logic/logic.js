@@ -1,6 +1,6 @@
 // import dayjs from 'dayjs'
 import { CASH, CREDIT } from '../constants'
-import { currentDate, generatePaymentKey, toFloat } from '../utils/utils'
+import { currentDate, floorNumber, generatePaymentKey, toFloat } from '../utils/utils'
 
 const personIsIncludedInExpense = (person, includedPersons) => {
     return includedPersons.includes(person)
@@ -166,7 +166,7 @@ const add = ({ totalsPerPayment, totalPerPayment, paymentKey, person }) => {
     if (personPaymentIndex !== -1) {
         // Si la persona existe
         const personPayment = totalsPerPayment[paymentKey][personPaymentIndex]
-        personPayment.amount = toFloat(personPayment.amount + totalPerPayment)
+        personPayment.amount = floorNumber(personPayment.amount + totalPerPayment)
         totalsPerPayment[paymentKey][personPaymentIndex] = personPayment
     } else {
         // Si no existe la agrego
@@ -207,11 +207,11 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, expenses) => 
             // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
             if (personIsIncludedInExpense(person.id, includedPersons)) {
                 // total por cada cuota
-                totalPerPayment = toFloat(amountPerpayment / includedPersons.length)
+                totalPerPayment = floorNumber(amountPerpayment / includedPersons.length)
             }
             // Si la persona actual es dueña del gasto actual resto el valor en la persona
             if (owner === person.id) {
-                totalPerPayment = toFloat(totalPerPayment - amountPerpayment)
+                totalPerPayment = floorNumber(totalPerPayment - amountPerpayment)
             }
 
             //  Guardar por cada mes el totalPerPayment
@@ -250,6 +250,7 @@ const calculateFinalResultPayments = (persons, expenses) => {
         amountOfMoneyToGiveAndReceivePerPersonPerPayment(persons, expenses)
 
     console.log({ amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment })
+
     const finalResults = {}
     Object.keys(amountsToGivePerPersonPerPayment).forEach(item => {
         const result = calculateDivisions(
