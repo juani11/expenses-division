@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import CloseSVG from '../svg/CloseSVG'
 import Button from './Button'
 
-const ModalDrawerForm = ({ title, isOpen, closeModal, modalIsLoading, callback, children }) => {
+const ModalDrawerForm = ({ title, isOpen, closeModal, isLoading, callback, children }) => {
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : 'auto'
     }, [isOpen])
@@ -32,7 +32,7 @@ const ModalDrawerForm = ({ title, isOpen, closeModal, modalIsLoading, callback, 
                         <Button type='button' onClick={closeModal} width='w-full'>
                             cancelar
                         </Button>{' '}
-                        <Button loading={modalIsLoading} color='primary' width='w-full'>
+                        <Button loading={isLoading} color='primary' width='w-full'>
                             aceptar
                         </Button>
                     </footer>
