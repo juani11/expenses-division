@@ -11,8 +11,8 @@ const RadioItem = ({ item, selectedValue, onClick, withCheckIcon, children }) =>
     return (
         <>
             <div
-                className={`border rounded cursor-pointer relative hover:bg-gray-50 dark:hover:bg-slate-600 dark:border-slate-700 
-                ${selectedValue === id && 'border-primary-500 dark:border-primary'}
+                className={`border rounded cursor-pointer relative hover:bg-gray-50 dark:hover:bg-slate-600 
+                ${selectedValue === id ? 'border-primary-500' : 'dark:border-slate-700 '}
                 `}
                 onClick={() => onClick(id)}
             >
