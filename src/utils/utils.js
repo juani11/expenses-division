@@ -1,5 +1,10 @@
 import dayjs from 'dayjs'
 import { MONTHS } from '../constants'
+import 'dayjs/locale/es-us'
+
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+dayjs.locale('es-us')
 
 const currencyFormat = num => (num ? num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : '0')
 
@@ -23,7 +28,8 @@ const getRoundedPercentage = (number, total) => {
     return roundedPercentage
 }
 
-const formatedDate = date => dayjs(date).format('DD MMM. YYYY,  HH:mm A')
+const formatedDate = date => dayjs(date).format('D MMM. YYYY,  HH:mm A')
+const relativeDate = date => dayjs().from(dayjs(date), true)
 
 const currentDate = (year, month) => {
     const monthIndex = month - 1
@@ -58,6 +64,7 @@ export {
     getRoundedPercentage,
     roundedNumber,
     formatedDate,
+    relativeDate,
     currentDate,
     generatePaymentKey,
     translatePaymentKey

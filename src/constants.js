@@ -78,4 +78,12 @@ const MONTHS = [
     DECEMBER
 ]
 
-export { CASH, CREDIT, MONTHS }
+// Persons menu items
+const PERSONS_LIST = 'listado'
+const PERSONS_TOTALS = 'totales'
+
+// Divisions menu items
+const DIVISIONS_CASH = 'efectivo'
+const DIVISIONS_CREDIT = 'crédito'
+
+export { CASH, CREDIT, MONTHS, PERSONS_LIST, PERSONS_TOTALS, DIVISIONS_CASH, DIVISIONS_CREDIT }

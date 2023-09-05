@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .ms-0 {
+        margin-inline-start: 0%;
+    }
+    .ms-50 {
+        margin-inline-start: 50%;
+    }
+}
+
 h1 {
     display: block;
     font-size: 2em;
