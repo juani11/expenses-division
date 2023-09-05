@@ -2,10 +2,10 @@ import { FormProvider, useForm } from 'react-hook-form'
 import useModal from '../../hooks/useModal'
 import { useGroupStore } from '../../store/store'
 import Button from '../common/Button'
-import ModalForm from '../common/ModalForm'
 import AddExpenseFormContent from './AddExpenseFormContent'
 import { createExpense } from '../../services/services'
 import { CREDIT } from '../../constants'
+import ModalDrawerForm from '../common/ModalDrawerForm'
 
 const AddExpense = () => {
     const addExpense = useGroupStore(state => state.addExpense)
@@ -61,7 +61,7 @@ const AddExpense = () => {
             <Button onClick={openModal}>añadir gasto</Button>
 
             <FormProvider {...methods}>
-                <ModalForm
+                <ModalDrawerForm
                     title='Nuevo gasto'
                     isOpen={modalIsOpen}
                     closeModal={closeModal}
@@ -69,7 +69,7 @@ const AddExpense = () => {
                     callback={methods.handleSubmit(onSubmit)}
                 >
                     <AddExpenseFormContent />
-                </ModalForm>
+                </ModalDrawerForm>
             </FormProvider>
         </>
     )

@@ -1,52 +1,62 @@
-import useModal from '../../hooks/useModal'
 import { INCLUDE, useGroupStore } from '../../store/store'
-import { currencyFormat, formatedDate, toFloat } from '../../utils/utils'
-import Avatar from '../common/Avatar'
+import { formatedDate } from '../../utils/utils'
 
-import MenuSVG from '../svg/MenuSVG'
-import Modal from './../common/Modal'
+import { CREDIT } from '../../constants'
+import ModalDrawer from '../common/ModalDrawer'
+import Tag from '../common/Tag'
 import PieChartSVG from './../svg/PieChartSVG'
+import CashTypeDetail from './CashTypeDetail'
+import CreditTypeDetail from './CreditTypeDetail'
 import ExcludedPersons from './ExcludedPersons'
 import ExpenseCost from './ExpenseCost'
 import IncludedPersons from './IncludedPersons'
+
+const TypeDetail = ({ type, creditTypeInfo }) => {
+    return type === CREDIT ? <CreditTypeDetail creditInfo={creditTypeInfo} /> : <CashTypeDetail />
+}
 
 const PaidBy = ({ personId }) => {
     const personName = useGroupStore(state => state.personName)
 
     return (
-        <div className='text-white text-sm font-bold rounded py-0.5 px-2 bg-primary-500 '>
-            <span>Pagado por </span>
-            <span className='uppercase'>{personName(personId)}</span>
-        </div>
+        <Tag>
+            Pagado por
+            <span className='uppercase '>{personName(personId)}</span>
+        </Tag>
     )
 }
 
-const BasicInformation = ({ personId, name, date, amount }) => {
+const BasicInformation = ({ personId, name, date, amount, type, creditTypeInfo }) => {
     return (
-        <div className='flex gap-28 mt-10 mb-4'>
+        <div className='flex items-center'>
             <div className='flex flex-col items-start'>
-                <h3 className='capitalize  underline text-2xl m-0'>{name}</h3>
+                <h3 className='capitalize underline text-2xl m-0'>{name}</h3>
                 <div className='mt-3 flex flex-col gap-2'>
                     <ExpenseCost cost={amount} />
                 </div>
-                <span className='capitalize text-sm text-gray-700 mt-5'>{formatedDate(date)}</span>
+                <span className='text-lg capitalize text-gray-700 mt-3 dark:text-gray-200'>
+                    {formatedDate(date)}
+                </span>
+                <div className='mt-3 mb-3'>
+                    <PaidBy personId={personId} />
+                </div>
+                <div className='flex flex-wrap gap-2 items-center'>
+                    <TypeDetail type={type} creditTypeInfo={creditTypeInfo} />
+                </div>
             </div>
-            <div className='flex flex-col gap-2 items-center'>
-                <PieChartSVG width={150} height={120} />
-                <PaidBy personId={personId} />
+            <div className='flex flex-col gap-2 items-center ml-auto '>
+                <PieChartSVG width={120} height={200} />
             </div>
         </div>
     )
 }
 
-const ViewDetailExpense = ({ expense }) => {
-    const { id, person, name, date, amount, includedPersons } = expense
+const ViewDetailExpense = ({ expense, modalIsOpen, closeModal }) => {
+    const { id, person, name, date, amount, includedPersons, type, creditTypeInfo } = expense
 
     const excludedPersonsInExpense = useGroupStore(state => state.excludedPersonsInExpense)
 
-    const costPerPerson = currencyFormat(toFloat(amount / includedPersons.length))
-
-    const { openModal, closeModal, modalIsOpen, modalIsLoading } = useModal()
+    const costPerPerson = amount / includedPersons.length
 
     const excludedPersons = excludedPersonsInExpense(id)
 
@@ -60,29 +70,25 @@ const ViewDetailExpense = ({ expense }) => {
     }
 
     return (
-        <>
-            <Avatar size={'xs'} onClick={openModal}>
-                <MenuSVG width={18} height={18} />
-            </Avatar>
-
-            <Modal
-                title='Información del gasto'
-                isOpen={modalIsOpen}
-                closeModal={closeModal}
-                isLoading={modalIsLoading}
-                closable
-            >
-                <BasicInformation personId={person} name={name} date={date} amount={amount} />
-
-                <IncludedPersons
-                    persons={includedPersons}
-                    costPerPerson={costPerPerson}
-                    expenseId={id}
-                    callback={handleClick}
-                />
-                <ExcludedPersons persons={excludedPersons} expenseId={id} callback={handleClick} />
-            </Modal>
-        </>
+        <ModalDrawer title='Información del gasto' isOpen={modalIsOpen} closeModal={closeModal}>
+            <BasicInformation
+                personId={person}
+                name={name}
+                date={date}
+                amount={amount}
+                type={type}
+                creditTypeInfo={creditTypeInfo}
+            />
+            <IncludedPersons
+                persons={includedPersons}
+                costPerPerson={costPerPerson}
+                expenseId={id}
+                callback={handleClick}
+                type={type}
+                creditTypeInfo={creditTypeInfo}
+            />
+            <ExcludedPersons persons={excludedPersons} expenseId={id} callback={handleClick} />
+        </ModalDrawer>
     )
 }
 
