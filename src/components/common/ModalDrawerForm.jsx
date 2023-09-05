@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import CloseSVG from '../svg/CloseSVG'
 import Button from './Button'
 
-const DrawerForm = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, children }) => {
+const ModalDrawerForm = ({ title, isOpen, closeModal, modalIsLoading, callback, children }) => {
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : 'auto'
     }, [isOpen])
@@ -18,13 +18,10 @@ const DrawerForm = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, chi
                     <h2 className='uppercase m-0 p-4'>{title}</h2>
                     <button
                         type='button'
-                        data-drawer-hide='drawer-example'
-                        aria-controls='drawer-example'
                         className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5  items-center dark:hover:bg-gray-600 dark:hover:text-white'
-                        onClick={closeDrawer}
+                        onClick={closeModal}
                     >
                         <CloseSVG color='black' />
-                        <span className='sr-only'>Close menu</span>
                     </button>
                 </header>
                 <hr />
@@ -32,10 +29,10 @@ const DrawerForm = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, chi
                 <form onSubmit={callback}>
                     {children}
                     <footer className='flex gap-4 justify-end mt-7 p-4'>
-                        <Button type='button' onClick={closeDrawer} width='w-full'>
+                        <Button type='button' onClick={closeModal} width='w-full'>
                             cancelar
                         </Button>{' '}
-                        <Button loading={drawerIsLoading} color='primary' width='w-full'>
+                        <Button loading={modalIsLoading} color='primary' width='w-full'>
                             aceptar
                         </Button>
                     </footer>
@@ -45,4 +42,4 @@ const DrawerForm = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, chi
     )
 }
 
-export default DrawerForm
+export default ModalDrawerForm

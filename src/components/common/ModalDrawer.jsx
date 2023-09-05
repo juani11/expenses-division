@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import CloseSVG from '../svg/CloseSVG'
 
-const Drawer = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, children, withFooter }) => {
+const ModalDrawer = ({ title, isOpen, closeModal, children }) => {
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : 'auto'
     }, [isOpen])
@@ -16,20 +16,17 @@ const Drawer = ({ title, isOpen, closeDrawer, drawerIsLoading, callback, childre
                     <h2 className='py-4 uppercase m-0 '>{title}</h2>
                     <button
                         type='button'
-                        data-drawer-hide='drawer-example'
-                        aria-controls='drawer-example'
                         className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5  items-center dark:hover:bg-gray-600 dark:hover:text-white'
-                        onClick={closeDrawer}
+                        onClick={closeModal}
                     >
                         <CloseSVG color='black' />
-                        <span className='sr-only'>Close menu</span>
                     </button>
                 </header>
                 <hr />
-                <div className='grid grid-rows-[300px_1fr] gap-5 px-10 '>{children}</div>
+                <div className='grid grid-rows-[300px_1fr] gap-5 px-10'>{children}</div>
             </div>
         </>
     )
 }
 
-export default Drawer
+export default ModalDrawer
