@@ -1,5 +1,5 @@
-import { currencyFormat } from '../../utils/utils'
-import Avatar from '../common/Avatar'
+import { currencyFormat } from '../../../utils/utils'
+import Avatar from '../../common/Avatar'
 
 const totals = [
     {

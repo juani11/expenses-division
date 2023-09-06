@@ -1,8 +1,8 @@
 import Chart from 'react-apexcharts'
 import { useEffect, useState } from 'react'
-import { currencyFormat } from '../../utils/utils'
-import { cantOfOwnExpensesPerPerson } from '../../logic/logic'
-import { useGroupStore } from '../../store/store'
+import { currencyFormat } from '../../../utils/utils'
+import { cantOfOwnExpensesPerPerson } from '../../../logic/logic'
+import { useGroupStore } from '../../../store/store'
 
 const chartOptions = {
     chart: {
