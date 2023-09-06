@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useRoute } from 'wouter'
-import Divisions from '../components/group/Divisions'
+import Divisions from '../components/group/divisions/Divisions'
 import GroupHeader from '../components/group/GroupHeader'
-import Persons from '../components/group/Persons'
+import Persons from '../components/group/persons/Persons'
 import { useGroupStore } from '../store/store'
-import Expenses from './../components/group/Expenses'
+import Expenses from '../components/group/expenses/Expenses'
 
 const Group = () => {
     const [, params] = useRoute('/group/:id')
