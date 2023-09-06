@@ -59,7 +59,7 @@ const CreditPaymentDateOptions = ({ dateType, selectedValue, onClick }) => {
 }
 
 export const CreditMonthSelection = ({ control }) => {
-    const [monthFirstPayment, setMonthFirstPayment] = useState(7)
+    const [monthFirstPayment, setMonthFirstPayment] = useState(null)
 
     // // control by react hook form
     const { field, fieldState } = useController({
@@ -89,7 +89,7 @@ export const CreditMonthSelection = ({ control }) => {
 }
 
 export const CreditYearSelection = ({ control }) => {
-    const [yearFirstPayment, setYearFirstPayment] = useState(2023)
+    const [yearFirstPayment, setYearFirstPayment] = useState(null)
 
     // // control by react hook form
     const { field, fieldState } = useController({

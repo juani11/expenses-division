@@ -28,13 +28,13 @@ const Modal = ({ isOpen, closeModal, title, callback, closable, withFooter, chil
                 )} */}
                 <div className='flex justify-between items-center gap-20'>
                     <h2 className='uppercase'>{title}</h2>
-                    {closable && (
+                    {
                         <div>
                             <Button onClick={closeModal}>
                                 <CloseSVG />
                             </Button>
                         </div>
-                    )}
+                    }
                 </div>
                 <hr />
                 <div>

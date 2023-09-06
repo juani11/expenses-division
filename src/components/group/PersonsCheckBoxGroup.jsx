@@ -41,26 +41,28 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
         <div className='flex flex-col'>
             <Label>Personas a incluir en el gasto</Label>
 
-            <CheckBox label='TODOS' checked={checkAll} onChange={onCheckAllChange} />
-            <hr className='dark:border-t-slate-700' />
-            {persons.map(person => {
-                const { id, name } = person
+            <div className='mx-4'>
+                <CheckBox label='TODOS' checked={checkAll} onChange={onCheckAllChange} />
+                <hr className='dark:border-t-slate-700' />
+                {persons.map(person => {
+                    const { id, name } = person
 
-                const personChecked = personIsChecked(id)
+                    const personChecked = personIsChecked(id)
 
-                return (
-                    <div key={id} className='flex justify-between items-center capitalize '>
-                        <CheckBox
-                            label={name}
-                            checked={personChecked ?? false}
-                            value={id}
-                            onChange={onCheckBoxChange}
-                        />
+                    return (
+                        <div key={id} className='flex justify-between items-center capitalize '>
+                            <CheckBox
+                                label={name}
+                                checked={personChecked ?? false}
+                                value={id}
+                                onChange={onCheckBoxChange}
+                            />
 
-                        {personChecked && <p className='m-0 text-xl'>$ {amountPerCheckedPerson}</p>}
-                    </div>
-                )
-            })}
+                            {personChecked && <p className='m-0 text-xl'>$ {amountPerCheckedPerson}</p>}
+                        </div>
+                    )
+                })}
+            </div>
             {error && <p className='text-red-500 '>{error.message}</p>}
         </div>
     )

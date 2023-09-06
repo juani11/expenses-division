@@ -1,7 +1,7 @@
 import ChevronLeft from '../../svg/ChevronLeft'
 import ChevronRight from '../../svg/ChevronRight'
 
-const className = 'px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-slate-700'
+const className = 'px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-slate-700'
 
 export const ChevronLeftBtn = ({ onClick }) => {
     return (

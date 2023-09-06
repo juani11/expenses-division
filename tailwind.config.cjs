@@ -17,7 +17,7 @@ module.exports = {
                     500: '#6b7280'
                 },
 
-                avatar1: '#BCF8EC',
+                avatar1: '#ff6c63',
                 avatar2: '#36213E',
                 avatar3: '#039BE5',
                 avatar4: '#FF595E',

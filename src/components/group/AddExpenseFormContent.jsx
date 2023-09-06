@@ -18,8 +18,8 @@ const AddExpenseFormContent = () => {
     const amount = watch('amount')
 
     return (
-        <>
-            <div className='flex gap-4 p-4 h-32'>
+        <div>
+            <div className='flex gap-4 p-4 h-32 mt-10'>
                 <Input
                     label='Nombre del gasto'
                     width='w-3/5'
@@ -57,7 +57,7 @@ const AddExpenseFormContent = () => {
                 <ExpenseType control={control} />
             </div>
 
-            <div className='p-4 +'>
+            <div className='p-4'>
                 <PersonsCheckBoxGroup
                     persons={persons ?? []}
                     control={control}
@@ -65,7 +65,7 @@ const AddExpenseFormContent = () => {
                     amount={amount}
                 />
             </div>
-        </>
+        </div>
     )
 }
 

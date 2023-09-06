@@ -17,7 +17,19 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
                 <Avatar color='primary'>{groupName?.charAt(0).toUpperCase()}</Avatar>
                 <div className='flex flex-col items-start gap-2'>
                     <h2 className='m-0 capitalize'>{groupName}</h2>
-                    {/* <Button size='xs'>Editar</Button> */}
+                    {/* <Button size='xs' onClick={openModal}>
+                        Editar
+                    </Button>
+                    <FormProvider {...methods}>
+                        <ModalDrawerForm
+                            title='Nuevo gasto'
+                            isOpen={modalIsOpen}
+                            closeModal={closeModal}
+                            modalIsLoading={modalIsLoading}
+                        >
+                            <AddExpenseFormContent />
+                        </ModalDrawerForm>
+                    </FormProvider> */}
                 </div>
             </div>
 

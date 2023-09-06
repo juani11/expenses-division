@@ -23,7 +23,7 @@ const PersonTotalItem = ({ personTotal, nameOfPerson, totalAmountExpenses }) => 
                 </div>
             </div>
             <div className='flex justify-end'>
-                <h3 className='m-0'>{currencyFormat(amount ?? 0)}</h3>
+                <h3 className='m-0'>${currencyFormat(amount ?? 0)}</h3>
             </div>
         </li>
     )

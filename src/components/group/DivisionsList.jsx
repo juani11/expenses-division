@@ -43,7 +43,7 @@ const DivisionsList = () => {
     const results = calculateFinalResult(persons, expenses)
 
     return (
-        <Card>
+        <Card className='animate-fade'>
             {results.length === 0 ? (
                 <EmptyDivisionsList />
             ) : (
