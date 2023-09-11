@@ -13,7 +13,7 @@ const CreditTypeDetail = ({ creditInfo }) => {
     const yearTo = paymentDate.getUTCFullYear()
 
     return (
-        <div className='flex flex-wrap gap-2 items-center my-3'>
+        <div className='flex flex-wrap gap-2 items-center '>
             <Tag>
                 <CreditCardSVG width='w-5' height='h-5' /> Crédito
             </Tag>

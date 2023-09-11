@@ -6,15 +6,13 @@ const personIsIncludedInExpense = (person, includedPersons) => {
     return includedPersons.includes(person)
 }
 
-const amountOfMoneyToGiveAndReceivePerPerson = (persons, expenses) => {
-    const cashEpenses = expenses.filter(expense => expense.type === CASH)
-
+const amountOfMoneyToGiveAndReceivePerPerson = (persons, cashExpenses) => {
     let amountsToGivePerPerson = []
     let amountsToReceivePerPerson = []
 
     persons?.forEach(person => {
         let total = 0
-        cashEpenses.forEach(expense => {
+        cashExpenses.forEach(expense => {
             const { amount, person: owner, includedPersons } = expense
 
             // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
@@ -143,9 +141,11 @@ const cantExpensesInWhichEachPersonIsIncluded = expenses => {
 }
 
 const calculateFinalResult = (persons, expenses) => {
+    const cashExpenses = expenses.filter(expense => expense.type === CASH)
+
     const { amountsToGivePerPerson, amountsToReceivePerPerson } = amountOfMoneyToGiveAndReceivePerPerson(
         persons,
-        expenses
+        cashExpenses
     )
 
     console.log('amountsToGivePerPerson', amountsToGivePerPerson)
@@ -190,23 +190,23 @@ const groupTotalPerPaymentByMonth = ({ creditTypeInfo, totalsPerPayment, person,
     }
 }
 
-//  Prueba de calculo de division de gastos para gastos que son del tipo "en cuotas"
-const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, expenses) => {
-    const paymentsExpenses = expenses.filter(expense => expense.type === CREDIT)
+//  Calculo de division de gastos para gastos que son del tipo "CREDITO"
+const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpenses) => {
     const amountsToGivePerPersonPerPayment = {}
     const amountsToReceivePerPersonPerPayment = {}
 
     const totalsPerPayment = {}
     persons?.forEach(person => {
-        paymentsExpenses.forEach(expense => {
+        creditExpenses.forEach(expense => {
             const { person: owner, includedPersons, amount, creditTypeInfo } = expense
+
+            // Total por cada cuota
             let totalPerPayment = 0
 
             const amountPerpayment = amount / creditTypeInfo.cantPayments
 
             // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
             if (personIsIncludedInExpense(person.id, includedPersons)) {
-                // total por cada cuota
                 totalPerPayment = floorNumber(amountPerpayment / includedPersons.length)
             }
             // Si la persona actual es dueña del gasto actual resto el valor en la persona
@@ -245,9 +245,11 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, expenses) => 
     return { amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment }
 }
 
-const calculateFinalResultPayments = (persons, expenses) => {
+const calculateFinalResultCredit = (persons, expenses) => {
+    const creditExpenses = expenses.filter(expense => expense.type === CREDIT)
+
     const { amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment } =
-        amountOfMoneyToGiveAndReceivePerPersonPerPayment(persons, expenses)
+        amountOfMoneyToGiveAndReceivePerPersonPerPayment(persons, creditExpenses)
 
     console.log({ amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment })
 
@@ -266,7 +268,7 @@ const calculateFinalResultPayments = (persons, expenses) => {
 
 export {
     calculateFinalResult,
-    calculateFinalResultPayments,
+    calculateFinalResultCredit,
     cantExpensesInWhichEachPersonIsIncluded,
     cantOfOwnExpensesPerPerson,
     totalAmountOfExpenses
