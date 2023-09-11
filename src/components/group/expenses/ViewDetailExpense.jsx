@@ -26,27 +26,19 @@ const PaidBy = ({ personId }) => {
     )
 }
 
-const BasicInformation = ({ personId, name, date, amount, type, creditTypeInfo }) => {
+const ExpenseName = ({ name }) => {
+    return <h3 className='capitalize underline text-2xl m-0'>{name}</h3>
+}
+
+const ExpenseDate = ({ date }) => {
+    return <span className='text-lg capitalize text-gray-700 dark:text-gray-200'>{formatedDate(date)}</span>
+}
+
+const BasicInformation = ({ children }) => {
     return (
-        <div className='flex items-center'>
-            <div className='flex flex-col items-start'>
-                <h3 className='capitalize underline text-2xl m-0'>{name}</h3>
-                <div className='mt-3 flex flex-col gap-2'>
-                    <ExpenseCost cost={amount} />
-                </div>
-                <span className='text-lg capitalize text-gray-700 mt-3 dark:text-gray-200'>
-                    {formatedDate(date)}
-                </span>
-                <div className='mt-3 mb-3'>
-                    <PaidBy personId={personId} />
-                </div>
-                <div className='flex flex-wrap gap-2 items-center'>
-                    <TypeDetail type={type} creditTypeInfo={creditTypeInfo} />
-                </div>
-            </div>
-            <div className='flex flex-col gap-2 items-center ml-auto '>
-                <PieChartSVG width={120} height={200} />
-            </div>
+        <div className='flex items-center justify-between'>
+            <div className='flex flex-col items-start gap-3'>{children}</div>
+            <PieChartSVG width={120} height={200} />
         </div>
     )
 }
@@ -71,14 +63,13 @@ const ViewDetailExpense = ({ expense, modalIsOpen, closeModal }) => {
 
     return (
         <ModalDrawer title='Información del gasto' isOpen={modalIsOpen} closeModal={closeModal}>
-            <BasicInformation
-                personId={person}
-                name={name}
-                date={date}
-                amount={amount}
-                type={type}
-                creditTypeInfo={creditTypeInfo}
-            />
+            <BasicInformation>
+                <ExpenseName name={name} />
+                <ExpenseCost cost={amount} />
+                <ExpenseDate date={date} />
+                <PaidBy personId={person} />
+                <TypeDetail type={type} creditTypeInfo={creditTypeInfo} />
+            </BasicInformation>
             <IncludedPersons
                 persons={includedPersons}
                 costPerPerson={costPerPerson}
