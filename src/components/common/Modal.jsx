@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import Avatar from './Avatar'
+import { CloseIcon } from '../icons/icons'
 import Button from './Button'
-import CloseSVG from './../svg/CloseSVG'
 const Modal = ({ isOpen, closeModal, title, callback, closable, withFooter, children }) => {
     const [isLoading, setIsLoading] = useState(false)
     const handleClick = () => {
@@ -31,7 +30,7 @@ const Modal = ({ isOpen, closeModal, title, callback, closable, withFooter, chil
                     {
                         <div>
                             <Button onClick={closeModal}>
-                                <CloseSVG />
+                                <CloseIcon />
                             </Button>
                         </div>
                     }

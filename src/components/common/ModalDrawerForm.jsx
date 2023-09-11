@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import CloseSVG from '../svg/CloseSVG'
+import { CloseIcon } from '../icons/icons'
 import Button from './Button'
 
 const ModalDrawerForm = ({ title, isOpen, closeModal, isLoading, callback, children }) => {
@@ -21,7 +21,7 @@ const ModalDrawerForm = ({ title, isOpen, closeModal, isLoading, callback, child
                         className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5  items-center dark:hover:bg-gray-600 dark:hover:text-white'
                         onClick={closeModal}
                     >
-                        <CloseSVG color='black' />
+                        <CloseIcon color='black' />
                     </button>
                 </header>
                 <hr />

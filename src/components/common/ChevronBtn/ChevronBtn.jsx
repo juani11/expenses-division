@@ -1,12 +1,11 @@
-import ChevronLeft from '../../svg/ChevronLeft'
-import ChevronRight from '../../svg/ChevronRight'
+import { ChevronLeftIcon, ChevronRightIcon } from '../../icons/icons'
 
 const className = 'px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-slate-700'
 
 export const ChevronLeftBtn = ({ onClick }) => {
     return (
         <button className={className} onClick={onClick}>
-            <ChevronLeft />
+            <ChevronLeftIcon />
         </button>
     )
 }
@@ -14,7 +13,7 @@ export const ChevronLeftBtn = ({ onClick }) => {
 export const ChevronRightBtn = ({ onClick }) => {
     return (
         <button className={className} onClick={onClick}>
-            <ChevronRight />
+            <ChevronRightIcon />
         </button>
     )
 }

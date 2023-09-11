@@ -1,6 +1,6 @@
 import { useLocation } from 'wouter'
 import Button from '../components/common/Button'
-import PeopleFunSVG from './../components/svg/PeopleFunSVG'
+import { PeopleFunIllustration } from '../components/illustrations/Illustrations'
 
 function Index() {
     const [, setLocation] = useLocation()
@@ -8,7 +8,7 @@ function Index() {
     return (
         <div className='h-screen '>
             <div className='flex flex-col justify-center items-center gap-10 h-full text-center w-[90%] mx-auto'>
-                <PeopleFunSVG width={300} height={250} />
+                <PeopleFunIllustration width={300} height={250} />
                 <div className='realtive text-3xl md:text-4xl dark:text-white '>
                     Organizá y dividí los gastos de la juntada
                 </div>

@@ -1,7 +1,7 @@
 import { MONTHS } from '../../../constants'
 import { currentDate } from '../../../utils/utils'
 import Tag from '../../common/Tag'
-import CreditCardSVG from '../../svg/CreditCardSVG'
+import { CreditCardIcon } from '../../icons/icons'
 
 const CreditTypeDetail = ({ creditInfo }) => {
     const { cantPayments, initialYear, initialMonth } = creditInfo
@@ -15,7 +15,7 @@ const CreditTypeDetail = ({ creditInfo }) => {
     return (
         <div className='flex flex-wrap gap-2 items-center '>
             <Tag>
-                <CreditCardSVG width='w-5' height='h-5' /> Crédito
+                <CreditCardIcon width='w-5' height='h-5' /> Crédito
             </Tag>
             <Tag> {cantPayments === 1 ? `${cantPayments} Cuota` : `${cantPayments} Cuotas`}</Tag>
             <Tag>

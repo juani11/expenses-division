@@ -1,21 +1,20 @@
 import { CASH, CREDIT } from '../../../constants'
 import Label from '../../common/Label'
 import RadioItem from '../../common/RadioItem'
-import CashSVG from '../../svg/CashSVG'
-import CreditCardSVG from '../../svg/CreditCardSVG'
+import { CashIcon, CreditCardIcon } from '../../icons/icons'
 
 const radioItems = [
     {
         id: CASH,
         value: 'Efectivo/Débito',
         description: 'Si ya pagaste por el gasto',
-        icon: <CashSVG width='w-5' height='h-5' />
+        icon: <CashIcon width='w-5' height='h-5' />
     },
     {
         id: CREDIT,
         value: 'Crédito',
         description: 'Si pagás en cuotas',
-        icon: <CreditCardSVG width='w-5' height='h-5' />
+        icon: <CreditCardIcon width='w-5' height='h-5' />
     }
 ]
 

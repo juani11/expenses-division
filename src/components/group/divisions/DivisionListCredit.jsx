@@ -3,16 +3,16 @@ import { calculateFinalResultCredit } from '../../../logic/logic'
 import { useGroupStore } from '../../../store/store'
 import Card from '../../common/Card'
 import MoneyAmount from '../../common/MoneyAmount'
-import ArrowSVG from '../../svg/ArrowSVG'
 
-import PeopleCoffeSVG from '../../svg/PeopleCofeeSVG'
 import { translatePaymentKey } from '../../../utils/utils'
 import { ChevronLeftBtn, ChevronRightBtn } from '../../common/ChevronBtn/chevronBtn'
+import { ArrowIcon } from '../../icons/icons'
+import { PeopleDivisionIllustration } from '../../illustrations/Illustrations'
 
 const EmptyDivisionsList = () => {
     return (
         <div className='flex flex-col justify-center items-center p-10'>
-            <PeopleCoffeSVG width={160} height={180} />
+            <PeopleDivisionIllustration width={160} height={180} />
             <h4 className='text-center'>Aún no hay divisiones con crédito...</h4>
             <p className='text-center'>
                 {' '}
@@ -31,7 +31,7 @@ const DivisionListItem = ({ division }) => {
                     <div className='flex flex-col gap-1'>
                         <h5 className='m-0 capitalize w-20 '>{personaFrom.name}</h5>
                         <div className='flex items-center gap-1'>
-                            <ArrowSVG />
+                            <ArrowIcon />
                             <h5 className='m-0 capitalize ml-auto text-gray-400'>{personaTo.name}</h5>
                         </div>
                     </div>

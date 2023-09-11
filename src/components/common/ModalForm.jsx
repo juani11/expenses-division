@@ -1,5 +1,3 @@
-// import CustomizationSVG from '../svg/CustomizationSVG'
-import { useEffect } from 'react'
 import Button from './Button'
 
 const ModalForm = ({ title, subtitle, isOpen, closeModal, isLoading, callback, children }) => {
@@ -15,9 +13,7 @@ const ModalForm = ({ title, subtitle, isOpen, closeModal, isLoading, callback, c
             >
                 <header className='flex justify-between'>
                     <h2 className='p-4 uppercase m-0 '>{title}</h2>
-                    {/* <CustomizationSVG width={150} height={150} /> */}
                 </header>
-                {/* {subtitle && <p className='max-w-xl p-4'>{subtitle}</p>} */}
                 <div className='mt-0 '>
                     <form onSubmit={callback}>
                         {children}

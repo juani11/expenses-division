@@ -1,10 +1,10 @@
-import CheckSVG from '../svg/CheckSVG'
-
 // ${
 //     selectedValue === name &&
 //     !withCheckIcon &&
 //     'bg-primary-500 text-white hover:bg-primary-500 '
 // }
+
+import { CheckIcon } from '../icons/icons'
 
 const RadioItem = ({ item, selectedValue, onClick, withCheckIcon, children }) => {
     const { id, description } = item
@@ -19,7 +19,7 @@ const RadioItem = ({ item, selectedValue, onClick, withCheckIcon, children }) =>
                 {children}
 
                 {selectedValue === id && withCheckIcon && (
-                    <CheckSVG className=' fill-primary absolute right-4 top-2' />
+                    <CheckIcon className=' fill-primary absolute right-4 top-2' />
                 )}
                 {description && <p className='text-xs pb-4 pl-4 ml-0.5 my-2 '>{description}</p>}
             </div>

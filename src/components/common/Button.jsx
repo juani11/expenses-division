@@ -1,4 +1,4 @@
-import LoadingSVG from '../svg/LoadingSVG'
+import { LoadingIcon } from '../icons/icons'
 
 const buttonSizes = {
     xxs: 'text-sm py-1 px-2',
@@ -43,7 +43,7 @@ const Button = ({
             className={`flex justify-center items-center rounded capitalize text-white font-bold ${loadingClassName} ${hoverClassName} ${buttonSize} ${width} ${className}`}
             {...props}
         >
-            {loading && <LoadingSVG />}
+            {loading && <LoadingIcon />}
             <div>{children}</div>
         </button>
     )

@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import ChevronDownSVG from '../svg/ChevronDownSVG'
+import { ChevronDownIcon, ChevronUpIcon } from '../icons/icons'
 import Label from './Label'
-import ChevronUpSVG from '../svg/ChevronUpSVG'
 
 const types = {
     sorter: {
@@ -42,7 +41,7 @@ const Select = ({ placeholder, selectedValue, isOpen, btnClasses }) => {
                 {selectedValue ?? placeholder}
             </span>
 
-            <span className='px-4'>{isOpen ? <ChevronUpSVG /> : <ChevronDownSVG />}</span>
+            <span className='px-4'>{isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
         </button>
     )
 }

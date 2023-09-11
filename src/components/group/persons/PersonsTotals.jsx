@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { cantOfOwnExpensesPerPerson, totalAmountOfExpenses } from '../../../logic/logic'
 import { useGroupStore } from '../../../store/store'
-import PercentageSVG from '../../svg/PercentageSVG'
-import SorterArrowsSVG from '../../svg/SorterArrowsSVG'
-import PersonTotalItem from './PersonsTotalsItem'
 import Card from '../../common/Card'
+import { SorterArrowsIcon } from '../../icons/icons'
+import { PercentageIllustration } from '../../illustrations/Illustrations'
+import PersonTotalItem from './PersonsTotalsItem'
 
 const SorterButton = ({ ascSort, handleClick }) => {
     return (
@@ -13,7 +13,7 @@ const SorterButton = ({ ascSort, handleClick }) => {
             onClick={handleClick}
         >
             {ascSort ? 'ASC' : 'DESC'}
-            <SorterArrowsSVG />
+            <SorterArrowsIcon />
         </button>
     )
 }
@@ -21,7 +21,7 @@ const SorterButton = ({ ascSort, handleClick }) => {
 const EmptyPersonsTotals = () => {
     return (
         <div className='flex flex-col justify-center items-center p-10'>
-            <PercentageSVG width={160} height={180} />
+            <PercentageIllustration width={160} height={180} />
             <h4 className='text-center'>Aún no hay ningún gasto...</h4>
             <p className='text-center'> Aquí verás los gastos totales por cada integrante</p>
         </div>

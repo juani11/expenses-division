@@ -2,11 +2,11 @@ import { deleteExpense } from '../../../services/services'
 import { useGroupStore } from '../../../store/store'
 import Avatar from '../../common/Avatar'
 import Tooltip from '../../common/Tooltip'
-import CloseSVG from '../../svg/CloseSVG'
+import { CloseIcon } from '../../icons/icons'
 
 const RemoveIcon = ({ onClick }) => (
     <Avatar size={'xs'} onClick={onClick}>
-        <CloseSVG width={22} height={22} color='black' />
+        <CloseIcon width={22} height={22} color='black' />
     </Avatar>
 )
 const RemoveExpense = ({ expenseName, expenseId }) => {

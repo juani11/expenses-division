@@ -4,11 +4,11 @@ import { formatedDate } from '../../../utils/utils'
 import { CREDIT } from '../../../constants'
 import ModalDrawer from '../../common/ModalDrawer'
 import Tag from '../../common/Tag'
-import PieChartSVG from '../../svg/PieChartSVG'
+import { PeopleExpenseIllustration } from '../../illustrations/Illustrations'
+import ExpenseCost from '../ExpenseCost'
 import CashTypeDetail from './CashTypeDetail'
 import CreditTypeDetail from './CreditTypeDetail'
 import ExcludedPersons from './ExcludedPersons'
-import ExpenseCost from '../ExpenseCost'
 import IncludedPersons from './IncludedPersons'
 
 const TypeDetail = ({ type, creditTypeInfo }) => {
@@ -38,7 +38,7 @@ const BasicInformation = ({ children }) => {
     return (
         <div className='flex items-center justify-between'>
             <div className='flex flex-col items-start gap-3'>{children}</div>
-            <PieChartSVG width={120} height={200} />
+            <PeopleExpenseIllustration width={120} height={200} />
         </div>
     )
 }
