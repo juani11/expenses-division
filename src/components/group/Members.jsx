@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import useNewGroupFormContext from '../../hooks/useNewGroupFormContext'
 import Input from '../Input'
 import Button from '../common/Button'
-import CloseSVG from '../svg/CloseSVG'
+import { CloseIcon } from '../icons/icons'
 
 const Member = ({ member, removeMember }) => {
     return (
@@ -10,7 +10,7 @@ const Member = ({ member, removeMember }) => {
             {member}
 
             <Button size='xxs' onClick={() => removeMember(member)}>
-                <CloseSVG width={20} height={20} />
+                <CloseIcon width={20} height={20} />
             </Button>
         </li>
     )

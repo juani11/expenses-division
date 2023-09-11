@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import TooltipTriangleSVG from './../svg/TooltipTriangleSVG'
+import { TooltipTriangleIcon } from '../icons/icons'
 import Button from './Button'
 
 const Tooltip = ({ title, callbackOnOk, component: Component }) => {
@@ -31,7 +31,7 @@ const Tooltip = ({ title, callbackOnOk, component: Component }) => {
 
             {show && (
                 <div className='z-20 -mt-20 w-64 absolute transition duration-150 ease-in-out left-5 ml-8 shadow-xl bg-white p-4 rounded dark:bg-slate-800 dark:border-slate-600 dark:border'>
-                    <TooltipTriangleSVG />
+                    <TooltipTriangleIcon />
                     <p className='text-md font-bold text-gray-800 pb-1 dark:text-white'>{title}</p>
                     <div className='flex justify-between mt-4'>
                         <Button size='sm' onClick={hideTooltip}>

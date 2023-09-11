@@ -1,7 +1,7 @@
 import NewGroupFormContent from '../components/group/NewGroupFormContent'
 import NewGroupHeader from '../components/group/NewGroupHeader'
-import ErrorSVG from '../components/svg/ErrorSVG'
-import PeopleSVG from '../components/svg/PeopleSVG'
+import { ErrorIcon } from '../components/icons/icons'
+import { PeopleIllustration } from '../components/illustrations/Illustrations'
 import NewGroupFormProvider from '../context/newGorupContext'
 import useNewGroupForm from '../hooks/useNewGroupForm'
 
@@ -22,13 +22,13 @@ const NewGroup = () => {
                         </NewGroupFormProvider>
                         {error && (
                             <p className='text-black flex justify-between gap-5 items-center border border-red-100 bg-red-100 p-4 text-lg rounded-lg'>
-                                <ErrorSVG />
+                                <ErrorIcon />
                                 {error}
                             </p>
                         )}
                     </div>
                     <div className='md:block w-[430px] h-[230px] md:w-[530px] md:h-[330px]'>
-                        <PeopleSVG width='full' height='full' />
+                        <PeopleIllustration width='full' height='full' />
                     </div>
                 </div>
             </form>

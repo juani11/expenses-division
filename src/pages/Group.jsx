@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useRoute } from 'wouter'
-import Divisions from '../components/group/Divisions'
+import Divisions from '../components/group/divisions/Divisions'
 import GroupHeader from '../components/group/GroupHeader'
-import Persons from '../components/group/Persons'
+import Persons from '../components/group/persons/Persons'
 import { useGroupStore } from '../store/store'
-import Expenses from './../components/group/Expenses'
+import Expenses from '../components/group/expenses/Expenses'
 
 const Group = () => {
     const [, params] = useRoute('/group/:id')
@@ -36,7 +36,7 @@ const Group = () => {
 
             {/* // GROUP INFORMATION */}
             <main className='bg-gray-50 dark:bg-slate-900 md:rounded-l-[150px]'>
-                <div className='grid grid-cols-1 gap-14 py-14 lg:grid-cols-4 w-[87%] 2xl:w-[78%] mx-auto'>
+                <div className='grid grid-cols-1 gap-14 py-14 lg:grid-cols-4 w-[87%] 2xl:w-[78%] mx-auto '>
                     <Persons />
                     <section id='expenses' className='gap-5 lg:col-span-2'>
                         <Expenses />

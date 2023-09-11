@@ -16,7 +16,7 @@ const useModal = callback => {
             closeModal()
         } catch (error) {
             console.log('ERROR dentro del modal')
-
+            console.log(error)
             setModalIsLoading(false)
         }
     }
