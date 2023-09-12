@@ -11,7 +11,6 @@ function App() {
     return (
         <>
             <ThemeSelector />
-
             <Route path='/'>
                 <Index />
             </Route>

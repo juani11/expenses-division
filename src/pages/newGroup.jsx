@@ -13,7 +13,7 @@ const NewGroup = () => {
     return (
         <>
             <form onSubmit={onFinish()}>
-                <div className=' flex flex-col-reverse justify-center items-center md:gap-20 md:flex-row md:mt-0'>
+                <div className='flex flex-col-reverse justify-center items-center gap-10 pt-20 md:gap-20 md:flex-row md:mt-0 md:pt-0'>
                     <div className='flex flex-col gap-10 justify-center items-center md:h-screen '>
                         <NewGroupHeader />
 
