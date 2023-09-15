@@ -28,9 +28,9 @@ const Group = () => {
     }, [])
 
     return (
-        <div className=' '>
+        <>
             {/* // GROUP HEADER INFORMATION */}
-            <header className='md:pt-24 w-[87%] 2xl:w-[78%] mx-auto'>
+            <header className='pt-20 md:pt-24 w-[87%] 2xl:w-[78%] mx-auto'>
                 <GroupHeader groupName={groupName} cantPersons={cantPersons} />
             </header>
 
@@ -44,7 +44,7 @@ const Group = () => {
                     <Divisions />
                 </div>
             </main>
-        </div>
+        </>
     )
 }
 
