@@ -157,7 +157,15 @@ const calculateFinalResult = (persons, expenses) => {
     return finalResult
 }
 
-const add = ({ totalsPerPayment, totalPerPayment, paymentKey, person }) => {
+const add = ({
+    totalsPerPayment,
+    totalPerPayment,
+    paymentKey,
+    person,
+    expenseName,
+    numberOfPayment,
+    cantPayments
+}) => {
     // Buscar en el array del mes (totalsPerMonth[paymentKey]) si ya existe la persona, si ya existe se suma a lo que ya tiene
     const personPaymentIndex = totalsPerPayment[paymentKey].findIndex(
         personPayment => personPayment.person.id === person.id
@@ -168,12 +176,28 @@ const add = ({ totalsPerPayment, totalPerPayment, paymentKey, person }) => {
         const personPayment = totalsPerPayment[paymentKey][personPaymentIndex]
         personPayment.amount = floorNumber(personPayment.amount + totalPerPayment)
         totalsPerPayment[paymentKey][personPaymentIndex] = personPayment
+
+        // personPayment.detail.push({ amount: totalPerPayment, expense: expenseName })
+        personPayment.detail = [
+            ...personPayment.detail,
+            { amount: totalPerPayment, expense: expenseName, numberOfPayment, cantPayments }
+        ]
     } else {
         // Si no existe la agrego
-        totalsPerPayment[paymentKey].push({ person, amount: totalPerPayment })
+        totalsPerPayment[paymentKey].push({
+            person,
+            amount: totalPerPayment,
+            detail: [{ amount: totalPerPayment, expense: expenseName, numberOfPayment, cantPayments }]
+        })
     }
 }
-const groupTotalPerPaymentByMonth = ({ creditTypeInfo, totalsPerPayment, person, totalPerPayment }) => {
+const groupTotalPerPaymentByMonth = ({
+    creditTypeInfo,
+    totalsPerPayment,
+    person,
+    totalPerPayment,
+    expenseName
+}) => {
     const { initialMonth, initialYear, cantPayments } = creditTypeInfo
 
     const paymentDate = currentDate(initialYear, initialMonth)
@@ -184,7 +208,15 @@ const groupTotalPerPaymentByMonth = ({ creditTypeInfo, totalsPerPayment, person,
         totalsPerPayment[paymentKey] = totalsPerPayment[paymentKey] ?? []
 
         // Buscar en el array del mes (totalsPerMonth[paymentKey]) si ya existe la persona, si ya existe se suma a lo que ya tiene
-        add({ totalsPerPayment, totalPerPayment, paymentKey, person })
+        add({
+            totalsPerPayment,
+            totalPerPayment,
+            paymentKey,
+            person,
+            expenseName,
+            numberOfPayment: i,
+            cantPayments
+        })
 
         paymentDate.setMonth(paymentDate.getMonth() + 1)
     }
@@ -198,7 +230,7 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
     const totalsPerPayment = {}
     persons?.forEach(person => {
         creditExpenses.forEach(expense => {
-            const { person: owner, includedPersons, amount, creditTypeInfo } = expense
+            const { person: owner, name: expenseName, includedPersons, amount, creditTypeInfo } = expense
 
             // Total por cada cuota
             let totalPerPayment = 0
@@ -219,25 +251,29 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
                 creditTypeInfo,
                 totalsPerPayment,
                 person,
-                totalPerPayment
+                totalPerPayment,
+                expenseName
             })
         })
     })
 
     Object.keys(totalsPerPayment).forEach(paymentKey => {
         totalsPerPayment[paymentKey].forEach(personPayment => {
-            const { person, amount } = personPayment
+            const { person, amount, detail } = personPayment
             const d = amountsToGivePerPersonPerPayment[paymentKey]
             const r = amountsToReceivePerPersonPerPayment[paymentKey]
 
             if (amount > 0) {
-                amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount }]
-                amountsToReceivePerPersonPerPayment[paymentKey] = [...(r ?? []), { person, amount: 0 }]
-            } else {
-                amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount: 0 }]
+                amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount, detail }]
                 amountsToReceivePerPersonPerPayment[paymentKey] = [
                     ...(r ?? []),
-                    { person, amount: amount * -1 }
+                    { person, amount: 0, detail }
+                ]
+            } else {
+                amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount: 0, detail }]
+                amountsToReceivePerPersonPerPayment[paymentKey] = [
+                    ...(r ?? []),
+                    { person, amount: amount * -1, detail }
                 ]
             }
         })
@@ -263,7 +299,7 @@ const calculateFinalResultCredit = (persons, expenses) => {
         finalResults[item] = result
     })
 
-    return finalResults
+    return { finalResults, amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment }
 }
 
 export {

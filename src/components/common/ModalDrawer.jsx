@@ -23,7 +23,7 @@ const ModalDrawer = ({ title, isOpen, closeModal, children }) => {
                     </button>
                 </header>
                 <hr />
-                <div className='grid grid-rows-[300px_1fr] gap-5 px-10'>{children}</div>
+                <div className='grid grid-rows-[auto-fit_1fr] gap-5 '>{children}</div>
             </div>
         </>
     )
