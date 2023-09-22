@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState, useEffect } from 'react'
 import { calculateFinalResultCredit } from '../../../logic/logic'
 import { useGroupStore } from '../../../store/store'
 import Card from '../../common/Card'
@@ -50,6 +50,26 @@ const PaymentNavigation = ({
         console.log('detailPerson', detailPerson)
         return detailPerson.detail
     }
+
+    const [translate, setTranslate] = useState(0)
+
+    const handleLeft = () => {
+        setTranslate(translate + 63)
+    }
+
+    const handleRight = () => {
+        setTranslate(translate - 63)
+    }
+
+    const ref = useRef(null)
+
+    useEffect(() => {
+        console.log('width', ref.current ? ref.current.offsetWidth : 0)
+    }, [ref.current])
+
+    const cantExpenses = 9
+    const classNames = cantExpenses > 6 ? 'w-fit flex justify-evenly gap-4' : 'flex justify-evenly gap-4 '
+
     return (
         <div className='flex justify-between items-center px-4'>
             <div className='w-11'>
@@ -60,7 +80,7 @@ const PaymentNavigation = ({
                 {date}
             </h5>
             <ModalDrawer isOpen={modalIsOpen} closeModal={closeModal}>
-                <div className='w-[88%] m-auto'>
+                <div className='m-auto'>
                     <header className=' flex flex-col gap-5 my-4'>
                         <h1 className='capitalize m-0'>{date}</h1>
                         <h3 className='m-0'>Gastos involucrados</h3>
@@ -93,42 +113,49 @@ const PaymentNavigation = ({
                             })}
                         </ul>
                     </header>
-                    <div className='w-80'>
-                        <table className='w-full text-sm text-center border-separate border-spacing-y-4 border-spacing-x-2  table-fixed [-webkit-mask-image: linear-gradient(rgba(0, 0, 0, 1), transparent)]'>
-                            <thead>
-                                <tr className=''>
-                                    <th></th>
-                                    {involvedExpenses.map(expense => (
-                                        <th key={expense.name} className=''>
-                                            {expense.name}
-                                        </th>
-                                    ))}
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody className=''>
-                                {persons.map(person => (
-                                    <tr key={person.id} className='pb-6'>
-                                        <td className='text-left '>{person.name}</td>
-                                        {detailPerson(person.id)?.map(detail => (
-                                            <td
-                                                key={detail.expense}
-                                                className={detail.amount > 0 ? giveClass : receiveClass}
-                                            >
-                                                ${detail.amount < 0 ? detail.amount * -1 : detail.amount}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                            <tfoot className='border-t'>
-                                <tr className='border-t'>
-                                    <td className='border-t'></td>
 
-                                    <td className=' border-t font-bold'></td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                    <div className='grid grid-cols-[100px_1fr_140px] grid-rows-[20%_1fr] text-sm'>
+                        <div className='relative flex flex-col justify-between items-center gap-5 row-span-2 border-r bg-gray-100 z-10'>
+                            <h3 className='m-0 h-10'></h3>
+                            <h4 className='m-0'>juani</h4>
+                            <h4 className='m-0'>franco</h4>
+                            <h4 className='m-0'>sergio</h4>
+
+                            {translate < 0 && (
+                                <button
+                                    className='absolute bg-black text-white px-2 rounded hover:bg-gray-700 right-1 top-3'
+                                    onClick={handleLeft}
+                                >
+                                    PREV
+                                </button>
+                            )}
+                        </div>
+                        <div
+                            className={`row-span-2 relative transition-transform ${classNames}`}
+                            style={{ transform: `translateX(${translate}px)` }}
+                            ref={ref}
+                        >
+                            {[...Array(cantExpenses)].map((col, index) => (
+                                <div key={index} className='flex flex-col justify-between items-center gap-5'>
+                                    <h3 className='m-0 h-10 overflow-hidden text-center'>disney on ice</h3>
+                                    <h4 className='m-0'>$4500</h4>
+                                    <h4 className='m-0'>$4500</h4>
+                                    <h4 className='m-0'>$4500</h4>
+                                </div>
+                            ))}
+                        </div>
+                        <div className='relative bg-gray-200 z-10 flex flex-col justify-between items-center gap-5 row-span-2 border-l'>
+                            <h3 className='m-0 h-10 text-center'></h3>
+                            <h4 className='m-0'>$14500</h4>
+                            <h4 className='m-0'>$24500</h4>
+                            <h4 className='m-0'>$34500</h4>
+                            <button
+                                className='absolute bg-black text-white px-2 rounded hover:bg-gray-700 left-1 top-3'
+                                onClick={handleRight}
+                            >
+                                NEXT
+                            </button>
+                        </div>
                     </div>
                 </div>
             </ModalDrawer>
