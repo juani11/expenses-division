@@ -1,74 +1,33 @@
-import { useMemo, useRef, useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import { calculateFinalResultCredit } from '../../../logic/logic'
 import { useGroupStore } from '../../../store/store'
 import Card from '../../common/Card'
 
-import { getRoundedPercentage, translatePaymentKey } from '../../../utils/utils'
+import useModal from '../../../hooks/useModal'
+import { floorNumber, getRoundedPercentage, translatePaymentKey } from '../../../utils/utils'
 import { ChevronLeftBtn, ChevronRightBtn } from '../../common/ChevronBtn/chevronBtn'
+import ModalDrawer from '../../common/ModalDrawer'
 import DivisionListItem from './DivisionListItem'
 import EmptyDivisionsList from './EmptyDivisionsList'
-import ModalDrawer from '../../common/ModalDrawer'
-import useModal from '../../../hooks/useModal'
-import Index from './../../../pages/Index'
 
 const PREV = 'prev'
 const NEXT = 'next'
 
-const giveClass = 'text-red-600 bg-red-100 rounded  font-bold  py-0.5 px-1 text-xs '
+const giveClass = 'text-white bg-[#eb0a3a] rounded  font-bold  py-1 px-1 text-xs '
 // const receiveClass = 'text-[#52c41a] bg-[#f6ffed] rounded py-1.5'
-const receiveClass = 'text-green-600 bg-green-100 rounded  font-bold py-0.5 px-1 text-xs '
+const receiveClass = 'text-white bg-[#00c28f] rounded  font-bold py-1 px-1 text-xs '
 
 const PaymentNavigation = ({
     payment,
     changePayment,
     creditPayments,
     date,
-    dateData,
-    amountsToGivePerPersonInDate,
-    amountsToReceivePerPersonInDate
+    gastosEnElMes,
+    finalResultsGrouped
 }) => {
     const { openModal, closeModal, modalIsOpen, modalIsLoading } = useModal()
 
-    console.log('dateData', dateData)
-    console.log('amountsToGivePerPersonInDate', amountsToGivePerPersonInDate)
-    console.log('amountsToReceivePerPersonInDate', amountsToReceivePerPersonInDate)
-
-    const persons = amountsToGivePerPersonInDate.map(amountToGivePerson => amountToGivePerson.person)
-    const firstPersonWithAmountToGive = amountsToGivePerPersonInDate.find(
-        amountToGivePerson => amountToGivePerson.amount > 0
-    )
-    const involvedExpenses = firstPersonWithAmountToGive.detail.map(detail => ({
-        name: detail.expense,
-        numberOfPayment: detail.numberOfPayment,
-        cantPayments: detail.cantPayments
-    }))
-
-    const detailPerson = personId => {
-        const detailPerson = amountsToGivePerPersonInDate.find(
-            amountToGivePerson => amountToGivePerson.person.id === personId
-        )
-        console.log('detailPerson', detailPerson)
-        return detailPerson.detail
-    }
-
-    const [translate, setTranslate] = useState(0)
-
-    const handleLeft = () => {
-        setTranslate(translate + 63)
-    }
-
-    const handleRight = () => {
-        setTranslate(translate - 63)
-    }
-
-    const ref = useRef(null)
-
-    useEffect(() => {
-        console.log('width', ref.current ? ref.current.offsetWidth : 0)
-    }, [ref.current])
-
-    const cantExpenses = 9
-    const classNames = cantExpenses > 6 ? 'w-fit flex justify-evenly gap-4' : 'flex justify-evenly gap-4 '
+    console.log('gastosEnElMes', gastosEnElMes)
 
     return (
         <div className='flex justify-between items-center px-4'>
@@ -80,83 +39,228 @@ const PaymentNavigation = ({
                 {date}
             </h5>
             <ModalDrawer isOpen={modalIsOpen} closeModal={closeModal}>
-                <div className='m-auto'>
-                    <header className=' flex flex-col gap-5 my-4'>
+                <div className=''>
+                    <header className='flex flex-col gap-5 my-4'>
                         <h1 className='capitalize m-0'>{date}</h1>
-                        <h3 className='m-0'>Gastos involucrados</h3>
+                    </header>
+
+                    <section className='max-w-md m-auto '>
+                        <h4 className='m-0'>Gastos involucrados</h4>
                         <ul className=''>
-                            {involvedExpenses.map(expense => {
-                                const paymentCompletedRoundedPercentage = getRoundedPercentage(
-                                    expense.numberOfPayment,
-                                    expense.cantPayments
-                                )
+                            {Object.keys(gastosEnElMes.expenses).map(expenseId => {
+                                const expenseData = gastosEnElMes.expenses[expenseId]
+                                const {
+                                    expenseName,
+                                    amountsPerPerson,
+                                    numberOfPayment,
+                                    cantPayments,
+                                    amountPerpayment
+                                } = expenseData
+
                                 return (
-                                    <li key={expense.name} className='flex gap-10 py-3 w-full'>
-                                        <h5 className='capitalize m-0 basis-40 '>{expense.name}</h5>
-                                        <div className='basis-48 flex flex-col'>
-                                            <div
-                                                className={`bg-gray-200 rounded-lg h-4 w-full dark:bg-slate-700`}
-                                            >
-                                                <div
-                                                    className='bg-primary rounded-lg h-4'
-                                                    style={{
-                                                        width: `${paymentCompletedRoundedPercentage}%`
-                                                    }}
-                                                ></div>
+                                    <li className='py-5 my-2 border-b mx-auto' key={expenseId}>
+                                        <div className='flex gap-5 items-center justify-between'>
+                                            <div className='flex flex-col  my-6'>
+                                                <h4 className='m-0  uppercase'>{expenseName}</h4>
+                                                <h6 className='m-0 text-gray-500  uppercase'>
+                                                    cuota {numberOfPayment} de {cantPayments}
+                                                </h6>
                                             </div>
-                                            <h6 className='m-0 text-gray-400 ml-auto'>
-                                                cuota {expense.numberOfPayment} de {expense.cantPayments}
-                                            </h6>
+                                            <div className='flex flex-col  my-6'>
+                                                <h6 className='m-0 text-gray-500 uppercase'>Total cuota</h6>
+                                                <h4 className='m-0  uppercase'>
+                                                    {amountPerpayment.toLocaleString('es-AR', {
+                                                        style: 'currency',
+                                                        currency: 'ARS',
+                                                        minimumFractionDigits: 0
+                                                    })}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div className='flex justify-center flex-wrap gap-2 text-sm '>
+                                            {amountsPerPerson.map((amountPerPerson, index) => {
+                                                const {
+                                                    person: { id, name },
+                                                    amount
+                                                } = amountPerPerson
+                                                return (
+                                                    <div
+                                                        id={`person-${id}`}
+                                                        key={id}
+                                                        className='flex flex-col items-center gap-1 '
+                                                    >
+                                                        <h4 className='m-0 text-gray-500'>{name}</h4>
+                                                        <p
+                                                            className={
+                                                                amount >= 0
+                                                                    ? amount > 0
+                                                                        ? giveClass
+                                                                        : null
+                                                                    : receiveClass
+                                                            }
+                                                        >
+                                                            {amount === 0
+                                                                ? '-'
+                                                                : amount.toLocaleString('es-AR', {
+                                                                      style: 'currency',
+                                                                      currency: 'ARS',
+                                                                      minimumFractionDigits: 0
+                                                                  })}
+                                                        </p>
+                                                    </div>
+                                                )
+                                            })}
                                         </div>
                                     </li>
                                 )
                             })}
                         </ul>
-                    </header>
+                    </section>
 
-                    <div className='grid grid-cols-[100px_1fr_140px] grid-rows-[20%_1fr] text-sm'>
-                        <div className='relative flex flex-col justify-between items-center gap-5 row-span-2 border-r bg-gray-100 z-10'>
-                            <h3 className='m-0 h-10'></h3>
-                            <h4 className='m-0'>juani</h4>
-                            <h4 className='m-0'>franco</h4>
-                            <h4 className='m-0'>sergio</h4>
+                    {/* <section id='totalPerPersonInMonth' className='max-w-md m-auto py-5'>
+                        <div className='flex justify-center flex-wrap gap-2 text-sm '>
+                            {Object.keys(gastosEnElMes.totals).map(personId => {
+                                const { name, amount } = gastosEnElMes.totals[personId]
+                                return (
+                                    <div key={personId} className='flex flex-col items-center gap-1 '>
+                                        <h4 className='m-0 text-gray-500'>{name}</h4>
+                                        <p
+                                            className={
+                                                amount >= 0 ? (amount > 0 ? giveClass : null) : receiveClass
+                                            }
+                                        >
+                                            {amount === 0 ? '-' : `$${amount}`}
+                                        </p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </section> */}
+                    <section className='max-w-md m-auto mt-20'>
+                        <h4>¿Cómo se llegó al resultado final?</h4>
 
-                            {translate < 0 && (
-                                <button
-                                    className='absolute bg-black text-white px-2 rounded hover:bg-gray-700 right-1 top-3'
-                                    onClick={handleLeft}
-                                >
-                                    PREV
-                                </button>
-                            )}
-                        </div>
-                        <div
-                            className={`row-span-2 relative transition-transform ${classNames}`}
-                            style={{ transform: `translateX(${translate}px)` }}
-                            ref={ref}
-                        >
-                            {[...Array(cantExpenses)].map((col, index) => (
-                                <div key={index} className='flex flex-col justify-between items-center gap-5'>
-                                    <h3 className='m-0 h-10 overflow-hidden text-center'>disney on ice</h3>
-                                    <h4 className='m-0'>$4500</h4>
-                                    <h4 className='m-0'>$4500</h4>
-                                    <h4 className='m-0'>$4500</h4>
-                                </div>
-                            ))}
-                        </div>
-                        <div className='relative bg-gray-200 z-10 flex flex-col justify-between items-center gap-5 row-span-2 border-l'>
-                            <h3 className='m-0 h-10 text-center'></h3>
-                            <h4 className='m-0'>$14500</h4>
-                            <h4 className='m-0'>$24500</h4>
-                            <h4 className='m-0'>$34500</h4>
-                            <button
-                                className='absolute bg-black text-white px-2 rounded hover:bg-gray-700 left-1 top-3'
-                                onClick={handleRight}
-                            >
-                                NEXT
-                            </button>
-                        </div>
-                    </div>
+                        <ul>
+                            {Object.keys(finalResultsGrouped).map(personToReceive => {
+                                const { name, total, receipts } = finalResultsGrouped[personToReceive]
+
+                                let nextTotal = total
+                                return (
+                                    <>
+                                        <li
+                                            key={receipts[0]}
+                                            className='grid grid-cols-[1fr_70%] items-center gap-2 py-4'
+                                        >
+                                            <div className='flex flex-col items-center'>
+                                                <h4 className='m-0 text-gray-500'>{name}</h4>
+                                                <h5 className='m-0'>
+                                                    {total.toLocaleString('es-AR', {
+                                                        style: 'currency',
+                                                        currency: 'ARS',
+                                                        minimumFractionDigits: 0
+                                                    })}
+                                                </h5>
+                                            </div>
+                                            <div className='grid  gap-2'>
+                                                <h3 className='m-0'>Personas posibles</h3>
+                                                <ul className='flex flex-wrap gap-4 '>
+                                                    {Object.keys(receipts[0].possiblePersons).map(
+                                                        idPossiblePerson => {
+                                                            const { name, amount } =
+                                                                receipts[0].possiblePersons[idPossiblePerson]
+
+                                                            return (
+                                                                <li
+                                                                    key={idPossiblePerson}
+                                                                    className={`flex flex-col gap-1 p-1 `}
+                                                                >
+                                                                    <h4 className='m-0 text-gray-500'>
+                                                                        {name}
+                                                                    </h4>
+                                                                    <h5 className='m-0'>
+                                                                        {amount.toLocaleString('es-AR', {
+                                                                            style: 'currency',
+                                                                            currency: 'ARS',
+                                                                            minimumFractionDigits: 0
+                                                                        })}
+                                                                    </h5>
+                                                                </li>
+                                                            )
+                                                        }
+                                                    )}
+                                                </ul>
+                                            </div>
+                                        </li>
+
+                                        {receipts.map((receipt, index) => {
+                                            const {
+                                                cantidad,
+                                                personaFrom,
+                                                porcentajePersonaFrom,
+                                                possiblePersons
+                                            } = receipt
+
+                                            nextTotal = nextTotal + cantidad
+
+                                            return (
+                                                <li
+                                                    key={receipt}
+                                                    className='grid grid-cols-[1fr_70%] items-center gap-2 py-4'
+                                                >
+                                                    <div className='flex flex-col items-center'>
+                                                        <h4 className='m-0 text-gray-500'>{name}</h4>
+                                                        <h5 className='m-0'>
+                                                            {nextTotal.toLocaleString('es-AR', {
+                                                                style: 'currency',
+                                                                currency: 'ARS',
+                                                                minimumFractionDigits: 0
+                                                            })}
+                                                        </h5>
+                                                    </div>
+                                                    <div className='grid  gap-2'>
+                                                        <h3 className='m-0'>Personas posibles</h3>
+                                                        <ul className='flex flex-wrap gap-4 '>
+                                                            {Object.keys(possiblePersons).map(
+                                                                idPossiblePerson => {
+                                                                    const { name, amount } =
+                                                                        possiblePersons[idPossiblePerson]
+
+                                                                    return (
+                                                                        <li
+                                                                            key={idPossiblePerson}
+                                                                            className={`flex flex-col gap-1 p-1 ${
+                                                                                personaFrom.id ==
+                                                                                    idPossiblePerson &&
+                                                                                'border border-primary rounded bg-primary-200 text-primary'
+                                                                            }`}
+                                                                        >
+                                                                            <h4 className='m-0 text-gray-500'>
+                                                                                {name}
+                                                                            </h4>
+                                                                            <h5 className='m-0'>
+                                                                                {amount.toLocaleString(
+                                                                                    'es-AR',
+                                                                                    {
+                                                                                        style: 'currency',
+                                                                                        currency: 'ARS',
+                                                                                        minimumFractionDigits: 0
+                                                                                    }
+                                                                                )}
+                                                                            </h5>
+                                                                        </li>
+                                                                    )
+                                                                }
+                                                            )}
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            )
+                                        })}
+                                        <hr />
+                                    </>
+                                )
+                            })}
+                        </ul>
+                    </section>
                 </div>
             </ModalDrawer>
 
@@ -177,8 +281,8 @@ const DivisionListCredit = () => {
         return calculateFinalResultCredit(persons, expenses)
     }, [expenses])
 
-    const { amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment, finalResults } =
-        memoizedResultsCredit
+    const { finalResults, gastosPorMes } = memoizedResultsCredit
+    console.log('finalResultsCredit', finalResults)
 
     const creditPayments = Object.keys(finalResults)
 
@@ -191,9 +295,78 @@ const DivisionListCredit = () => {
     const date = translatePaymentKey(creditPayments[payment])
     const dateData = finalResults[creditPayments[payment]]
 
-    const amountsToGivePerPersonInDate = amountsToGivePerPersonPerPayment[creditPayments[payment]]
-    const amountsToReceivePerPersonInDate = amountsToReceivePerPersonPerPayment[creditPayments[payment]]
+    const gastosEnElMes = gastosPorMes[creditPayments[payment]]
 
+    const group = () => {
+        const finalResultGrouped = {}
+
+        dateData.forEach((item, index) => {
+            const { personaFrom, personaTo, cantidad, porcentajePersonaFrom } = item
+            const { id, name } = personaTo
+
+            const personWhoReceives = finalResultGrouped[id] ?? {
+                name,
+                total: gastosEnElMes.totals[id].amount,
+                receipts: []
+            }
+            personWhoReceives.receipts.push({
+                cantidad,
+                personaFrom,
+                porcentajePersonaFrom
+            })
+            finalResultGrouped[id] = personWhoReceives
+        })
+        return finalResultGrouped
+    }
+
+    const finalResultsGrouped = group()
+
+    console.log('finalResultsGrouped', finalResultsGrouped)
+
+    let prevIdPersonWhoReceive = null
+
+    const possiblePersons = structuredClone(gastosEnElMes.totals)
+    const asArray = Object.entries(possiblePersons)
+
+    const filtered = asArray.filter(([_, value]) => value.amount > 0)
+
+    const initialPossiblePersons = Object.fromEntries(filtered)
+
+    // const initialPossiblePersons = structuredClone(gastosEnElMes.totals)
+
+    Object.keys(finalResultsGrouped).forEach((idPersonWhoReceive, index) => {
+        const group = finalResultsGrouped[idPersonWhoReceive]
+        const { receipts } = group
+
+        let prevReceipt
+        receipts.forEach((_, indexReceipts) => {
+            // Inicializo por primera vez las personas posibles
+            if (index === 0 && indexReceipts === 0) {
+                group.receipts[indexReceipts].possiblePersons = initialPossiblePersons
+            } else {
+                // obtengo los datos del receipt anterior. (Puede ser del actual idPersonWhoReceive o del anterior )
+                prevReceipt =
+                    indexReceipts === 0
+                        ? // El receipt es el ultimo receipt del anterior idPersonWhoReceive
+                          finalResultsGrouped[prevIdPersonWhoReceive].receipts[
+                              finalResultsGrouped[prevIdPersonWhoReceive].receipts.length - 1
+                          ]
+                        : // El receipt es el anterior del idPersonWhoReceive actual
+                          group.receipts[indexReceipts - 1]
+
+                // copio las personas posibles del indexReceipts anterior
+                const newPossible = structuredClone(prevReceipt.possiblePersons)
+
+                // Le resto la cantidad del anterior
+                newPossible[prevReceipt.personaFrom.id].amount -= prevReceipt.cantidad
+
+                group.receipts[indexReceipts].possiblePersons = newPossible
+            }
+
+            // si es el ultimo receipt , actualizo el prevIdPersonWhoReceive
+            if (indexReceipts === receipts.length - 1) prevIdPersonWhoReceive = idPersonWhoReceive
+        })
+    })
     return (
         <Card className='animate-fade'>
             {creditPayments.length === 0 ? (
@@ -208,9 +381,8 @@ const DivisionListCredit = () => {
                         changePayment={changePayment}
                         creditPayments={creditPayments}
                         date={date}
-                        dateData={dateData}
-                        amountsToGivePerPersonInDate={amountsToGivePerPersonInDate}
-                        amountsToReceivePerPersonInDate={amountsToReceivePerPersonInDate}
+                        gastosEnElMes={gastosEnElMes}
+                        finalResultsGrouped={finalResultsGrouped}
                     />
                     <ul className='py-2 animate-fade' key={creditPayments[payment]}>
                         {dateData.map((division, index) => (
