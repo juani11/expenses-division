@@ -28,7 +28,6 @@ const PaymentNavigation = ({
     const { openModal, closeModal, modalIsOpen, modalIsLoading } = useModal()
 
     console.log('gastosEnElMes', gastosEnElMes)
-
     return (
         <div className='flex justify-between items-center px-4'>
             <div className='w-11'>
@@ -40,11 +39,11 @@ const PaymentNavigation = ({
             </h5>
             <ModalDrawer isOpen={modalIsOpen} closeModal={closeModal}>
                 <div className=''>
-                    <header className='flex flex-col gap-5 my-4'>
+                    <header className='flex flex-col justify-center items-center gap-5 my-4 '>
                         <h1 className='capitalize m-0'>{date}</h1>
                     </header>
 
-                    <section className='max-w-md m-auto '>
+                    <section className='max-w-md m-auto mt-10'>
                         <h4 className='m-0'>Gastos involucrados</h4>
                         <ul className=''>
                             {Object.keys(gastosEnElMes.expenses).map(expenseId => {
@@ -136,7 +135,7 @@ const PaymentNavigation = ({
                             })}
                         </div>
                     </section> */}
-                    <section className='max-w-md m-auto mt-20'>
+                    <section className='max-w-md m-auto mt-20 '>
                         <h4>¿Cómo se llegó al resultado final?</h4>
 
                         <ul>
@@ -148,20 +147,37 @@ const PaymentNavigation = ({
                                     <>
                                         <li
                                             key={receipts[0]}
-                                            className='grid grid-cols-[1fr_70%] items-center gap-2 py-4'
+                                            className='grid grid-cols-[1fr_70%] items-center gap-2 py-4 text-sm'
                                         >
-                                            <div className='flex flex-col items-center'>
-                                                <h4 className='m-0 text-gray-500'>{name}</h4>
-                                                <h5 className='m-0'>
+                                            <div className='flex flex-col gap-1 items-center'>
+                                                <h5 className='m-0 text-gray-500'>{name} </h5>
+                                                <h5 className='m-0 text-gray-500'> debe recibir</h5>
+                                                <h5 className={`${receiveClass} m-0`}>
                                                     {total.toLocaleString('es-AR', {
                                                         style: 'currency',
                                                         currency: 'ARS',
                                                         minimumFractionDigits: 0
                                                     })}
                                                 </h5>
+                                                <svg
+                                                    xmlns='http://www.w3.org/2000/svg'
+                                                    fill='none'
+                                                    viewBox='0 0 24 24'
+                                                    strokeWidth='1.5'
+                                                    stroke='currentColor'
+                                                    className='w-6 h-6'
+                                                >
+                                                    <path
+                                                        strokeLinecap='round'
+                                                        strokeLinejoin='round'
+                                                        d='M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3'
+                                                    />
+                                                </svg>
                                             </div>
                                             <div className='grid  gap-2'>
-                                                <h3 className='m-0'>Personas posibles</h3>
+                                                <h4 className='m-0'>
+                                                    Personas posibles para saldar la deuda
+                                                </h4>
                                                 <ul className='flex flex-wrap gap-4 '>
                                                     {Object.keys(receipts[0].possiblePersons).map(
                                                         idPossiblePerson => {
@@ -202,57 +218,99 @@ const PaymentNavigation = ({
                                             nextTotal = nextTotal + cantidad
 
                                             return (
-                                                <li
-                                                    key={receipt}
-                                                    className='grid grid-cols-[1fr_70%] items-center gap-2 py-4'
-                                                >
-                                                    <div className='flex flex-col items-center'>
-                                                        <h4 className='m-0 text-gray-500'>{name}</h4>
-                                                        <h5 className='m-0'>
-                                                            {nextTotal.toLocaleString('es-AR', {
-                                                                style: 'currency',
-                                                                currency: 'ARS',
-                                                                minimumFractionDigits: 0
-                                                            })}
-                                                        </h5>
-                                                    </div>
-                                                    <div className='grid  gap-2'>
-                                                        <h3 className='m-0'>Personas posibles</h3>
-                                                        <ul className='flex flex-wrap gap-4 '>
-                                                            {Object.keys(possiblePersons).map(
-                                                                idPossiblePerson => {
-                                                                    const { name, amount } =
-                                                                        possiblePersons[idPossiblePerson]
-
-                                                                    return (
-                                                                        <li
-                                                                            key={idPossiblePerson}
-                                                                            className={`flex flex-col gap-1 p-1 ${
-                                                                                personaFrom.id ==
-                                                                                    idPossiblePerson &&
-                                                                                'border border-primary rounded bg-primary-200 text-primary'
-                                                                            }`}
-                                                                        >
-                                                                            <h4 className='m-0 text-gray-500'>
-                                                                                {name}
-                                                                            </h4>
-                                                                            <h5 className='m-0'>
-                                                                                {amount.toLocaleString(
-                                                                                    'es-AR',
-                                                                                    {
-                                                                                        style: 'currency',
-                                                                                        currency: 'ARS',
-                                                                                        minimumFractionDigits: 0
-                                                                                    }
-                                                                                )}
-                                                                            </h5>
-                                                                        </li>
-                                                                    )
-                                                                }
+                                                <>
+                                                    <li
+                                                        key={receipt}
+                                                        className='grid grid-cols-[1fr_70%] items-center gap-2 py-4 text-sm'
+                                                    >
+                                                        <div className='flex flex-col gap-1 items-center'>
+                                                            <h5 className='m-0'>- {cantidad}</h5>
+                                                            <h5 className='m-0 text-gray-500'>
+                                                                Restante a recibir{' '}
+                                                            </h5>
+                                                            <h4 className='m-0 text-gray-500'> {name}</h4>
+                                                            <h5 className={`${receiveClass} m-0`}>
+                                                                {nextTotal.toLocaleString('es-AR', {
+                                                                    style: 'currency',
+                                                                    currency: 'ARS',
+                                                                    minimumFractionDigits: 0
+                                                                })}
+                                                            </h5>
+                                                            {index !== receipts.length - 1 && (
+                                                                <svg
+                                                                    xmlns='http://www.w3.org/2000/svg'
+                                                                    fill='none'
+                                                                    viewBox='0 0 24 24'
+                                                                    strokeWidth='1.5'
+                                                                    stroke='currentColor'
+                                                                    className='w-6 h-6'
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap='round'
+                                                                        strokeLinejoin='round'
+                                                                        d='M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3'
+                                                                    />
+                                                                </svg>
                                                             )}
-                                                        </ul>
-                                                    </div>
-                                                </li>
+                                                        </div>
+                                                        <div className='grid gap-1'>
+                                                            {/* <h4 className='m-0'>Personas posibles</h4> */}
+                                                            <ul className='flex flex-wrap gap-4 '>
+                                                                {Object.keys(possiblePersons).map(
+                                                                    idPossiblePerson => {
+                                                                        const { name, amount } =
+                                                                            possiblePersons[idPossiblePerson]
+
+                                                                        return (
+                                                                            <li
+                                                                                key={idPossiblePerson}
+                                                                                className={`flex flex-col gap-1 p-1 ${
+                                                                                    personaFrom.id ==
+                                                                                        idPossiblePerson &&
+                                                                                    ' border-primary rounded bg-primary-200 text-primary '
+                                                                                }`}
+                                                                            >
+                                                                                <h4
+                                                                                    className={`m-0 text-gray-500  ${
+                                                                                        personaFrom.id ==
+                                                                                        idPossiblePerson
+                                                                                            ? 'text-primary'
+                                                                                            : 'text-gray-500'
+                                                                                    }`}
+                                                                                >
+                                                                                    {name}
+                                                                                </h4>
+                                                                                <h5 className='m-0'>
+                                                                                    {amount.toLocaleString(
+                                                                                        'es-AR',
+                                                                                        {
+                                                                                            style: 'currency',
+                                                                                            currency: 'ARS',
+                                                                                            minimumFractionDigits: 0
+                                                                                        }
+                                                                                    )}
+                                                                                </h5>
+                                                                            </li>
+                                                                        )
+                                                                    }
+                                                                )}
+                                                            </ul>
+                                                            <div className='flex gap-2 '>
+                                                                <h5 className='bg-primary-200 px-1 py-0.5 rounded text-primary'>
+                                                                    Se elige a {personaFrom.name}
+                                                                </h5>
+                                                                {/* <h5 className='bg-primary-200 px-1 py-0.5 rounded'>
+                                                                    ${cantidad}
+                                                                </h5> */}
+                                                                <h5 className='bg-primary-200 px-1 py-0.5 rounded text-primary'>
+                                                                    {' '}
+                                                                    {floorNumber(porcentajePersonaFrom)}% del
+                                                                    total
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </>
                                             )
                                         })}
                                         <hr />
@@ -280,6 +338,7 @@ const DivisionListCredit = () => {
     const memoizedResultsCredit = useMemo(() => {
         return calculateFinalResultCredit(persons, expenses)
     }, [expenses])
+    console.log('memoizedResultsCredit', memoizedResultsCredit)
 
     const { finalResults, gastosPorMes } = memoizedResultsCredit
     console.log('finalResultsCredit', finalResults)
