@@ -195,7 +195,7 @@ const groupTotalPerPaymentByMonth = ({
     person,
     totalPerPayment,
     expenseName,
-    gastosPorMes,
+    expensesPerMonth,
     expenseId,
     amountPerpayment
 }) => {
@@ -206,7 +206,7 @@ const groupTotalPerPaymentByMonth = ({
     for (let i = 1; i <= cantPayments; i++) {
         const paymentKey = generatePaymentKey(paymentDate)
 
-        totalsPerPayment[paymentKey] = totalsPerPayment[paymentKey] ?? []
+        totalsPerPayment[paymentKey] ??= []
 
         // Buscar en el array del mes (totalsPerMonth[paymentKey]) si ya existe la persona, si ya existe se suma a lo que ya tiene
         add({
@@ -218,13 +218,13 @@ const groupTotalPerPaymentByMonth = ({
 
         //  Genero los datos para usar en el detalle de cada mes.
         // TODO REFACTORIZAR ESTO.
-        gastosPorMes[paymentKey] = gastosPorMes[paymentKey] ?? { expenses: {}, totals: {} }
+        expensesPerMonth[paymentKey] ??= { expenses: {}, totals: {} }
 
-        gastosPorMes[paymentKey].expenses[expenseId] = {
+        expensesPerMonth[paymentKey].expenses[expenseId] = {
             expenseName,
-            amountsPerPerson: gastosPorMes[paymentKey].expenses[expenseId]?.amountsPerPerson
+            amountsPerPerson: expensesPerMonth[paymentKey].expenses[expenseId]?.amountsPerPerson
                 ? [
-                      ...gastosPorMes[paymentKey].expenses[expenseId].amountsPerPerson,
+                      ...expensesPerMonth[paymentKey].expenses[expenseId].amountsPerPerson,
                       { person, amount: totalPerPayment }
                   ]
                 : [{ person, amount: totalPerPayment }],
@@ -232,11 +232,11 @@ const groupTotalPerPaymentByMonth = ({
             cantPayments,
             amountPerpayment
         }
-        gastosPorMes[paymentKey].totals[person.id] = gastosPorMes[paymentKey].totals[person.id] ?? {
+        expensesPerMonth[paymentKey].totals[person.id] ??= {
             name: person.name,
             amount: 0
         }
-        gastosPorMes[paymentKey].totals[person.id].amount += totalPerPayment
+        expensesPerMonth[paymentKey].totals[person.id].amount += totalPerPayment
 
         paymentDate.setMonth(paymentDate.getMonth() + 1)
     }
@@ -247,7 +247,7 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
     const amountsToGivePerPersonPerPayment = {}
     const amountsToReceivePerPersonPerPayment = {}
 
-    const gastosPorMes = {}
+    const expensesPerMonth = {}
 
     const totalsPerPayment = {}
     persons?.forEach(person => {
@@ -257,7 +257,7 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
             // Total por cada cuota
             let totalPerPayment = 0
 
-            const amountPerpayment = amount / creditTypeInfo.cantPayments
+            const amountPerpayment = floorNumber(amount / creditTypeInfo.cantPayments)
 
             // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
             if (personIsIncludedInExpense(person.id, includedPersons)) {
@@ -276,13 +276,13 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
                 totalPerPayment,
                 expenseName,
                 expenseId: id,
-                gastosPorMes,
+                expensesPerMonth,
                 amountPerpayment
             })
         })
     })
 
-    console.log('gastosPorMes', gastosPorMes)
+    console.log('expensesPerMonth', expensesPerMonth)
     console.log('totalsPerPayment', totalsPerPayment)
 
     Object.keys(totalsPerPayment).forEach(paymentKey => {
@@ -304,13 +304,17 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
         })
     })
 
-    return { amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment, gastosPorMes }
+    return {
+        amountsToGivePerPersonPerPayment,
+        amountsToReceivePerPersonPerPayment,
+        expensesPerMonth
+    }
 }
 
 const calculateFinalResultCredit = (persons, expenses) => {
     const creditExpenses = expenses.filter(expense => expense.type === CREDIT)
 
-    const { amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment, gastosPorMes } =
+    const { amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment, expensesPerMonth } =
         amountOfMoneyToGiveAndReceivePerPersonPerPayment(persons, creditExpenses)
 
     console.log({ amountsToGivePerPersonPerPayment, amountsToReceivePerPersonPerPayment })
@@ -329,7 +333,7 @@ const calculateFinalResultCredit = (persons, expenses) => {
         finalResults,
         amountsToGivePerPersonPerPayment,
         amountsToReceivePerPersonPerPayment,
-        gastosPorMes
+        expensesPerMonth
     }
 }
 
