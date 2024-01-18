@@ -65,6 +65,13 @@ const translatePaymentKey = paymentKey => {
     return monthName + ' ' + year
 }
 
+const formatedAmount = amount =>
+    amount.toLocaleString('es-AR', {
+        style: 'currency',
+        currency: 'ARS',
+        minimumFractionDigits: 0
+    })
+
 export {
     currencyFormat,
     toFloat,
@@ -76,5 +83,6 @@ export {
     currentDate,
     generatePaymentKey,
     translatePaymentKey,
-    floorNumber
+    floorNumber,
+    formatedAmount
 }
