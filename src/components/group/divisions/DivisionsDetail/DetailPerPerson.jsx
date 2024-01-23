@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { useGroupStore } from '../../../../store/store'
 import { formatedAmount } from '../../../../utils/utils'
+import PersonChart from './PersonsChart'
 
 const diffClassName = value => (value < 0 ? 'text-red-500' : value > 0 && 'text-green-500')
 
 const ExpenseRow = ({ expenseId, expense, selectedPerson }) => {
     const { expenseName, amountsPerPerson, amountPerpayment, cantPayments, numberOfPayment } = expense
 
-    const currentPersonAmountInExpense = amountsPerPerson.find(({ person }) => person.id === selectedPerson)
+    const currentPersonAmountInExpense = amountsPerPerson.find(
+        ({ person }) => person.id === selectedPerson.id
+    )
 
     const {
         amountsPerPayment: { toPay, paid, diff }
@@ -17,7 +20,7 @@ const ExpenseRow = ({ expenseId, expense, selectedPerson }) => {
 
     return (
         <tr key={expenseId} className='bg-white border-b border-gray-50 hover:bg-gray-50 font-bold'>
-            <th scope='row' className='flex flex-col items-start px-3 py-3 text-gray-900 whitespace-nowrap '>
+            <th scope='row' className='flex flex-col items-start px-2 py-3 text-gray-900 whitespace-nowrap '>
                 <span>{expenseName} </span>
                 <span className='py-0.5 text-gray-400 '>
                     cuota {numberOfPayment} de {cantPayments}
@@ -26,9 +29,9 @@ const ExpenseRow = ({ expenseId, expense, selectedPerson }) => {
                     <span className='bg-primary-200 px-2 py-0.5 rounded text-primary'>Excluido</span>
                 )}
             </th>
-            <td className='px-3 py-3'>{formatedAmount(toPay)}</td>
-            <td className='px-3 py-3'>{formatedAmount(paid)}</td>
-            <td className={`px-3 py-3 ${diffColor}`}>{formatedAmount(diff)}</td>
+            <td className='px-2 py-3'>{formatedAmount(toPay)}</td>
+            <td className='px-2 py-3'>{formatedAmount(paid)}</td>
+            <td className={`px-2 py-3 ${diffColor}`}>{formatedAmount(diff)}</td>
         </tr>
     )
 }
@@ -44,16 +47,16 @@ const SelectedPersonExpensesTable = ({ expenses, totals, selectedPerson }) => {
         <table className='w-full text-xs text-left rtl:text-right text-gray-500 '>
             <thead className='text-xs text-gray-700 uppercase bg-gray-50 rounded-xl'>
                 <tr>
-                    <th scope='col' className='px-3 py-2'>
+                    <th scope='col' className='px-2 py-3'>
                         gasto
                     </th>
-                    <th scope='col' className='px-3 py-2'>
+                    <th scope='col' className='px-2 py-3'>
                         a pagar
                     </th>
-                    <th scope='col' className='px-3 py-2'>
+                    <th scope='col' className='px-2 py-3'>
                         pagado
                     </th>
-                    <th scope='col' className='px-3 py-2'>
+                    <th scope='col' className='px-2 py-3'>
                         Dif
                     </th>
                 </tr>
@@ -72,13 +75,13 @@ const SelectedPersonExpensesTable = ({ expenses, totals, selectedPerson }) => {
                 })}
             </tbody>
             <tfoot>
-                <tr className='font-bold border-t-2  text-md'>
-                    <th scope='row' className='px-3 py-3 uppercase '>
+                <tr className='font-bold border-t-2 text-md'>
+                    <th scope='row' className='px-2 py-3 uppercase '>
                         Total
                     </th>
-                    <td className='px-3 py-3'>{formatedAmount(totalToPay)}</td>
-                    <td className='px-3 py-3'>{formatedAmount(totalPaid)}</td>
-                    <td className={`px-3 py-3 ${diffColor}`}>{formatedAmount(totalDiff)}</td>
+                    <td className='px-2 py-3'>{formatedAmount(totalToPay)}</td>
+                    <td className='px-2 py-3'>{formatedAmount(totalPaid)}</td>
+                    <td className={`px-2 py-3 ${diffColor}`}>{formatedAmount(totalDiff)}</td>
                 </tr>
             </tfoot>
         </table>
@@ -91,11 +94,14 @@ const PersonsList = ({ persons, selectedPerson, hanleChangeSelectedPerson }) => 
             {persons.map(person => (
                 <li
                     key={person.id}
-                    className={`bg-gray-100 px-3 py-1 rounded-md text-sm font-bold hover:bg-gray-200 cursor-pointer transition ${
-                        person.id === selectedPerson &&
-                        'border border-black bg-black text-white hover:bg-black '
+                    className={`px-3 py-1 rounded-md text-sm font-bold cursor-pointer transition
+                        ${
+                            person.id === selectedPerson.id
+                                ? 'bg-black hover:bg-black border border-black text-white'
+                                : 'bg-gray-100 hover:bg-gray-200'
+                        }
                     }`}
-                    onClick={() => hanleChangeSelectedPerson(person.id)}
+                    onClick={() => hanleChangeSelectedPerson(person)}
                 >
                     {person.name}
                 </li>
@@ -107,18 +113,47 @@ const DetailPerPerson = ({ expensesInMonth }) => {
     const { expenses, totals } = expensesInMonth
     const persons = useGroupStore(state => state.persons)
 
-    const [selectedPerson, setSetselectedPerson] = useState(persons[0].id)
-    const { amountsPerPayment } = totals[selectedPerson]
-
+    const [selectedPerson, setSetselectedPerson] = useState(persons[0])
     const hanleChangeSelectedPerson = personId => setSetselectedPerson(personId)
 
+    const { amountsPerPayment } = totals[selectedPerson.id]
+
+    // Recorrer los gastos. Por cada gasto obtener los totales de la persona seleccionada.
+    const expensesNames = []
+    const expensesDiff = []
+
+    const expensesIds = Object.keys(expenses)
+    expensesIds.forEach(expenseId => {
+        const expense = expenses[Number(expenseId)]
+        const { expenseName, amountsPerPerson, amountPerpayment, cantPayments, numberOfPayment } = expense
+
+        const currentPersonAmountInExpense = amountsPerPerson.find(
+            ({ person }) => person.id === selectedPerson.id
+        )
+        const {
+            amountsPerPayment: { toPay, paid, diff }
+        } = currentPersonAmountInExpense
+
+        expensesNames.push(expenseName)
+        expensesDiff.push(diff)
+    })
+
+    console.log('EXPENSES DIF: ', expensesDiff)
+
     return (
-        <section id='list' className='px-10'>
+        <section id='list' className='px-4'>
             {/* Seleccion de persona para ver el detalle de esa persona */}
             <PersonsList
                 persons={persons}
                 selectedPerson={selectedPerson}
                 hanleChangeSelectedPerson={hanleChangeSelectedPerson}
+            />
+            <PersonChart
+                expensesNames={expensesNames}
+                expensesDiff={expensesDiff}
+                personName={selectedPerson.name}
+                totalToPay={amountsPerPayment.toPay}
+                totalDiff={amountsPerPayment.diff}
             />
             <SelectedPersonExpensesTable
                 expenses={expenses}
