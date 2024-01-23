@@ -10,6 +10,7 @@ import ModalDrawer from '../../common/ModalDrawer'
 import DivisionListItem from './DivisionListItem'
 import EmptyDivisionsList from './EmptyDivisionsList'
 import DetailPerExpense from './DivisionsDetail/DetailPerExpense'
+import DetailPerPerson from './DivisionsDetail/DetailPerPerson'
 
 const PREV = 'prev'
 const NEXT = 'next'
@@ -37,7 +38,11 @@ const PaymentNavigation = ({
                 <header className='flex flex-col justify-center items-center gap-5 my-4 '>
                     <h1 className='capitalize m-0'>{date}</h1>
                 </header>
-                <DetailPerExpense expensesInMonth={expensesInMonth} />
+
+                {/* Seleccion de tipo de detalle : Detalle por gasto o detalle por persona  */}
+
+                {/* <DetailPerExpense expensesInMonth={expensesInMonth} /> */}
+                <DetailPerPerson expensesInMonth={expensesInMonth} />
             </ModalDrawer>
             <div className='w-11'>
                 {payment !== creditPayments.length - 1 && (
