@@ -75,19 +75,19 @@ function calculateDivisions(amountsToGivePerPerson, amountsToReceivePerPerson) {
                 if (cantidadRestanteProcesar <= personaPosible.amount) {
                     cantidadResultado = cantidadRestanteProcesar
 
-                    personaPosible.amount = toFloat(personaPosible.amount - cantidadRestanteProcesar)
+                    personaPosible.amount -= cantidadRestanteProcesar
 
                     cantidadRestanteProcesar = 0
                     indexArrayCantidadAdar = indexArrayCantidadAdar + 1
                 } else {
                     cantidadResultado = personaPosible.amount
 
-                    cantidadRestanteProcesar = toFloat(cantidadRestanteProcesar - personaPosible.amount)
+                    cantidadRestanteProcesar -= personaPosible.amount
                     personaPosible.amount = 0
                 }
                 porcentajeResultado = getPercentage(cantidadResultado, amount)
                 //  Si la persona posible a la que se le esta devolviendo la plata , ya se le cubrio el total de la devolucion, paso a la siguiente persona.
-                if (personaPosible.amount === 0) indexPersonaPosible = indexPersonaPosible + 1
+                if (personaPosible.amount === 0) indexPersonaPosible += 1
 
                 resultado = [
                     ...resultado,
@@ -179,7 +179,7 @@ const add = ({ totalsPerPayment, totalPerPayment, paymentKey, person }) => {
     if (personPaymentIndex !== -1) {
         // Si la persona existe
         const personPayment = totalsPerPayment[paymentKey][personPaymentIndex]
-        personPayment.amount = floorNumber(personPayment.amount + totalPerPayment)
+        personPayment.amount = personPayment.amount + totalPerPayment
         totalsPerPayment[paymentKey][personPaymentIndex] = personPayment
     } else {
         // Si no existe la agrego
@@ -197,7 +197,8 @@ const groupTotalPerPaymentByMonth = ({
     expenseName,
     expensesPerMonth,
     expenseId,
-    amountPerpayment
+    amountPerpayment,
+    amountsPerPayment
 }) => {
     const { initialMonth, initialYear, cantPayments } = creditTypeInfo
 
@@ -211,7 +212,7 @@ const groupTotalPerPaymentByMonth = ({
         // Buscar en el array del mes (totalsPerMonth[paymentKey]) si ya existe la persona, si ya existe se suma a lo que ya tiene
         add({
             totalsPerPayment,
-            totalPerPayment,
+            totalPerPayment: amountsPerPayment.diff,
             paymentKey,
             person
         })
@@ -225,18 +226,24 @@ const groupTotalPerPaymentByMonth = ({
             amountsPerPerson: expensesPerMonth[paymentKey].expenses[expenseId]?.amountsPerPerson
                 ? [
                       ...expensesPerMonth[paymentKey].expenses[expenseId].amountsPerPerson,
-                      { person, amount: totalPerPayment }
+                      { person, amountsPerPayment }
                   ]
-                : [{ person, amount: totalPerPayment }],
+                : [{ person, amountsPerPayment }],
             numberOfPayment: i,
             cantPayments,
             amountPerpayment
         }
         expensesPerMonth[paymentKey].totals[person.id] ??= {
             name: person.name,
-            amount: 0
+            amountsPerPayment: {
+                toPay: 0,
+                paid: 0,
+                diff: 0
+            }
         }
-        expensesPerMonth[paymentKey].totals[person.id].amount += totalPerPayment
+        expensesPerMonth[paymentKey].totals[person.id].amountsPerPayment.toPay += amountsPerPayment.toPay
+        expensesPerMonth[paymentKey].totals[person.id].amountsPerPayment.paid += amountsPerPayment.paid
+        expensesPerMonth[paymentKey].totals[person.id].amountsPerPayment.diff += amountsPerPayment.diff
 
         paymentDate.setMonth(paymentDate.getMonth() + 1)
     }
@@ -259,25 +266,34 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
 
             const amountPerpayment = floorNumber(amount / creditTypeInfo.cantPayments)
 
+            const amountsPerPayment = {
+                toPay: 0 /* Es el monto que le corresponde pagar a la persona por estar involucrado en el gasto */,
+                paid: 0 /* Es el monto que la persona ya pagó (por estar anotado como "pagador" del gasto) */,
+                diff: 0 /* Es la diferencia entre el "toPay" y "paid". Esta diferencia, da como resultado , la situacion final de la persona en el gasto: Si el resultado es positivo. La persona debe "recibir" ese monto Si el resultado es negativo . La persona debe "dar" ese monto */
+            }
             // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
             if (personIsIncludedInExpense(person.id, includedPersons)) {
-                totalPerPayment = floorNumber(amountPerpayment / includedPersons.length)
+                // totalPerPayment = floorNumber(amountPerpayment / includedPersons.length)
+                amountsPerPayment.toPay = floorNumber(amountPerpayment / includedPersons.length)
             }
             // Si la persona actual es dueña del gasto actual resto el valor en la persona
             if (owner === person.id) {
-                totalPerPayment = floorNumber(totalPerPayment - amountPerpayment)
+                // totalPerPayment = floorNumber(totalPerPayment - amountPerpayment)
+                amountsPerPayment.paid = amountPerpayment
             }
+            amountsPerPayment.diff = floorNumber(amountsPerPayment.paid - amountsPerPayment.toPay)
 
             //  Guardar por cada mes el totalPerPayment
             groupTotalPerPaymentByMonth({
                 creditTypeInfo,
                 totalsPerPayment,
                 person,
-                totalPerPayment,
+                totalPerPayment: amountsPerPayment.diff,
                 expenseName,
                 expenseId: id,
                 expensesPerMonth,
-                amountPerpayment
+                amountPerpayment,
+                amountsPerPayment
             })
         })
     })
@@ -291,15 +307,24 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
             const d = amountsToGivePerPersonPerPayment[paymentKey]
             const r = amountsToReceivePerPersonPerPayment[paymentKey]
 
-            if (amount > 0) {
-                amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount }]
+            // if (amount > 0) {
+            //     amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount }]
+            //     amountsToReceivePerPersonPerPayment[paymentKey] = [...(r ?? []), { person, amount: 0 }]
+            // } else {
+            //     amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount: 0 }]
+            //     amountsToReceivePerPersonPerPayment[paymentKey] = [
+            //         ...(r ?? []),
+            //         { person, amount: amount * -1 }
+            //     ]
+            // }
+            if (amount < 0) {
+                // La persona debe plata
+                amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount: amount * -1 }]
                 amountsToReceivePerPersonPerPayment[paymentKey] = [...(r ?? []), { person, amount: 0 }]
             } else {
+                // La persona debe recibir plata
                 amountsToGivePerPersonPerPayment[paymentKey] = [...(d ?? []), { person, amount: 0 }]
-                amountsToReceivePerPersonPerPayment[paymentKey] = [
-                    ...(r ?? []),
-                    { person, amount: amount * -1 }
-                ]
+                amountsToReceivePerPersonPerPayment[paymentKey] = [...(r ?? []), { person, amount }]
             }
         })
     })
