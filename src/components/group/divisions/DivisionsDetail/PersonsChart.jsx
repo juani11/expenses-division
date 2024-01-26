@@ -16,8 +16,9 @@ const optionsInitialState = {
         offsetY: 0,
         shared: true,
         intersect: false,
+        theme: 'dark',
         style: {
-            fontFamily: 'Lexend '
+            fontFamily: 'Poiret One '
         }
     },
 
@@ -123,7 +124,8 @@ const optionsInitialState = {
                 // return formatedAmount(y)
             },
             style: {
-                fontFamily: 'Poiret One'
+                fontFamily: 'Poiret One',
+                cssClass: 'dark:fill-gray-400'
             },
             offsetX: -15
         }

@@ -4,16 +4,19 @@ import { useGroupStore } from '../../../store/store'
 import Card from '../../common/Card'
 
 import useModal from '../../../hooks/useModal'
-import { translatePaymentKey } from '../../../utils/utils'
+import { generatePaymentKey, translatePaymentKey } from '../../../utils/utils'
 import { ChevronLeftBtn, ChevronRightBtn } from '../../common/ChevronBtn/chevronBtn'
 import ModalDrawer from '../../common/ModalDrawer'
 import DivisionListItem from './DivisionListItem'
-import EmptyDivisionsList from './EmptyDivisionsList'
-import DetailPerExpense from './DivisionsDetail/DetailPerExpense'
 import DetailPerPerson from './DivisionsDetail/DetailPerPerson'
+import EmptyDivisionsList from './EmptyDivisionsList'
 
 const PREV = 'prev'
 const NEXT = 'next'
+
+const currentDate = generatePaymentKey(new Date())
+
+console.log('currentMonth ', currentDate)
 
 const PaymentNavigation = ({
     payment,
@@ -23,14 +26,14 @@ const PaymentNavigation = ({
     expensesInMonth,
     finalResultsGrouped
 }) => {
-    const { openModal, closeModal, modalIsOpen, modalIsLoading } = useModal()
+    const { openModal, closeModal, modalIsOpen } = useModal()
 
     console.log('expensesInMonth', expensesInMonth)
     return (
         <div className='flex justify-between items-center px-4'>
-            <div className='w-11'>
+            <section className='w-11'>
                 {payment !== 0 && <ChevronLeftBtn onClick={() => changePayment(PREV)} />}
-            </div>
+            </section>
             <h5
                 key={date}
                 className='capitalize cursor-pointer hover:bg-gray-100 px-3 py-2 rounded dark:hover:bg-slate-700  '
@@ -39,8 +42,10 @@ const PaymentNavigation = ({
                 {date}
             </h5>
             <ModalDrawer isOpen={modalIsOpen} closeModal={closeModal}>
-                <header className='flex flex-col justify-center items-center gap-5 my-4 '>
-                    <h1 className='capitalize m-0'>{date}</h1>
+                <header className='flex flex-col justify-center items-center gap-5 pt-4 z-40  '>
+                    <h1 className='capitalize m-0 [animation-timeline:scroll()] [animation-range:0_150px] [animation-name:fadeOut]  '>
+                        {date}
+                    </h1>
                 </header>
 
                 {/* Seleccion de tipo de detalle : Detalle por gasto o detalle por persona  */}
@@ -80,7 +85,12 @@ const DivisionListCredit = () => {
     const creditPayments = Object.keys(finalResults)
     console.log('creditPayments', creditPayments)
 
-    const [paymentIndex, setPaymentIndex] = useState(0)
+    const initialPaymentIndex = 0
+    // if (creditPayments.includes(currentDate)) {
+    //     initialPaymentIndex = creditPayments.indexOf(currentDate)
+    // }
+
+    const [paymentIndex, setPaymentIndex] = useState(initialPaymentIndex)
 
     const changePayment = action => {
         action === NEXT ? setPaymentIndex(paymentIndex + 1) : setPaymentIndex(paymentIndex - 1)
