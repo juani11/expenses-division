@@ -1,16 +1,20 @@
 import { useEffect } from 'react'
 import { CloseIcon } from '../icons/icons'
+import useClickOutsideElement from '../../hooks/useClickOutsideElement'
 
 const ModalDrawer = ({ title, isOpen, closeModal, children }) => {
+    const { elemRef } = useClickOutsideElement(closeModal)
+
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : 'auto'
     }, [isOpen])
     return (
         <>
             <div
-                className={`fixed top-0 right-0 z-40 h-full p-4 overflow-y-scroll transition-transform bg-white w-full md:w-[654px] dark:bg-gray-800  ${
+                className={`fixed top-0 right-0 z-40 h-full px-4 pb-4 overflow-y-scroll transition-transform bg-white w-full md:w-[654px] dark:bg-gray-800  ${
                     isOpen ? 'translate-x-0 shadow-2xl' : 'translate-x-full'
                 }`}
+                ref={elemRef}
             >
                 <header className='flex justify-between items-center'>
                     <h2 className='py-4 uppercase m-0 '>{title}</h2>
@@ -23,7 +27,7 @@ const ModalDrawer = ({ title, isOpen, closeModal, children }) => {
                     </button>
                 </header>
                 <hr />
-                <div className='grid grid-rows-[300px_1fr] gap-5 px-10'>{children}</div>
+                <div className='grid grid-rows-[auto-fit_1fr] gap-5 relative  '>{children}</div>
             </div>
         </>
     )

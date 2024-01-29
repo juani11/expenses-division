@@ -16,11 +16,16 @@ const toFloat = num => {
 }
 
 const floorNumber = number => {
-    const flooredNumber = Math.floor(number * 100)
+    // const flooredNumber = Math.floor(number * 100)
+
+    // const formattedNumber = flooredNumber / 100
+
+    // return formattedNumber
+    const flooredNumber = Math.floor(Math.abs(number) * 100)
 
     const formattedNumber = flooredNumber / 100
 
-    return formattedNumber
+    return number < 0 ? formattedNumber * -1 : formattedNumber
 }
 
 const getPercentage = (number, total) => (number * 100) / total
@@ -65,6 +70,15 @@ const translatePaymentKey = paymentKey => {
     return monthName + ' ' + year
 }
 
+const formatedAmount = amount => {
+    const floorNumb = floorNumber(amount)
+
+    return floorNumb.toLocaleString('es-AR', {
+        style: 'currency',
+        currency: 'ARS',
+        minimumFractionDigits: 0
+    })
+}
 export {
     currencyFormat,
     toFloat,
@@ -76,5 +90,6 @@ export {
     currentDate,
     generatePaymentKey,
     translatePaymentKey,
-    floorNumber
+    floorNumber,
+    formatedAmount
 }

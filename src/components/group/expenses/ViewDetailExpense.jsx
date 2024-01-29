@@ -36,7 +36,7 @@ const ExpenseDate = ({ date }) => {
 
 const BasicInformation = ({ children }) => {
     return (
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between h-80'>
             <div className='flex flex-col items-start gap-3'>{children}</div>
             <PeopleExpenseIllustration width={120} height={200} />
         </div>
