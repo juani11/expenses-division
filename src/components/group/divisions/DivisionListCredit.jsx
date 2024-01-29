@@ -41,15 +41,11 @@ const PaymentNavigation = ({
             >
                 {date}
             </h5>
-            <ModalDrawer isOpen={modalIsOpen} closeModal={closeModal}>
-                <header className='flex flex-col justify-center items-center gap-5 pt-4 z-40'>
-                    <h1 className='text-xl capitalize m-0 [animation-timeline:scroll()] [animation-range:0_150px] [animation-name:fadeOut]  '>
-                        {date}
-                    </h1>
-                </header>
-
-                {/* Seleccion de tipo de detalle : Detalle por gasto o detalle por persona  */}
-
+            <ModalDrawer
+                title={`Detalle de las divisiones - ${date}`}
+                isOpen={modalIsOpen}
+                closeModal={closeModal}
+            >
                 <DetailPerPerson expensesInMonth={expensesInMonth} />
             </ModalDrawer>
             <div className='w-11'>
