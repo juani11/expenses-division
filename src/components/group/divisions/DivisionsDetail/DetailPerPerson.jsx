@@ -4,34 +4,28 @@ import PersonStats from './PersonStats'
 import PersonChart from './PersonsChart'
 import PersonExpensesTable from './PersonExpensesTable'
 
-const PersonsList = ({ persons, selectedPerson, hanleChangeSelectedPerson }) => {
+const PersonsList = ({ persons, selectedPerson, handleChangeSelectedPerson }) => {
     return (
-        <div className='flex justify-center gap-10 sticky top-0 bg-white z-10 '>
-            <h2 className=' [animation-timeline:scroll()] [animation-range:200_200px] [animation-name:fadeIn] [animation-fill-mode:both] absolute top-0'>
-                Septiembre 2023
-            </h2>
-
-            <ul
-                id='persons'
-                className=' flex justify-center flex-wrap gap-2 py-5 mb-5 [animation-timeline:scroll()] [animation-range:0_200px] [animation-name:toRight]  [animation-fill-mode:both] '
-            >
-                {persons.map(person => (
-                    <li
-                        key={person.id}
-                        className={`px-3 py-1 rounded-md text-sm font-bold cursor-pointer transition capitalize
+        <ul
+            id='persons'
+            className=' flex justify-center flex-wrap gap-2 py-6 mb-6 sticky top-0 bg-white z-10 [animation-timeline:scroll()] [animation-range:0_200px] [animation-name:toRight]  [animation-fill-mode:both] '
+        >
+            {persons.map(person => (
+                <li
+                    key={person.id}
+                    className={`px-3 py-1 rounded-md text-sm font-bold cursor-pointer transition capitalize
                         ${
                             person.id === selectedPerson.id
                                 ? 'bg-black hover:bg-black border border-black text-white dark:bg-white dark:text-black'
                                 : 'bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600'
                         }
                     }`}
-                        onClick={() => hanleChangeSelectedPerson(person)}
-                    >
-                        {person.name}
-                    </li>
-                ))}
-            </ul>
-        </div>
+                    onClick={() => handleChangeSelectedPerson(person)}
+                >
+                    {person.name}
+                </li>
+            ))}
+        </ul>
     )
 }
 const DetailPerPerson = ({ expensesInMonth }) => {
@@ -39,7 +33,7 @@ const DetailPerPerson = ({ expensesInMonth }) => {
     const persons = useGroupStore(state => state.persons)
 
     const [selectedPerson, setSetselectedPerson] = useState(persons[0])
-    const hanleChangeSelectedPerson = personId => setSetselectedPerson(personId)
+    const handleChangeSelectedPerson = personId => setSetselectedPerson(personId)
 
     const { amountsPerPayment } = totals[selectedPerson.id]
 
@@ -58,7 +52,7 @@ const DetailPerPerson = ({ expensesInMonth }) => {
     const expensesIds = Object.keys(expenses)
     expensesIds.forEach(expenseId => {
         const expense = expenses[Number(expenseId)]
-        const { expenseName, amountsPerPerson, amountPerpayment, cantPayments, numberOfPayment } = expense
+        const { expenseName, amountsPerPerson, cantPayments, numberOfPayment } = expense
 
         const currentPersonAmountInExpense = amountsPerPerson.find(
             ({ person }) => person.id === selectedPerson.id
@@ -88,7 +82,7 @@ const DetailPerPerson = ({ expensesInMonth }) => {
             <PersonsList
                 persons={persons}
                 selectedPerson={selectedPerson}
-                hanleChangeSelectedPerson={hanleChangeSelectedPerson}
+                handleChangeSelectedPerson={handleChangeSelectedPerson}
             />
             <PersonStats personName={selectedPerson.name} {...personStats} />
 

@@ -11,7 +11,7 @@ const ModalDrawer = ({ title, isOpen, closeModal, children }) => {
     return (
         <>
             <div
-                className={`fixed top-0 right-0 z-40 h-full p-4 overflow-y-scroll transition-transform bg-white w-full md:w-[654px] dark:bg-gray-800  ${
+                className={`fixed top-0 right-0 z-40 h-full px-4 pb-4 overflow-y-scroll transition-transform bg-white w-full md:w-[654px] dark:bg-gray-800  ${
                     isOpen ? 'translate-x-0 shadow-2xl' : 'translate-x-full'
                 }`}
                 ref={elemRef}
@@ -27,7 +27,7 @@ const ModalDrawer = ({ title, isOpen, closeModal, children }) => {
                     </button>
                 </header>
                 <hr />
-                <div className='grid grid-rows-[auto-fit_1fr] gap-5 '>{children}</div>
+                <div className='grid grid-rows-[auto-fit_1fr] gap-5 relative  '>{children}</div>
             </div>
         </>
     )

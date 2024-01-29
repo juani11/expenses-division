@@ -1,13 +1,6 @@
 // import dayjs from 'dayjs'
 import { CASH, CREDIT } from '../constants'
-import {
-    currentDate,
-    floorNumber,
-    generatePaymentKey,
-    getPercentage,
-    getRoundedPercentage,
-    toFloat
-} from '../utils/utils'
+import { currentDate, floorNumber, generatePaymentKey, getPercentage, toFloat } from '../utils/utils'
 
 const personIsIncludedInExpense = (person, includedPersons) => {
     return includedPersons.includes(person)
@@ -193,7 +186,6 @@ const groupTotalPerPaymentByMonth = ({
     creditTypeInfo,
     totalsPerPayment,
     person,
-    totalPerPayment,
     expenseName,
     expensesPerMonth,
     expenseId,
@@ -260,9 +252,6 @@ const amountOfMoneyToGiveAndReceivePerPersonPerPayment = (persons, creditExpense
     persons?.forEach(person => {
         creditExpenses.forEach(expense => {
             const { person: owner, name: expenseName, includedPersons, amount, creditTypeInfo, id } = expense
-
-            // Total por cada cuota
-            let totalPerPayment = 0
 
             const amountPerpayment = floorNumber(amount / creditTypeInfo.cantPayments)
 

@@ -36,14 +36,14 @@ const PaymentNavigation = ({
             </section>
             <h5
                 key={date}
-                className='capitalize cursor-pointer hover:bg-gray-100 px-3 py-2 rounded dark:hover:bg-slate-700  '
+                className=' capitalize cursor-pointer hover:bg-gray-100 px-3 py-2 rounded dark:hover:bg-slate-700  '
                 onClick={openModal}
             >
                 {date}
             </h5>
             <ModalDrawer isOpen={modalIsOpen} closeModal={closeModal}>
-                <header className='flex flex-col justify-center items-center gap-5 pt-4 z-40  '>
-                    <h1 className='capitalize m-0 [animation-timeline:scroll()] [animation-range:0_150px] [animation-name:fadeOut]  '>
+                <header className='flex flex-col justify-center items-center gap-5 pt-4 z-40'>
+                    <h1 className='text-xl capitalize m-0 [animation-timeline:scroll()] [animation-range:0_150px] [animation-name:fadeOut]  '>
                         {date}
                     </h1>
                 </header>
@@ -105,7 +105,7 @@ const DivisionListCredit = () => {
     const group = () => {
         const finalResultGrouped = {}
 
-        dateData.forEach((item, index) => {
+        dateData.forEach(item => {
             const { personaFrom, personaTo, cantidad, porcentajePersonaFrom } = item
             const { id, name } = personaTo
 
