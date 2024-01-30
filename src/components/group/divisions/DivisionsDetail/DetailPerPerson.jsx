@@ -8,7 +8,7 @@ const PersonsList = ({ persons, selectedPerson, handleChangeSelectedPerson }) =>
     return (
         <ul
             id='persons'
-            className=' flex justify-center flex-wrap gap-2 py-6 mb-6 sticky top-0 bg-white z-10 [animation-timeline:scroll()] [animation-range:0_200px] [animation-name:toRight]  [animation-fill-mode:both] '
+            className=' flex justify-center flex-wrap gap-2 py-6 sticky top-0 bg-white z-10 [animation-timeline:scroll()] [animation-range:0_200px] [animation-name:toRight]  [animation-fill-mode:both] dark:bg-slate-800 '
         >
             {persons.map(person => (
                 <li
@@ -35,7 +35,7 @@ const DetailPerPerson = ({ expensesInMonth }) => {
     const [selectedPerson, setSetselectedPerson] = useState(persons[0])
     const handleChangeSelectedPerson = personId => setSetselectedPerson(personId)
 
-    const { amountsPerPayment } = totals[selectedPerson.id]
+    const { amounts } = totals[selectedPerson.id]
 
     // Recorrer los gastos. Por cada gasto obtener los totales de la persona seleccionada.
     const expensesNames = []
@@ -43,10 +43,10 @@ const DetailPerPerson = ({ expensesInMonth }) => {
     const expensesTableData = []
 
     const personStats = {
-        totalToPay: amountsPerPayment.toPay,
+        totalToPay: amounts.toPay,
         positiveDiff: 0,
         negativeDiff: 0,
-        totalDiff: amountsPerPayment.diff
+        totalDiff: amounts.diff
     }
 
     const expensesIds = Object.keys(expenses)
@@ -77,8 +77,9 @@ const DetailPerPerson = ({ expensesInMonth }) => {
     })
 
     return (
-        <section id='monthDetail' className='px-2'>
+        <section id='monthDetail' className='px-2 grid gap-2'>
             {/* Seleccion de persona para ver el detalle de esa persona */}
+
             <PersonsList
                 persons={persons}
                 selectedPerson={selectedPerson}
@@ -88,7 +89,7 @@ const DetailPerPerson = ({ expensesInMonth }) => {
 
             <PersonChart expensesNames={expensesNames} expensesDiff={expensesDiff} />
 
-            <PersonExpensesTable expenses={expensesTableData} totals={amountsPerPayment} />
+            <PersonExpensesTable expenses={expensesTableData} totals={amounts} />
         </section>
     )
 }

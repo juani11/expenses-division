@@ -2,7 +2,7 @@ import { formatedAmount } from '../../../../utils/utils'
 
 const PersonStats = ({ personName, totalToPay, totalDiff, positiveDiff, negativeDiff }) => {
     return (
-        <div className='flex justify-around gap-4'>
+        <div className='flex justify-around gap-4 py-4'>
             <section id='total' className=' flex flex-col gap-2'>
                 <span className='flex gap-2 items-center text-sm'>
                     Total de gastos{' '}
