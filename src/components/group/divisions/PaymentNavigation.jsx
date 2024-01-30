@@ -1,11 +1,14 @@
 import { NEXT, PREV } from '../../../constants'
 import useModal from '../../../hooks/useModal'
+import { translatePaymentKey } from '../../../utils/utils'
 import { ChevronLeftBtn, ChevronRightBtn } from '../../common/ChevronBtn/chevronBtn'
 import ModalDrawer from '../../common/ModalDrawer'
 import DetailPerPerson from './DivisionsDetail/DetailPerPerson'
 
-const PaymentNavigation = ({ payment, changePayment, creditPayments, date, expensesInMonth }) => {
+const PaymentNavigation = ({ payment, changePayment, creditPayments, currentPayment, expensesInMonth }) => {
     const { openModal, closeModal, modalIsOpen } = useModal()
+
+    const date = translatePaymentKey(currentPayment)
 
     console.log('expensesInMonth', expensesInMonth)
     return (

@@ -4,7 +4,7 @@ import Card from '../../common/Card'
 import DivisionListItem from './DivisionListItem'
 import EmptyDivisionsList from './EmptyDivisionsList'
 
-const DivisionsList = () => {
+const DivisionsCash = () => {
     const persons = useGroupStore(state => state.persons)
     const expenses = useGroupStore(state => state.expenses)
 
@@ -14,8 +14,8 @@ const DivisionsList = () => {
         <Card className='animate-fade'>
             {results.length === 0 ? (
                 <EmptyDivisionsList
-                    title='Aún no hay divisiones...'
-                    subtitle='Aquí verás cuánto le corresponde pagar a cada integrante'
+                    title='Aún no hay divisiones con Efectivo/Débito...'
+                    subtitle='Acá verás cuánto le corresponde pagar a cada integrante'
                 />
             ) : (
                 <ul>
@@ -28,4 +28,4 @@ const DivisionsList = () => {
     )
 }
 
-export default DivisionsList
+export default DivisionsCash
