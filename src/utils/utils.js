@@ -70,6 +70,13 @@ const translatePaymentKey = paymentKey => {
     return monthName + ' ' + year
 }
 
+const generateDateFromPaymentKey = paymentKey => {
+    const paymentKeySplited = paymentKey.split('_')
+    const [monthIndex, year] = paymentKeySplited
+
+    return new Date(year, monthIndex)
+}
+
 const formatedAmount = amount => {
     const floorNumb = floorNumber(amount)
 
@@ -90,6 +97,7 @@ export {
     currentDate,
     generatePaymentKey,
     translatePaymentKey,
+    generateDateFromPaymentKey,
     floorNumber,
     formatedAmount
 }
