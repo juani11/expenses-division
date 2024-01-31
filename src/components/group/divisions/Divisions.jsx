@@ -5,7 +5,7 @@ import CardHeader from '../../common/CardHeader'
 import Skeleton from '../../common/Skeleton/Skeleton'
 import SkeletonWrapper from '../../common/Skeleton/SkeletonWrapper'
 import DivisionsCredit from './DivisionsCredit'
-import DivisionsCash from './DivisionsCashList'
+import DivisionsCash from './DivisionsCash'
 
 const DivisionsLoading = () => {
     return (

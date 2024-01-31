@@ -17,20 +17,56 @@ const amountOfMoneyToGiveAndReceivePerPerson = (persons, cashExpenses) => {
     let amountsToGivePerPerson = []
     let amountsToReceivePerPerson = []
 
+    const involvedExpenses = { expenses: {}, totals: {} }
+
     persons?.forEach(person => {
         let total = 0
+        involvedExpenses.totals[person.id] = {
+            name: person.name,
+            amounts: {
+                toPay: 0,
+                paid: 0,
+                diff: 0
+            }
+        }
         cashExpenses.forEach(expense => {
-            const { amount, person: owner, includedPersons } = expense
+            const { amount, person: owner, name: expenseName, includedPersons, id } = expense
+
+            const personAmountsInExpense = {
+                toPay: 0,
+                paid: 0,
+                diff: 0
+            }
 
             // Si la persona actual esta incluida en el gasto actual, sumo la division por persona del gasto actual en la persona
 
             if (personIsIncludedInExpense(person.id, includedPersons)) {
                 total = toFloat(total + amount / includedPersons.length)
+                personAmountsInExpense.toPay = floorNumber(amount / includedPersons.length)
             }
             // Si la persona actual es dueña del gasto actual resto el valor en la persona
             if (owner === person.id) {
                 total = toFloat(total - amount)
+                personAmountsInExpense.paid = amount
             }
+
+            personAmountsInExpense.diff = floorNumber(
+                personAmountsInExpense.paid - personAmountsInExpense.toPay
+            )
+
+            involvedExpenses.expenses[id] = {
+                expenseName,
+                amountsPerPerson: involvedExpenses.expenses[id]?.amountsPerPerson
+                    ? [
+                          ...involvedExpenses.expenses[id].amountsPerPerson,
+                          { person, amounts: personAmountsInExpense }
+                      ]
+                    : [{ person, amounts: personAmountsInExpense }]
+            }
+
+            involvedExpenses.totals[person.id].amounts.toPay += personAmountsInExpense.toPay
+            involvedExpenses.totals[person.id].amounts.paid += personAmountsInExpense.paid
+            involvedExpenses.totals[person.id].amounts.diff += personAmountsInExpense.diff
         })
 
         if (total > 0) {
@@ -41,7 +77,7 @@ const amountOfMoneyToGiveAndReceivePerPerson = (persons, cashExpenses) => {
             amountsToReceivePerPerson = [...amountsToReceivePerPerson, { person, amount: total * -1 }]
         }
     })
-    return { amountsToGivePerPerson, amountsToReceivePerPerson }
+    return { amountsToGivePerPerson, amountsToReceivePerPerson, involvedExpenses }
 }
 
 function calculateDivisions(amountsToGivePerPerson, amountsToReceivePerPerson) {
@@ -156,18 +192,17 @@ const cantExpensesInWhichEachPersonIsIncluded = expenses => {
 const calculateFinalResult = (persons, expenses) => {
     const cashExpenses = expenses.filter(expense => expense.type === CASH)
 
-    const { amountsToGivePerPerson, amountsToReceivePerPerson } = amountOfMoneyToGiveAndReceivePerPerson(
-        persons,
-        cashExpenses
-    )
+    const { amountsToGivePerPerson, amountsToReceivePerPerson, involvedExpenses } =
+        amountOfMoneyToGiveAndReceivePerPerson(persons, cashExpenses)
 
     console.log('amountsToGivePerPerson', amountsToGivePerPerson)
     console.log('amountsToReceivePerPerson', amountsToReceivePerPerson)
+    console.log('involvedExpenses', involvedExpenses)
 
     const finalResult = calculateDivisions(amountsToGivePerPerson, amountsToReceivePerPerson)
 
     console.log('finalResult', finalResult)
-    return finalResult
+    return { finalResult, involvedExpenses }
 }
 
 const add = ({ totalsPerPayment, totalPerPayment, paymentKey, person }) => {
@@ -225,9 +260,9 @@ const groupTotalPerPaymentByMonth = ({
             amountsPerPerson: expensesPerMonth[paymentKey].expenses[expenseId]?.amountsPerPerson
                 ? [
                       ...expensesPerMonth[paymentKey].expenses[expenseId].amountsPerPerson,
-                      { person, amountsPerPayment }
+                      { person, amounts: amountsPerPayment }
                   ]
-                : [{ person, amountsPerPayment }],
+                : [{ person, amounts: amountsPerPayment }],
             numberOfPayment: i,
             cantPayments,
             amountPerpayment
@@ -352,8 +387,6 @@ const calculateFinalResultCredit = (persons, expenses) => {
 
     return {
         finalResults,
-        amountsToGivePerPersonPerPayment,
-        amountsToReceivePerPersonPerPayment,
         expensesPerMonth
     }
 }
