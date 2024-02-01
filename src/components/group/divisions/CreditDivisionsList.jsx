@@ -12,7 +12,7 @@ const CreditDivisionsList = ({ expenses }) => {
         return calculateFinalResultCredit(persons, expenses)
     }, [expenses])
 
-    const { finalResults, expensesPerMonth } = memoizedResultsCredit
+    const { finalResults, involvedExpensesPerMonth } = memoizedResultsCredit
 
     console.log('finalResults ', finalResults)
     const creditPayments = Object.keys(finalResults)
@@ -30,7 +30,7 @@ const CreditDivisionsList = ({ expenses }) => {
 
     const dateData = finalResults[currentPayment]
 
-    const expensesInMonth = expensesPerMonth[currentPayment]
+    const involvedExpensesInMonth = involvedExpensesPerMonth[currentPayment]
 
     return (
         <>
@@ -39,7 +39,7 @@ const CreditDivisionsList = ({ expenses }) => {
                 changePayment={changePayment}
                 creditPayments={creditPayments}
                 currentPayment={currentPayment}
-                expensesInMonth={expensesInMonth}
+                involvedExpensesInMonth={involvedExpensesInMonth}
             />
             <ul className='py-2 animate-fade' key={creditPayments[paymentIndex]}>
                 {dateData.map((division, index) => (

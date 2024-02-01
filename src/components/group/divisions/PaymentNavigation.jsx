@@ -5,7 +5,13 @@ import { ChevronLeftBtn, ChevronRightBtn } from '../../common/ChevronBtn/chevron
 import ModalDrawer from '../../common/ModalDrawer'
 import DetailPerPerson from './DivisionsDetail/DetailPerPerson'
 
-const PaymentNavigation = ({ payment, changePayment, creditPayments, currentPayment, expensesInMonth }) => {
+const PaymentNavigation = ({
+    payment,
+    changePayment,
+    creditPayments,
+    currentPayment,
+    involvedExpensesInMonth
+}) => {
     const { openModal, closeModal, modalIsOpen } = useModal()
 
     const date = translatePaymentKey(currentPayment)
@@ -35,7 +41,7 @@ const PaymentNavigation = ({ payment, changePayment, creditPayments, currentPaym
                 isOpen={modalIsOpen}
                 closeModal={closeModal}
             >
-                <DetailPerPerson involvedExpenses={expensesInMonth} />
+                <DetailPerPerson involvedExpenses={involvedExpensesInMonth} />
             </ModalDrawer>
             <div className='w-11'>
                 {payment !== creditPayments.length - 1 && (
