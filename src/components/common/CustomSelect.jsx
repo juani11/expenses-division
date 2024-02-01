@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '../icons/icons'
 import Label from './Label'
+import useClickOutsideElement from '../../hooks/useClickOutsideElement'
 
 const types = {
     sorter: {
@@ -34,9 +35,13 @@ const OptionList = ({ options, handleChange }) => {
     )
 }
 
-const Select = ({ placeholder, selectedValue, isOpen, btnClasses }) => {
+const Select = ({ placeholder, selectedValue, isOpen, btnClasses, ref }) => {
     return (
-        <button type='button' className={`flex justify-between items-center w-full p-1  ${btnClasses} `}>
+        <button
+            ref={ref}
+            type='button'
+            className={`flex justify-between items-center w-full p-1  ${btnClasses} `}
+        >
             <span className={`px-5 uppercase ${selectedValue ?? 'text-slate-400 '}`}>
                 {selectedValue ?? placeholder}
             </span>
@@ -52,10 +57,12 @@ const CustomSelect = ({ label, placeholder, selectedValue, type, ...optionsProps
     const typeClasess = types[type]
     const { container: containerClasses, button: btnClasses } = typeClasess
 
+    const { elemRef } = useClickOutsideElement(() => setIsOpen(false))
+
     return (
         <div className='flex flex-col'>
             {label && <Label>{label}</Label>}
-            <div className={`relative ${containerClasses}`} onClick={handleClick}>
+            <div ref={elemRef} className={`relative ${containerClasses}`} onClick={handleClick}>
                 <Select
                     placeholder={placeholder}
                     selectedValue={selectedValue}
