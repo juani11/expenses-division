@@ -4,8 +4,8 @@ import CardContentWithMenu from '../../common/CardContentWithMenu'
 import CardHeader from '../../common/CardHeader'
 import Skeleton from '../../common/Skeleton/Skeleton'
 import SkeletonWrapper from '../../common/Skeleton/SkeletonWrapper'
-import DivisionsCredit from './DivisionsCredit'
-import DivisionsCash from './DivisionsCash'
+import CashDivisions from './CashDivisions'
+import CreditDivisions from './CreditDivisions'
 
 const DivisionsLoading = () => {
     return (
@@ -18,8 +18,8 @@ const DivisionsLoading = () => {
 }
 
 const menuItemsComponents = {
-    [DIVISIONS_CASH]: DivisionsCash,
-    [DIVISIONS_CREDIT]: DivisionsCredit
+    [DIVISIONS_CASH]: CashDivisions,
+    [DIVISIONS_CREDIT]: CreditDivisions
 }
 
 const Divisions = () => {

@@ -5,7 +5,7 @@ import { useGroupStore } from '../../../store/store'
 import DivisionListItem from './DivisionListItem'
 import PaymentNavigation from './PaymentNavigation'
 
-const DivisionsListCredit = ({ expenses }) => {
+const CreditDivisionsList = ({ expenses }) => {
     const persons = useGroupStore(state => state.persons)
 
     const memoizedResultsCredit = useMemo(() => {
@@ -50,4 +50,4 @@ const DivisionsListCredit = ({ expenses }) => {
     )
 }
 
-export default DivisionsListCredit
+export default CreditDivisionsList

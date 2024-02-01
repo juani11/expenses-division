@@ -41,12 +41,14 @@ const ExpenseRow = ({ expense }) => {
         <tr className='bg-white border-b border-gray-50 hover:bg-gray-50 font-bold dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-slate-600'>
             <th
                 scope='row'
-                className='flex flex-col items-start px-2 py-3 text-gray-900 whitespace-nowrap dark:text-gray-200 '
+                className='flex flex-col items-start px-2 py-3.5 text-gray-900 whitespace-nowrap dark:text-gray-200 '
             >
                 <span>{name} </span>
-                <span className='py-0.5 text-gray-400 '>
-                    cuota {numberOfPayment} de {cantPayments}
-                </span>
+                {cantPayments && (
+                    <span className='py-0.5 text-gray-400 '>
+                        cuota {numberOfPayment} de {cantPayments}
+                    </span>
+                )}
                 {toPay === 0 && (
                     <span className='bg-primary-200 px-2 py-0.5 rounded text-primary dark:bg-primary dark:text-white'>
                         Excluido

@@ -10,25 +10,32 @@ const PaymentNavigation = ({ payment, changePayment, creditPayments, currentPaym
 
     const date = translatePaymentKey(currentPayment)
 
-    console.log('expensesInMonth', expensesInMonth)
     return (
-        <div className='flex justify-between items-center px-4'>
+        <div className='flex justify-between items-center  py-4'>
             <section className='w-11'>
                 {payment !== 0 && <ChevronLeftBtn onClick={() => changePayment(PREV)} />}
             </section>
-            <h5
-                key={date}
-                className='capitalize cursor-pointer hover:bg-gray-100 px-3 py-2 rounded dark:hover:bg-slate-700'
-                onClick={openModal}
-            >
-                {date}
-            </h5>
+            <div className='flex flex-col gap-0'>
+                <h5
+                    key={date}
+                    className='capitalize  px-3 py-1 rounded dark:hover:bg-slate-700 m-0'
+                    // onClick={openModal}
+                >
+                    {date}
+                </h5>
+                <button
+                    className='py-1 rounded text-xs uppercase bg-gray-100 hover:bg-gray-200  dark:bg-slate-600 dark:hover:bg-slate-500'
+                    onClick={openModal}
+                >
+                    Ver detalle
+                </button>
+            </div>
             <ModalDrawer
                 title={`Detalle de las divisiones - ${date}`}
                 isOpen={modalIsOpen}
                 closeModal={closeModal}
             >
-                <DetailPerPerson expensesInMonth={expensesInMonth} />
+                <DetailPerPerson involvedExpenses={expensesInMonth} />
             </ModalDrawer>
             <div className='w-11'>
                 {payment !== creditPayments.length - 1 && (

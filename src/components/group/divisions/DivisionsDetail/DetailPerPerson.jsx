@@ -5,8 +5,8 @@ import PersonChart from './PersonsChart'
 import PersonExpensesTable from './PersonExpensesTable'
 import PersonsList from './PersonsList'
 
-const DetailPerPerson = ({ expensesInMonth }) => {
-    const { expenses, totals } = expensesInMonth
+const DetailPerPerson = ({ involvedExpenses }) => {
+    const { expenses, totals } = involvedExpenses
     const persons = useGroupStore(state => state.persons)
 
     const [selectedPerson, setSetselectedPerson] = useState(persons[0])

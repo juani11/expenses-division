@@ -1,10 +1,10 @@
 import { CREDIT } from '../../../constants'
 import { useGroupStore } from '../../../store/store'
 import Card from '../../common/Card'
-import DivisionsListCredit from './DivisionsListCredit'
+import CreditDivisionsList from './CreditDivisionsList'
 import EmptyDivisionsList from './EmptyDivisionsList'
 
-const DivisionsCredit = () => {
+const CreditDivisions = () => {
     const expenses = useGroupStore(state => state.expenses)
 
     const existsCreditExpenses = expenses.some(expense => expense.type === CREDIT)
@@ -17,10 +17,10 @@ const DivisionsCredit = () => {
                     subtitle=' Acá verás cuánto le corresponde pagar a cada integrante por cada mes'
                 />
             ) : (
-                <DivisionsListCredit expenses={expenses} />
+                <CreditDivisionsList expenses={expenses} />
             )}
         </Card>
     )
 }
 
-export default DivisionsCredit
+export default CreditDivisions
