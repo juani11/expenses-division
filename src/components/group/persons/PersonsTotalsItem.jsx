@@ -1,4 +1,4 @@
-import { currencyFormat, getRoundedPercentage } from '../../../utils/utils'
+import { formatedAmount, getRoundedPercentage } from '../../../utils/utils'
 
 const PersonTotalItem = ({ personTotal, nameOfPerson, totalAmountExpenses }) => {
     const { cantExpenses, amount } = personTotal
@@ -7,6 +7,7 @@ const PersonTotalItem = ({ personTotal, nameOfPerson, totalAmountExpenses }) => 
 
     const cantExpensesText = `${cantExpenses} ${cantExpenses > 1 ? 'Gastos' : 'Gasto'}`
 
+    const formatedAm = formatedAmount(amount ?? 0)
     return (
         <li className='hover:bg-gray-50 rounded-xl p-3 my-2 animate-fade dark:hover:bg-slate-600 '>
             <div className='flex justify-between items-center mb-2'>
@@ -23,7 +24,7 @@ const PersonTotalItem = ({ personTotal, nameOfPerson, totalAmountExpenses }) => 
                 </div>
             </div>
             <div className='flex justify-end'>
-                <h3 className='m-0'>${currencyFormat(amount ?? 0)}</h3>
+                <h3 className='m-0'>{formatedAm}</h3>
             </div>
         </li>
     )
