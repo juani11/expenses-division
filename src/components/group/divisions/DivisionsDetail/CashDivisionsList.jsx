@@ -14,7 +14,7 @@ const CashDivisionsList = ({ expenses }) => {
             <CashDivisionsDetail>
                 <DetailPerPerson involvedExpenses={involvedExpenses} />
             </CashDivisionsDetail>
-            <ul>
+            <ul className='mt-4'>
                 {finalResult.map((division, index) => (
                     <DivisionListItem key={index} division={division} />
                 ))}

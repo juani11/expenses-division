@@ -7,7 +7,7 @@ const CashDivisionsDetail = ({ children }) => {
     return (
         <section id='detail' className='flex justify-center'>
             <button
-                className='uppercase py-1 px-3 my-6 rounded text-sm bg-gray-100 hover:bg-gray-200 dark:bg-slate-600 dark:hover:bg-slate-500'
+                className=' uppercase py-1 px-3 rounded text-sm bg-gray-100 hover:bg-gray-200 dark:bg-slate-600 dark:hover:bg-slate-500'
                 onClick={openModal}
             >
                 Ver detalle

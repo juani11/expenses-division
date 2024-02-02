@@ -24,17 +24,17 @@ const PaymentNavigation = ({
             <div className='flex flex-col gap-0'>
                 <h5
                     key={date}
-                    className='capitalize  px-3 py-1 rounded dark:hover:bg-slate-700 m-0'
-                    // onClick={openModal}
+                    className='capitalize px-3 py-1 rounded cursor-pointer hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-slate-700 m-0'
+                    onClick={openModal}
                 >
                     {date}
                 </h5>
-                <button
+                {/* <button
                     className='py-1 rounded text-xs uppercase bg-gray-100 hover:bg-gray-200  dark:bg-slate-600 dark:hover:bg-slate-500'
                     onClick={openModal}
                 >
                     Ver detalle
-                </button>
+                </button> */}
             </div>
             <ModalDrawer
                 title={`Detalle de las divisiones - ${date}`}

@@ -9,7 +9,7 @@ import ViewDetailExpense from './ViewDetailExpense'
 const ExpenseName = ({ name, payerName, onClick }) => {
     return (
         <div
-            className='flex-1 flex flex-col justify-center items-start md:w-auto cursor-pointer'
+            className='flex-1 flex flex-col justify-center items-start md:w-auto cursor-pointer ml-2 md:ml-6'
             onClick={onClick}
         >
             <h4 className='m-0 capitalize text-sm md:text-base'>{name}</h4>
@@ -29,7 +29,7 @@ const ExpensesListItem = ({ expense }) => {
     return (
         <li
             key={id}
-            className='flex justify-between items-center gap-5 hover:bg-gray-50 rounded-xl mx-2 px-2 dark:hover:bg-slate-600'
+            className='flex justify-between items-center gap-4 hover:bg-gray-50 rounded-xl mx-2 px-2 dark:hover:bg-slate-600'
         >
             {type === CREDIT ? <CreditCardIcon /> : <CashIcon />}
 
