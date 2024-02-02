@@ -6,29 +6,37 @@ import { CashIcon, CreditCardIcon } from '../../icons/icons'
 import RemoveExpense from './RemoveExpense'
 import ViewDetailExpense from './ViewDetailExpense'
 
+const ExpenseName = ({ name, payerName, onClick }) => {
+    return (
+        <div
+            className='flex-1 flex flex-col justify-center items-start md:w-auto cursor-pointer'
+            onClick={onClick}
+        >
+            <h4 className='m-0 capitalize text-sm md:text-base'>{name}</h4>
+            <h5 className='m-0 text-xs capitalize text-gray-400'> {payerName}</h5>
+        </div>
+    )
+}
 const ExpensesListItem = ({ expense }) => {
-    const { id, person, name, amount, type } = expense
+    const { id, person: payer, name, amount, type } = expense
 
     const persons = useGroupStore(state => state.persons)
 
-    const persona = persons.find(persona => persona.id === person)
+    const person = persons.find(person => person.id === payer)
 
     const { openModal, closeModal, modalIsOpen } = useModal()
 
     return (
         <li
             key={id}
-            className='flex justify-between items-center gap-4 hover:bg-gray-50 rounded-xl mx-2 px-2 dark:hover:bg-slate-600'
+            className='flex justify-between items-center gap-5 hover:bg-gray-50 rounded-xl mx-2 px-2 dark:hover:bg-slate-600'
         >
-            <div className='flex-1 flex items-center gap-10  cursor-pointer' onClick={openModal}>
-                {type === CREDIT ? <CreditCardIcon /> : <CashIcon />}
-                <div className='flex flex-col justify-center items-start w-20 md:w-auto'>
-                    <h4 className='m-0 capitalize'>{name}</h4>
-                    <h5 className='m-0 text-xs capitalize text-gray-400'> {persona?.name}</h5>
-                </div>
-            </div>
-            <div className='basis-48 min-w-[128px] m-auto'>
-                <MoneyAmount amount={amount} className='m-4 bg-primary text-white font-bold' />
+            {type === CREDIT ? <CreditCardIcon /> : <CashIcon />}
+
+            <ExpenseName name={name} payerName={person?.name} onClick={openModal} />
+
+            <div className='min-w-[85px] md:min-w-[128px] md:basis-48'>
+                <MoneyAmount amount={amount} className='my-4 bg-primary text-white font-bold' />
             </div>
             <div className='flex items-center gap-2 cursor-pointer'>
                 <RemoveExpense expenseName={name} expenseId={id} />
