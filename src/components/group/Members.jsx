@@ -42,7 +42,7 @@ const Members = () => {
                     </div>
 
                     <Button size='lg' type='button' onClick={handleClick}>
-                        añadir
+                        agregar
                     </Button>
                 </div>
             </div>

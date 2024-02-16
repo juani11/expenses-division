@@ -58,7 +58,7 @@ const AddExpense = () => {
 
     return (
         <>
-            <Button onClick={openModal}>añadir gasto</Button>
+            <Button onClick={openModal}>agregar gasto</Button>
 
             <FormProvider {...methods}>
                 <ModalDrawerForm
