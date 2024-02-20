@@ -5,6 +5,7 @@ import GroupHeader from '../components/group/GroupHeader'
 import Persons from '../components/group/persons/Persons'
 import { useGroupStore } from '../store/store'
 import Expenses from '../components/group/expenses/Expenses'
+import usePageSEO from '../hooks/usePageSEO'
 
 const Group = () => {
     const [, params] = useRoute('/group/:id')
@@ -16,6 +17,8 @@ const Group = () => {
     const group = useGroupStore(state => state.info)
     const persons = useGroupStore(state => state.persons)
 
+    const setOpenGraphDescription = usePageSEO()
+
     const groupName = group?.name
     const cantPersons = persons?.length
 
@@ -26,6 +29,15 @@ const Group = () => {
     useEffect(() => {
         fetch(groupId)
     }, [])
+
+    useEffect(() => {
+        // SET OPEN GRAPH META
+        if (groupName) {
+            setOpenGraphDescription(
+                `¡Hola!. Ya podés acceder al grupo "${groupName}" y comenzar a agregar gastos!`
+            )
+        }
+    }, [groupName])
 
     return (
         <>
