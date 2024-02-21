@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { CoppyClipboardIcon, LinkIcon } from '../icons/icons'
 
 const GroupAccessLink = () => {
     const [coppy, setCoppy] = useState(false)
+    const [tooltipVisible, setTooltipVisible] = useState(false)
 
     const handleClick = () => {
         navigator.clipboard.writeText(window.location.href)
@@ -16,44 +18,40 @@ const GroupAccessLink = () => {
         }
     }, [coppy])
 
+    const showTooltip = () => setTooltipVisible(true)
+    const hideTooltip = () => setTooltipVisible(false)
     return (
-        <div className='rounded bg-gray-50 py-1 px-3 '>
+        <div
+            className={`relative ${
+                tooltipVisible ? 'overflow-y-visible' : 'overflow-y-hidden'
+            } rounded bg-gray-50 py-1 px-3`}
+        >
+            <div
+                className={` ${
+                    tooltipVisible ? 'opacity-1' : 'opacity-0'
+                } absolute -top-8 right-0 bg-black text-white font-bold px-2 py-0.5 rounded`}
+            >
+                <span className='text-sm'>{coppy ? 'Copiado!' : 'Copiar Link'}</span>
+            </div>
+            {/* <div
+                className={` ${
+                    tooltipVisible ? 'translate-y-0 ' : ' -translate-y-2'
+                } absolute -top-6 right-0 transition-transform bg-secondary text-white font-bold px-2  rounded`}
+            >
+                <span className='text-sm '>{coppy ? 'Copiado!' : 'Copiar Link'}</span>
+            </div> */}
             <div className='flex items-center gap-2'>
-                <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth='1.5'
-                    stroke='currentColor'
-                    className='w-4 h-4'
-                >
-                    <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244'
-                    />
-                </svg>
+                <LinkIcon />
                 <span>Link del grupo</span>
                 <button
                     className='text-gray-900 dark:text-gray-400 hover:bg-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 rounded-lg py-1.5 px-2 inline-flex items-center justify-center bg-white border-gray-200 border'
                     onClick={handleClick}
+                    onMouseEnter={showTooltip}
+                    onMouseLeave={hideTooltip}
                 >
                     {coppy ? (
                         <span>
-                            <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                strokeWidth='1.5'
-                                stroke='currentColor'
-                                className='w-4 h-4'
-                            >
-                                <path
-                                    strokeLinecap='round'
-                                    strokeLinejoin='round'
-                                    d='m4.5 12.75 6 6 9-13.5'
-                                />
-                            </svg>
+                            <CoppyClipboardIcon />
                         </span>
                     ) : (
                         <span>
