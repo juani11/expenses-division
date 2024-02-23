@@ -54,7 +54,7 @@ async function getGroup(groupId) {
   )
   `
         )
-        .eq('id', `${groupId}`)
+        .eq('public_id', `${groupId}`)
 }
 
 function mockCreateGroup(group) {
@@ -77,10 +77,14 @@ async function createGruop(group) {
 
     // try {
     //  Create Group record and return it
-    const { data: groupData, error: groupError } = await supabase
-        .from('expense_group')
-        .insert([{ name: groupName }])
-        .select()
+    // const { data: groupData, error: groupError } = await supabase
+    //     .from('expense_group')
+    //     .insert([{ name: groupName }])
+    //     .select()
+
+    const { data: groupData, error: groupError } = await supabase.rpc('create_group', {
+        group_name: groupName
+    })
 
     if (groupError) {
         if (groupError.message === 'TypeError: Failed to fetch')
@@ -92,8 +96,9 @@ async function createGruop(group) {
     }
 
     console.log(groupData)
-    const [data] = groupData
-    const { id: groupId } = data
+
+    // const [data] = groupData
+    const { new_group_id: groupId, public_group_id: publicGroupId } = groupData
 
     //  Agrego personas al grupo creado...
     let personsToAdd = members.map(member => ({
@@ -123,7 +128,7 @@ async function createGruop(group) {
     // }
 
     // return resul
-    return { groupId }
+    return { publicGroupId }
 }
 
 //  EXPENSES
