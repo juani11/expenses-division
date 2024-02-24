@@ -1,3 +1,4 @@
+import { InvalidGroupError } from '../errors/errors'
 import { group } from '../mock/mockData'
 import { supabase } from './supabase'
 
@@ -32,10 +33,11 @@ function mockGetGroup(groupId) {
 }
 
 async function getGroup(groupId) {
-    return await supabase
+    const { data: expenseGroup, error } = await supabase
         .from('expense_group')
         .select(
             `
+            id,
   name,
   persons:person (
     id,
@@ -55,6 +57,14 @@ async function getGroup(groupId) {
   `
         )
         .eq('public_id', `${groupId}`)
+
+    if (error) throw Error('Se produjo un error al consultar el grupo')
+
+    if (expenseGroup.length === 0) {
+        throw new InvalidGroupError('El grupo no existe')
+    }
+
+    return expenseGroup
 }
 
 function mockCreateGroup(group) {
