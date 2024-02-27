@@ -1,3 +1,4 @@
+import { InvalidGroupError } from '../errors/errors'
 import { group } from '../mock/mockData'
 import { supabase } from './supabase'
 
@@ -32,10 +33,11 @@ function mockGetGroup(groupId) {
 }
 
 async function getGroup(groupId) {
-    return await supabase
+    const { data: expenseGroup, error } = await supabase
         .from('expense_group')
         .select(
             `
+            id,
   name,
   persons:person (
     id,
@@ -54,7 +56,15 @@ async function getGroup(groupId) {
   )
   `
         )
-        .eq('id', `${groupId}`)
+        .eq('public_id', `${groupId}`)
+
+    if (error) throw Error('Se produjo un error al consultar el grupo')
+
+    if (expenseGroup.length === 0) {
+        throw new InvalidGroupError('El grupo no existe')
+    }
+
+    return expenseGroup
 }
 
 function mockCreateGroup(group) {
@@ -77,10 +87,14 @@ async function createGruop(group) {
 
     // try {
     //  Create Group record and return it
-    const { data: groupData, error: groupError } = await supabase
-        .from('expense_group')
-        .insert([{ name: groupName }])
-        .select()
+    // const { data: groupData, error: groupError } = await supabase
+    //     .from('expense_group')
+    //     .insert([{ name: groupName }])
+    //     .select()
+
+    const { data: groupData, error: groupError } = await supabase.rpc('create_group', {
+        group_name: groupName
+    })
 
     if (groupError) {
         if (groupError.message === 'TypeError: Failed to fetch')
@@ -92,8 +106,9 @@ async function createGruop(group) {
     }
 
     console.log(groupData)
-    const [data] = groupData
-    const { id: groupId } = data
+
+    // const [data] = groupData
+    const { new_group_id: groupId, public_group_id: publicGroupId } = groupData
 
     //  Agrego personas al grupo creado...
     let personsToAdd = members.map(member => ({
@@ -123,7 +138,7 @@ async function createGruop(group) {
     // }
 
     // return resul
-    return { groupId }
+    return { publicGroupId }
 }
 
 //  EXPENSES

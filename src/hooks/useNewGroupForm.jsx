@@ -32,8 +32,8 @@ const useNewGroupForm = () => {
             .then(res => {
                 // if (!res.ok) throw new Error(res.error)
                 console.log(res)
-                const { groupId } = res
-                setLocation(`/group/${groupId}`)
+                const { publicGroupId } = res
+                setLocation(`/group/${publicGroupId}`)
             })
             .catch(error => {
                 console.log(error.message)
