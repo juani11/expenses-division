@@ -16,8 +16,11 @@ function Index() {
                     <p>Creá un grupo, añadí gastos </p>
                     <p> y calculá la división que le corresponde a cada participante</p>
                 </div>
-                <div>
+                <div className='flex flex-col md:flex-row gap-4'>
                     <Button onClick={() => setLocation('/newGroup')}>Crear grupo de gastos </Button>
+                    <Button color='primary' onClick={() => setLocation('/login')}>
+                        Iniciar sesión
+                    </Button>
                 </div>
             </div>
         </div>
