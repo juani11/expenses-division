@@ -6,6 +6,8 @@ import { EmptyGroupsIlustration } from '../components/illustrations/Illustration
 import useAuth from '../hooks/useAuth'
 import { formatedDate } from '../utils/utils'
 import CardHeader from '../components/common/CardHeader'
+import { useEffect, useState } from 'react'
+import { getUserGroups } from '../services/services'
 
 const EmptyUserGroups = () => {
     return (
@@ -19,7 +21,7 @@ const EmptyUserGroups = () => {
 const UserGroupsList = ({ userGroups }) => {
     return (
         <ul className='pt-4 '>
-            {userGroups.map(userGroup => (
+            {userGroups?.map(userGroup => (
                 <UserGroupsListItem key={userGroup.publicId} userGroup={userGroup} />
             ))}
         </ul>
@@ -62,7 +64,25 @@ const UserGroupsContainer = ({ userGroups }) => {
 const UserProfile = () => {
     const auth = useAuth()
 
-    const { session, loadingUserGroups, userGroups, signOut } = auth
+    const { session, signOut } = auth
+
+    const [loadingUserGroups, setLoadingUserGroups] = useState(false)
+    const [userGroups, setUserGroups] = useState(null)
+
+    useEffect(() => {
+        console.log('Recuperar grupo del usuario actual...')
+        setLoadingUserGroups(true)
+        getUserGroups(session.email)
+            .then(res => {
+                console.log('res dentro de getUserGroup() ', res)
+                // const [groupData] = res
+                setUserGroups(res)
+            })
+            .catch(error => {
+                console.log('error dentro de getUserGroups()', error)
+            })
+            .finally(() => setLoadingUserGroups(false))
+    }, [])
 
     return (
         <div className='md:max-w-screen-md lg:max-w-screen-lg md:mx-auto mx-10 h-screen flex flex-col gap-20 pt-20'>
@@ -70,17 +90,17 @@ const UserProfile = () => {
                 <header className='flex items-center gap-6'>
                     <img
                         className='rounded-full'
-                        src={session?.user.user_metadata.avatar_url}
+                        src={session?.avatar_url}
                         alt='Google user avatar'
                         width={80}
                         height={80}
                     />
 
                     <div className='flex flex-col items-start gap-1'>
-                        <h3 className='m-0'>{session?.user.user_metadata.full_name}</h3>
+                        <h3 className='m-0'>{session?.full_name}</h3>
                         <div className='flex items-center gap-1 opacity-75 mb-1'>
                             <AtIcon width={'1rem'} />
-                            <p className='text-xs'>{session?.user.user_metadata.email}</p>
+                            <p className='text-xs'>{session?.email}</p>
                         </div>
                     </div>
                 </header>

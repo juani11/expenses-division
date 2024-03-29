@@ -7,6 +7,7 @@ const useNewGroupForm = () => {
     const {
         register,
         formState: { errors },
+        setValue,
         handleSubmit
     } = useForm()
 
@@ -49,6 +50,7 @@ const useNewGroupForm = () => {
         error,
         registerField: register,
         errorsFields: errors,
+        setValue,
         onFinish,
         members,
         addMember,

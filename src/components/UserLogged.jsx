@@ -5,7 +5,7 @@ const UserLogged = ({ signOut }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <div className='relative text-sm'>
+        <div className='relative text-sm z-10'>
             <button
                 className=' flex items-center gap-4 border border-gray-100 px-2 py-2 hover:bg-gray-50 cursor-pointer rounded'
                 onClick={() => setIsOpen(!isOpen)}

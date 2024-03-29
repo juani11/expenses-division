@@ -1,3 +1,4 @@
+import useAuth from '../../hooks/useAuth'
 import useNewGroupFormContext from '../../hooks/useNewGroupFormContext'
 import Button from '../common/Button'
 import Input from './../Input'
@@ -22,10 +23,15 @@ const formFieldsRules = {
 
 const NewGroupFormContent = () => {
     const newGroupFormContext = useNewGroupFormContext()
-    const { registerField, errorsFields, loading } = newGroupFormContext
+    const { registerField, errorsFields, setValue, loading } = newGroupFormContext
 
     const { groupName: groupNameRules, owner: ownerRules } = formFieldsRules
 
+    const { session } = useAuth()
+    console.log('session en NewGroupFormContent ', session)
+    const initialName = session?.name
+
+    setValue('owner', initialName)
     return (
         <>
             <div className='w-full flex flex-col md:divide-x md:flex-row '>

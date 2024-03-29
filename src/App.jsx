@@ -1,25 +1,16 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Redirect, Route, Switch } from 'wouter'
+import { Route, Switch } from 'wouter'
 import Fallback from './components/common/Fallback'
+import RedirectIfUserIsLogged from './components/RedirectIfUserIsLogged'
+import RequireAuth from './components/RequireAuth'
+import ThemeSelector from './components/ThemeSelector.'
+import UserLogged from './components/UserLogged'
+import useAuth from './hooks/useAuth'
 import Index from './pages/Index'
 import NewGroup from './pages/NewGroup'
-import ThemeSelector from './components/ThemeSelector.'
 import NotFound from './pages/NotFound'
-import Login from './pages/Login'
-import useAuth from './hooks/useAuth'
-import RequireAuth from './components/RequireAuth'
-import UserLogged from './components/UserLogged'
-import RedirectIfUserIsLogged from './components/RedirectIfUserIsLogged'
 
 const GroupLazy = lazy(() => import('./pages/Group'))
-
-const FirstScreen = () => {
-    const { session } = useAuth()
-
-    console.log('FirstScreen...')
-
-    return session ? <Redirect to='/profile' /> : <Index />
-}
 
 const NavBar = () => {
     const { session, signOut } = useAuth()
@@ -36,14 +27,13 @@ const NavBar = () => {
 }
 
 function App() {
-    useEffect(() => console.log('render App!'))
     return (
         <>
             <NavBar />
 
             <Switch>
-                <Route path='/' component={FirstScreen}>
-                    {/* <Index /> */}
+                <Route path='/'>
+                    <Index />
                 </Route>
                 <Route path='/newGroup'>
                     <NewGroup />
