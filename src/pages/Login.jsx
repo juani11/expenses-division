@@ -7,7 +7,7 @@ const Login = () => {
     const { signInWithGoogle } = useAuth()
 
     return (
-        <div className='md:max-w-screen-lg md:mx-auto mx-10 grid grid-cols-1 md:grid-cols-[390px_1fr] content-center items-center gap-20  dark:bg-gray-900  md:pt-0 pt-20 md:h-screen py-10'>
+        <div className='md:max-w-screen-md lg:max-w-screen-lg md:mx-auto mx-10 grid grid-cols-1 md:grid-cols-[390px_1fr] content-center items-center gap-20  dark:bg-gray-900  md:pt-0 pt-20 md:h-screen py-10'>
             <section id='loginForm' className='flex flex-col gap-16 order-2 md:order-1'>
                 <header>
                     <h2>Bienvenido! </h2>

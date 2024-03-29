@@ -13,6 +13,11 @@ const useGroupStore = create((set, get) => ({
             expenses: [...groupData.expenses],
             loading: false
         }),
+    setLoadingGroupData: () =>
+        set(state => ({
+            ...state,
+            loading: true
+        })),
 
     addExpense: newExpense =>
         set(state => ({

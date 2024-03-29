@@ -4,17 +4,26 @@ import { supabase } from './supabase'
 
 //  GROUP
 
-async function getGroups() {
-    const { data: expenseGroup, error } = await supabase.from('expense_group').select(`
-    *,
-    persons:person (
-      id,
+async function getUserGroups(userEmail) {
+    const { data, error } = await supabase
+        .from('person')
+        .select(
+            `
+    is_group_owner,
+    expenseGroup:expense_group (
       name,
-      is_group_owner
+      createdAt:created_at,
+      publicId:public_id
     )
-  `)
+  `
+        )
+        .eq('user_email', `${userEmail}`)
 
-    console.log({ expenseGroup, error })
+    console.log({ data, error })
+
+    if (error) throw Error('Se produjo un error al consultar los grupo del usuario')
+
+    return data.map(elem => ({ userIsOwner: elem.is_group_owner, ...elem.expenseGroup }))
 }
 
 function mockGetGroup(groupId) {
@@ -188,8 +197,9 @@ export {
     mockCreateGroup,
     createGruop,
     mockGetGroup,
+    getUserGroups,
     getGroup,
-    getGroups,
+    getUserGroups as getGroups,
     createExpense,
     deleteExpense,
     updateIncludedPersonsOnExpense

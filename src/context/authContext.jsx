@@ -1,10 +1,17 @@
 import { createContext, useEffect, useState } from 'react'
-import { supabase } from '../services/supabase'
+import { getUserGroups } from '../services/services'
+import { SUPABASE_LS_AUTH_KEY, supabase } from '../services/supabase'
 
 export const AuthContext = createContext()
 
+const isUserInStorage = window.localStorage.getItem(SUPABASE_LS_AUTH_KEY)
+
 const AuthContextProvider = ({ children }) => {
     const [session, setSession] = useState(null)
+    const [loadingSession, setLoadingSession] = useState(false)
+
+    const [loadingUserGroups, setLoadingUserGroups] = useState(false)
+    const [userGroups, setUserGroups] = useState(null)
 
     const signInWithGoogle = async () => {
         const { data, error } = await supabase.auth.signInWithOAuth({
@@ -22,27 +29,52 @@ const AuthContextProvider = ({ children }) => {
         if (error) {
             console.log('error en signOut: ', error)
         }
+
         console.log('data despues de signOut: ', data)
+        setSession(null)
     }
 
+    console.log('isUserInStorage', isUserInStorage)
+
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            console.log('session actual: ', session)
-            setSession(session)
-        })
-
-        const {
-            data: { subscription }
-        } = supabase.auth.onAuthStateChange((_event, session) => {
-            console.log('event ', _event)
-            setSession(session)
-        })
-
-        return () => subscription.unsubscribe()
+        // Solo si hay key en LS , ir a recuperar el usuario
+        if (isUserInStorage) {
+            console.log('isUserInStorage TRUE')
+            setLoadingSession(true)
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                console.log('session actual: ', session)
+                setSession(session)
+                setLoadingSession(false)
+            })
+        } else {
+            console.log('isUserInStorage FALSE')
+        }
     }, [])
 
+    useEffect(() => {
+        if (!session) console.log('No hay session, por ende no se hace el fetch de los grupos')
+        else {
+            console.log('Recuperar grupo del usuario actual...')
+            setLoadingUserGroups(true)
+            getUserGroups(session.user.email)
+                .then(res => {
+                    console.log('res dentro de getUserGroup() ', res)
+                    // const [groupData] = res
+                    setUserGroups(res)
+                })
+                .catch(error => {
+                    console.log('error dentro de getUserGroups()', error)
+                })
+                .finally(() => setLoadingUserGroups(false))
+        }
+    }, [session])
+
     return (
-        <AuthContext.Provider value={{ session, signInWithGoogle, signOut }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider
+            value={{ session, loadingSession, loadingUserGroups, userGroups, signInWithGoogle, signOut }}
+        >
+            {children}
+        </AuthContext.Provider>
     )
 }
 
