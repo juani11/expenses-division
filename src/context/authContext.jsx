@@ -1,13 +1,14 @@
 import { createContext, useEffect, useState } from 'react'
-import { SUPABASE_LS_AUTH_KEY, supabase } from '../services/supabase'
+import useUserGroups from '../hooks/useUserGroups'
+import { supabase } from '../services/supabase'
 
 export const AuthContext = createContext()
 
-const isUserInStorage = window.localStorage.getItem(SUPABASE_LS_AUTH_KEY)
-
 const AuthContextProvider = ({ children }) => {
     const [session, setSession] = useState(null)
-    const [loadingSession, setLoadingSession] = useState(true)
+    const [loadingSession, setLoadingSession] = useState(false)
+
+    const { loadingUserGroups, userGroups, retrieveUserGroups, groupsPublicId } = useUserGroups()
 
     const signInWithGoogle = async () => {
         const { data, error } = await supabase.auth.signInWithOAuth({
@@ -30,19 +31,34 @@ const AuthContextProvider = ({ children }) => {
         setSession(null)
     }
 
-    console.log('isUserInStorage', isUserInStorage)
-
     useEffect(() => {
-        // setLoadingSession(true)
+        setLoadingSession(true)
         supabase.auth.getSession().then(({ data: { session } }) => {
             console.log('session actual: ', session)
-            setSession(session.user.user_metadata)
+            setSession(session?.user.user_metadata)
             setLoadingSession(false)
         })
     }, [])
 
+    useEffect(() => {
+        if (session)
+            // Recuperar grupos del usuario
+            retrieveUserGroups(session?.email)
+    }, [session])
+
     return (
-        <AuthContext.Provider value={{ session, loadingSession, signInWithGoogle, signOut }}>
+        <AuthContext.Provider
+            value={{
+                session,
+                loadingSession,
+                signInWithGoogle,
+                signOut,
+                loadingUserGroups,
+                retrieveUserGroups,
+                groupsPublicId,
+                userGroups
+            }}
+        >
             {children}
         </AuthContext.Provider>
     )

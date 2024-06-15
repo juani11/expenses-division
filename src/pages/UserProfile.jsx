@@ -1,13 +1,11 @@
 import { navigate } from 'wouter/use-location'
 import UserGroupsLoading from '../components/UserGroupsLoading'
 import Button from '../components/common/Button'
+import CardHeader from '../components/common/CardHeader'
 import { AtIcon } from '../components/icons/icons'
 import { EmptyGroupsIlustration } from '../components/illustrations/Illustrations'
 import useAuth from '../hooks/useAuth'
 import { formatedDate } from '../utils/utils'
-import CardHeader from '../components/common/CardHeader'
-import { useEffect, useState } from 'react'
-import { getUserGroups } from '../services/services'
 
 const EmptyUserGroups = () => {
     return (
@@ -52,37 +50,12 @@ const UserGroupsListItem = ({ userGroup }) => {
 }
 
 const UserGroupsContainer = ({ userGroups }) => {
-    return userGroups?.length === 0 ? (
-        <EmptyUserGroups />
-    ) : (
-        <>
-            {/* <ExpensesListSorter sortBy={sortBy} onChangeSort={handleChange} /> */}
-            <UserGroupsList userGroups={userGroups} />
-        </>
-    )
+    return userGroups?.length === 0 ? <EmptyUserGroups /> : <UserGroupsList userGroups={userGroups} />
 }
 const UserProfile = () => {
     const auth = useAuth()
 
-    const { session, signOut } = auth
-
-    const [loadingUserGroups, setLoadingUserGroups] = useState(false)
-    const [userGroups, setUserGroups] = useState(null)
-
-    useEffect(() => {
-        console.log('Recuperar grupo del usuario actual...')
-        setLoadingUserGroups(true)
-        getUserGroups(session.email)
-            .then(res => {
-                console.log('res dentro de getUserGroup() ', res)
-                // const [groupData] = res
-                setUserGroups(res)
-            })
-            .catch(error => {
-                console.log('error dentro de getUserGroups()', error)
-            })
-            .finally(() => setLoadingUserGroups(false))
-    }, [])
+    const { session, loadingUserGroups, userGroups } = auth
 
     return (
         <div className='md:max-w-screen-md lg:max-w-screen-lg md:mx-auto mx-10 h-screen flex flex-col gap-20 pt-20'>
