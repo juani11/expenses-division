@@ -9,17 +9,22 @@ import useAuth from './hooks/useAuth'
 import Index from './pages/Index'
 import NewGroup from './pages/NewGroup'
 import NotFound from './pages/NotFound'
+import Loading from './components/common/Loading'
 
 const GroupLazy = lazy(() => import('./pages/Group'))
 
 const NavBar = () => {
-    const { session, signOut } = useAuth()
+    const { session, loadingSession, signOut } = useAuth()
 
     console.log('Navbar..')
 
     return (
         <div className='absolute right-0 p-5 md:right-24 md:top-4 flex items-center gap-10'>
-            {session && <UserLogged signOut={signOut} />}
+            {loadingSession ? (
+                <Loading loadingText='Comprobando usuario...' inline />
+            ) : (
+                session && <UserLogged signOut={signOut} />
+            )}
 
             <ThemeSelector />
         </div>
