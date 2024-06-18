@@ -17,13 +17,18 @@ const useUserGroups = () => {
             .finally(() => setLoadingUserGroups(false))
     }
 
+    const addGroup = newGroup => {
+        setUserGroups([...userGroups, newGroup])
+    }
+
     const groupsPublicId = userGroups?.map(group => group.publicId)
 
     return {
         loadingUserGroups,
         userGroups,
         retrieveUserGroups,
-        groupsPublicId
+        groupsPublicId,
+        addGroup
     }
 }
 export default useUserGroups
