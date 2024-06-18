@@ -8,7 +8,12 @@ const useGroupStore = create((set, get) => ({
     error: null,
     setGroupData: groupData =>
         set({
-            info: { id: groupData.id, name: groupData.name },
+            info: {
+                id: groupData.id,
+                name: groupData.name,
+                publicId: groupData.publicId,
+                createdAt: groupData.createdAt
+            },
             persons: [...groupData.persons],
             expenses: [...groupData.expenses],
             loading: false
