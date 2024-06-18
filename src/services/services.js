@@ -47,11 +47,13 @@ async function getGroup(groupId) {
         .select(
             `
             id,
+            publicId:public_id,
   name,
+  createdAt:created_at,
   persons:person (
     id,
     name,
-    is_group_owner
+    userEmail:user_email
   ),
   expenses:expense (
     id,
@@ -193,6 +195,21 @@ async function updateIncludedPersonsOnExpense(expenseId, includedPersons) {
     if (error) throw new Error('Se produjo un error al eliminar el gasto')
 }
 
+async function updateUserEmailOfPerson(personId, userEmail) {
+    const { data, error } = await supabase
+        .from('person')
+        .update({ user_email: userEmail })
+        .eq('id', personId)
+        .select('is_group_owner')
+
+    console.log({ data, error })
+    if (error) throw new Error('Se produjo un error al guardar el grupo en el perfil del usurio ')
+
+    const [resul] = data
+    const { is_group_owner: personIsOwner } = resul
+    return { personIsOwner }
+}
+
 export {
     mockCreateGroup,
     createGruop,
@@ -202,5 +219,6 @@ export {
     getUserGroups as getGroups,
     createExpense,
     deleteExpense,
-    updateIncludedPersonsOnExpense
+    updateIncludedPersonsOnExpense,
+    updateUserEmailOfPerson
 }
