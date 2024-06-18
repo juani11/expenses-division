@@ -3,8 +3,8 @@ import { useGroupStore } from '../../store/store'
 import { currencyFormat } from '../../utils/utils'
 import Avatar from '../common/Avatar'
 import { MoneyIllustration, PeopleSelfieIllustration } from '../illustrations/Illustrations'
-import GroupAccessLink from './GroupAccessLink'
 import GroupHeaderLoading from './GroupHeaderLoading'
+import GroupHeaderOtions from './GroupHeaderOptions'
 
 const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
     const expenses = useGroupStore(state => state.expenses)
@@ -17,7 +17,7 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
                 <Avatar color='primary'>{groupName?.charAt(0).toUpperCase()}</Avatar>
                 <div className='flex flex-col items-start gap-2'>
                     <h2 className='m-0 capitalize'>{groupName}</h2>
-                    <GroupAccessLink />
+                    <GroupHeaderOtions />
                 </div>
             </div>
 
