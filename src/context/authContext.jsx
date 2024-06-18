@@ -8,7 +8,7 @@ const AuthContextProvider = ({ children }) => {
     const [session, setSession] = useState(null)
     const [loadingSession, setLoadingSession] = useState(false)
 
-    const { loadingUserGroups, userGroups, retrieveUserGroups, groupsPublicId } = useUserGroups()
+    const { loadingUserGroups, userGroups, retrieveUserGroups, groupsPublicId, addGroup } = useUserGroups()
 
     const signInWithGoogle = async () => {
         const { data, error } = await supabase.auth.signInWithOAuth({
@@ -56,7 +56,8 @@ const AuthContextProvider = ({ children }) => {
                 loadingUserGroups,
                 retrieveUserGroups,
                 groupsPublicId,
-                userGroups
+                userGroups,
+                addGroup
             }}
         >
             {children}
