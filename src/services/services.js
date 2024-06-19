@@ -91,17 +91,8 @@ function mockCreateGroup(group) {
         }, 2000)
     })
 }
-async function createGruop(group) {
-    const { groupName, owner, members } = group
-
-    // const resul = {}
-
-    // try {
-    //  Create Group record and return it
-    // const { data: groupData, error: groupError } = await supabase
-    //     .from('expense_group')
-    //     .insert([{ name: groupName }])
-    //     .select()
+async function createGroup(group) {
+    const { groupName, owner, userEmail, members } = group
 
     const { data: groupData, error: groupError } = await supabase.rpc('create_group', {
         group_name: groupName
@@ -119,7 +110,7 @@ async function createGruop(group) {
     console.log(groupData)
 
     // const [data] = groupData
-    const { new_group_id: groupId, public_group_id: publicGroupId } = groupData
+    const { new_group_id: groupId, public_group_id: publicGroupId, created_at: createdAt } = groupData
 
     //  Agrego personas al grupo creado...
     let personsToAdd = members.map(member => ({
@@ -133,7 +124,8 @@ async function createGruop(group) {
         {
             name: owner,
             group_id: groupId,
-            is_group_owner: true
+            is_group_owner: true,
+            user_email: userEmail
         }
     ]
 
@@ -149,7 +141,7 @@ async function createGruop(group) {
     // }
 
     // return resul
-    return { publicGroupId }
+    return { publicGroupId, createdAt }
 }
 
 //  EXPENSES
@@ -212,7 +204,7 @@ async function updateUserEmailOfPerson(personId, userEmail) {
 
 export {
     mockCreateGroup,
-    createGruop,
+    createGroup,
     mockGetGroup,
     getUserGroups,
     getGroup,
