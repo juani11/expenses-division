@@ -8,15 +8,15 @@ const formFieldsRules = {
     groupName: {
         required: 'Debe ingresar el nombre del grupo',
         maxLength: {
-            value: 20,
-            message: `Debe ingresar un máximo de 20 carácteres`
+            value: 30,
+            message: `Debe ingresar un máximo de 30 carácteres`
         }
     },
     owner: {
         required: 'Debes ingresar tu nombre',
         maxLength: {
-            value: 20,
-            message: `Debe ingresar un máximo de 20 carácteres`
+            value: 30,
+            message: `Debe ingresar un máximo de 30 carácteres`
         }
     }
 }
@@ -28,10 +28,13 @@ const NewGroupFormContent = () => {
     const { groupName: groupNameRules, owner: ownerRules } = formFieldsRules
 
     const { session } = useAuth()
-    console.log('session en NewGroupFormContent ', session)
+
     const initialName = session?.name
+    const userEmail = session?.email
 
     setValue('owner', initialName)
+    setValue('userEmail', userEmail)
+
     return (
         <>
             <div className='w-full flex flex-col md:divide-x md:flex-row '>
