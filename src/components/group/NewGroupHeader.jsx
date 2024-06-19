@@ -20,8 +20,14 @@ const NewGroupHeader = () => {
                 </>
             ) : (
                 <>
-                    <p>El grupo será vinculado a tu usuario {session.email}</p>
-                    <p> para que luego puedas accederlo desde tu perfil.</p>
+                    <p className='md:w-[670px] '>
+                        El grupo será vinculado a tu usuario{' '}
+                        <span>
+                            <strong>{session.email} </strong>
+                        </span>
+                        para que luego puedas accederlo desde tu perfil
+                    </p>
+                    {/* <p> para que luego puedas accederlo desde tu perfil.</p> */}
                 </>
             )}
         </div>
