@@ -17,14 +17,13 @@ const NavBar = () => {
     const { session, loadingSession, signInWithGoogle, signOut } = useAuth()
     const [match, params] = useRoute('/group/:id')
     console.log('Navbar..')
-    console.log('params..', params)
 
     return (
         <div className='absolute right-0 p-5 md:right-24 md:top-4 flex items-center gap-10'>
             {loadingSession ? (
                 <Loading loadingText='Comprobando usuario...' inline />
             ) : session ? (
-                <UserLogged signOut={signOut} />
+                <UserLogged userName={session?.name} signOut={signOut} />
             ) : (
                 match && (
                     <p className='m-0 text-sm '>
