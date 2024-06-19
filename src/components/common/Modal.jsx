@@ -1,23 +1,17 @@
-import { useState } from 'react'
+import useClickOutsideElement from '../../hooks/useClickOutsideElement'
 import { CloseIcon } from '../icons/icons'
 import Button from './Button'
 const Modal = ({ isOpen, closeModal, title, callback, closable, withFooter, isLoading, children }) => {
-    // const [isLoading, setIsLoading] = useState(false)
-    // const handleClick = () => {
-    //     setIsLoading(true)
-    //     callback().then(res => {
-    //         console.log({ res })
-    //         setIsLoading(false)
-    //         closeModal()
-    //     })
-    // }
+    const { elemRef } = useClickOutsideElement(closeModal)
+
     return (
         <div
             className={`fixed ${
                 isOpen ? 'block' : 'hidden'
             } inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full animate-fade z-50`}
+            ref={elemRef}
         >
-            <div className='relative top-10 mx-auto p-5 border md:w-[565px] shadow-xl rounded-md bg-white dark:bg-slate-800 dark:border-slate-700 '>
+            <div className='relative top-10 mx-auto p-5 border md:w-[565px] shadow-xl rounded-md bg-white dark:bg-slate-900 dark:border-slate-800 '>
                 {/* {closable && (
                     <div className='absolute right-2 top-2'>
                         <Button onClick={closeModal}>
