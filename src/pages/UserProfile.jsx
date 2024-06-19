@@ -40,7 +40,7 @@ const UserGroupsListItem = ({ userGroup }) => {
                     <p className='text-xs'>{formatedDate(createdAt)}</p>
                 </div>
                 {userIsOwner && (
-                    <span className='px-2 py-1 rounded bg-primary-200 text-primary font-bold text-xs '>
+                    <span className='px-2 py-1 rounded bg-primary-200 text-primary font-bold text-xs dark:bg-primary-500 dark:text-primary-200 '>
                         creado por mi
                     </span>
                 )}
