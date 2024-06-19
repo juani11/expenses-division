@@ -89,4 +89,17 @@ const DIVISIONS_CREDIT = 'crédito'
 const PREV = 'prev'
 const NEXT = 'next'
 
-export { CASH, CREDIT, MONTHS, PERSONS_LIST, PERSONS_TOTALS, DIVISIONS_CASH, DIVISIONS_CREDIT, PREV, NEXT }
+const DOMAIN_BASE_URL = import.meta.env.VITE_DOMAIN_URL
+
+export {
+    CASH,
+    CREDIT,
+    MONTHS,
+    PERSONS_LIST,
+    PERSONS_TOTALS,
+    DIVISIONS_CASH,
+    DIVISIONS_CREDIT,
+    PREV,
+    NEXT,
+    DOMAIN_BASE_URL
+}
