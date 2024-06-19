@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from 'react'
+import { useRouter } from 'wouter'
 import useUserGroups from '../hooks/useUserGroups'
 import { supabase } from '../services/supabase'
+import { DOMAIN_BASE_URL } from '../constants'
 
 export const AuthContext = createContext()
 
@@ -10,9 +12,14 @@ const AuthContextProvider = ({ children }) => {
 
     const { loadingUserGroups, userGroups, retrieveUserGroups, groupsPublicId, addGroup } = useUserGroups()
 
-    const signInWithGoogle = async () => {
+    const router = useRouter()
+
+    console.log('router', router)
+
+    const signInWithGoogle = async options => {
         const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google'
+            provider: 'google',
+            options: { redirectTo: `${DOMAIN_BASE_URL}${options.redirectTo}` }
         })
 
         if (error) {

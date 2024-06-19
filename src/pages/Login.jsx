@@ -42,7 +42,7 @@ const Login = () => {
                 {/* <span className='text-center'>O</span> */}
                 <button
                     className='px-4 py-2 border flex items-center justify-center gap-2  dark:border-slate-700 rounded text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow '
-                    onClick={signInWithGoogle}
+                    onClick={() => signInWithGoogle({ redirectTo: '/' })}
                 >
                     <img
                         className='w-5 h-5'
