@@ -17,10 +17,11 @@ const types = {
 const Option = ({ onClick, option }) => {
     return (
         <li
-            className='cursor-pointer select-none py-1 px-5 bg-white hover:bg-primary-300 hover:text-white dark:bg-slate-700 dark:hover:bg-slate-800 '
+            className='cursor-pointer  select-none py-1 px-5 bg-white hover:bg-primary-300 hover:text-white dark:bg-slate-700 dark:hover:bg-slate-800 '
             onClick={() => onClick(option)}
         >
-            <div className='m-1'> {option.value}</div>
+            <div className='m-1'>{option.render ? option.render() : option.value}</div>
+            {/* {option.value} */}
         </li>
     )
 }
