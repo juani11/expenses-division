@@ -3,7 +3,6 @@ import NewGroupHeader from '../components/group/NewGroupHeader'
 import { ErrorIcon } from '../components/icons/icons'
 import { PeopleIllustration } from '../components/illustrations/Illustrations'
 import NewGroupFormProvider from '../context/newGorupContext'
-import useAuth from '../hooks/useAuth'
 import useNewGroupForm from '../hooks/useNewGroupForm'
 
 const NewGroup = () => {
