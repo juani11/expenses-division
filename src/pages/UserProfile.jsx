@@ -35,7 +35,7 @@ const UserGroupsListItem = ({ userGroup }) => {
             onClick={() => navigate(`/group/${publicId}`)}
         >
             <div className='flex items-center gap-10'>
-                <div>
+                <div className='w-56'>
                     <h4 className='m-0'>{name}</h4>
                     <p className='text-xs'>{formatedDate(createdAt)}</p>
                 </div>
