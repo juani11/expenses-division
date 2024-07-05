@@ -1,16 +1,20 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLocation } from 'wouter'
-import { createGruop } from '../services/services'
+import { createGroup } from '../services/services'
+import useAuth from './useAuth'
 
 const useNewGroupForm = () => {
     const {
         register,
         formState: { errors },
+        setValue,
         handleSubmit
     } = useForm()
 
     const [, setLocation] = useLocation()
+
+    const { session, addGroup } = useAuth()
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -28,11 +32,20 @@ const useNewGroupForm = () => {
     const onSubmit = data => {
         setLoading(true)
         setError(null)
-        createGruop({ ...data, members })
+        createGroup({ ...data, members })
             .then(res => {
                 // if (!res.ok) throw new Error(res.error)
                 console.log(res)
-                const { publicGroupId } = res
+                const { publicGroupId, createdAt } = res
+
+                session &&
+                    addGroup({
+                        publicId: publicGroupId,
+                        name: data.groupName,
+                        createdAt,
+                        userIsOwner: true
+                    })
+
                 setLocation(`/group/${publicGroupId}`)
             })
             .catch(error => {
@@ -49,6 +62,7 @@ const useNewGroupForm = () => {
         error,
         registerField: register,
         errorsFields: errors,
+        setValue,
         onFinish,
         members,
         addMember,

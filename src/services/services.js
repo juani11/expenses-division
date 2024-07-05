@@ -4,17 +4,26 @@ import { supabase } from './supabase'
 
 //  GROUP
 
-async function getGroups() {
-    const { data: expenseGroup, error } = await supabase.from('expense_group').select(`
-    *,
-    persons:person (
-      id,
+async function getUserGroups(userEmail) {
+    const { data, error } = await supabase
+        .from('person')
+        .select(
+            `
+    is_group_owner,
+    expenseGroup:expense_group (
       name,
-      is_group_owner
+      createdAt:created_at,
+      publicId:public_id
     )
-  `)
+  `
+        )
+        .eq('user_email', `${userEmail}`)
 
-    console.log({ expenseGroup, error })
+    console.log({ data, error })
+
+    if (error) throw Error('Se produjo un error al consultar los grupo del usuario')
+
+    return data.map(elem => ({ userIsOwner: elem.is_group_owner, ...elem.expenseGroup }))
 }
 
 function mockGetGroup(groupId) {
@@ -38,11 +47,13 @@ async function getGroup(groupId) {
         .select(
             `
             id,
+            publicId:public_id,
   name,
+  createdAt:created_at,
   persons:person (
     id,
     name,
-    is_group_owner
+    userEmail:user_email
   ),
   expenses:expense (
     id,
@@ -80,17 +91,8 @@ function mockCreateGroup(group) {
         }, 2000)
     })
 }
-async function createGruop(group) {
-    const { groupName, owner, members } = group
-
-    // const resul = {}
-
-    // try {
-    //  Create Group record and return it
-    // const { data: groupData, error: groupError } = await supabase
-    //     .from('expense_group')
-    //     .insert([{ name: groupName }])
-    //     .select()
+async function createGroup(group) {
+    const { groupName, owner, userEmail, members } = group
 
     const { data: groupData, error: groupError } = await supabase.rpc('create_group', {
         group_name: groupName
@@ -108,7 +110,7 @@ async function createGruop(group) {
     console.log(groupData)
 
     // const [data] = groupData
-    const { new_group_id: groupId, public_group_id: publicGroupId } = groupData
+    const { new_group_id: groupId, public_group_id: publicGroupId, created_at: createdAt } = groupData
 
     //  Agrego personas al grupo creado...
     let personsToAdd = members.map(member => ({
@@ -122,7 +124,8 @@ async function createGruop(group) {
         {
             name: owner,
             group_id: groupId,
-            is_group_owner: true
+            is_group_owner: true,
+            user_email: userEmail
         }
     ]
 
@@ -138,7 +141,7 @@ async function createGruop(group) {
     // }
 
     // return resul
-    return { publicGroupId }
+    return { publicGroupId, createdAt }
 }
 
 //  EXPENSES
@@ -184,13 +187,30 @@ async function updateIncludedPersonsOnExpense(expenseId, includedPersons) {
     if (error) throw new Error('Se produjo un error al eliminar el gasto')
 }
 
+async function updateUserEmailOfPerson(personId, userEmail) {
+    const { data, error } = await supabase
+        .from('person')
+        .update({ user_email: userEmail })
+        .eq('id', personId)
+        .select('is_group_owner')
+
+    console.log({ data, error })
+    if (error) throw new Error('Se produjo un error al guardar el grupo en el perfil del usurio ')
+
+    const [resul] = data
+    const { is_group_owner: personIsOwner } = resul
+    return { personIsOwner }
+}
+
 export {
     mockCreateGroup,
-    createGruop,
+    createGroup,
     mockGetGroup,
+    getUserGroups,
     getGroup,
-    getGroups,
+    getUserGroups as getGroups,
     createExpense,
     deleteExpense,
-    updateIncludedPersonsOnExpense
+    updateIncludedPersonsOnExpense,
+    updateUserEmailOfPerson
 }

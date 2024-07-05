@@ -19,6 +19,7 @@ const Group = () => {
 
     const group = useGroupStore(state => state.info)
     const setGroupData = useGroupStore(state => state.setGroupData)
+    const setLoadingGroupData = useGroupStore(state => state.setLoadingGroupData)
     const persons = useGroupStore(state => state.persons)
 
     const setOpenGraphDescription = usePageSEO()
@@ -32,6 +33,7 @@ const Group = () => {
 
     useEffect(() => {
         // fetch(groupId)
+        setLoadingGroupData()
         getGroup(groupId)
             .then(res => {
                 console.log('res dentro de getGroup() ', res)
