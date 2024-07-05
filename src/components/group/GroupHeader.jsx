@@ -4,6 +4,7 @@ import { currencyFormat } from '../../utils/utils'
 import Avatar from '../common/Avatar'
 import { MoneyIllustration, PeopleSelfieIllustration } from '../illustrations/Illustrations'
 import GroupHeaderLoading from './GroupHeaderLoading'
+import GroupHeaderOtions from './GroupHeaderOptions'
 
 const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
     const expenses = useGroupStore(state => state.expenses)
@@ -12,23 +13,11 @@ const GroupHeaderInfo = ({ groupName = 'viaje brasil', cantPersons = 1 }) => {
 
     return (
         <>
-            <div className='flex items-center w-96 justify-center gap-5 mt-6'>
+            <div className='flex items-center justify-center gap-5 mt-6'>
                 <Avatar color='primary'>{groupName?.charAt(0).toUpperCase()}</Avatar>
-                <div className='flex flex-col items-start gap-2'>
+                <div className='flex flex-col items-start gap-2 '>
                     <h2 className='m-0 capitalize'>{groupName}</h2>
-                    {/* <Button size='xs' onClick={openModal}>
-                        Editar
-                    </Button>
-                    <FormProvider {...methods}>
-                        <ModalDrawerForm
-                            title='Nuevo gasto'
-                            isOpen={modalIsOpen}
-                            closeModal={closeModal}
-                            modalIsLoading={modalIsLoading}
-                        >
-                            <AddExpenseFormContent />
-                        </ModalDrawerForm>
-                    </FormProvider> */}
+                    <GroupHeaderOtions />
                 </div>
             </div>
 

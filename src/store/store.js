@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { getGroup } from '../services/services'
 
 export const EXCLUDE = 'exclude'
 export const INCLUDE = 'include'
@@ -7,32 +6,23 @@ export const INCLUDE = 'include'
 const useGroupStore = create((set, get) => ({
     loading: true,
     error: null,
-    fetch: groupId => {
-        // set({ loading: true })
-        getGroup(groupId)
-            .then(res => {
-                const { data: expenseGroup, error } = res
-                console.log(error)
-                if (error) throw Error('Se produjo un error al consultar el grupo')
-
-                console.log(expenseGroup)
-                const [group] = expenseGroup
-                console.log(group)
-
-                set({
-                    info: { id: groupId, name: group.name },
-                    persons: [...group.persons],
-                    expenses: [...group.expenses],
-                    loading: false
-                })
-            })
-            .catch(error => {
-                console.log('entra al catch')
-                console.log(error)
-                set({ error })
-            })
-        // set({ loading: false })
-    },
+    setGroupData: groupData =>
+        set({
+            info: {
+                id: groupData.id,
+                name: groupData.name,
+                publicId: groupData.publicId,
+                createdAt: groupData.createdAt
+            },
+            persons: [...groupData.persons],
+            expenses: [...groupData.expenses],
+            loading: false
+        }),
+    setLoadingGroupData: () =>
+        set(state => ({
+            ...state,
+            loading: true
+        })),
 
     addExpense: newExpense =>
         set(state => ({

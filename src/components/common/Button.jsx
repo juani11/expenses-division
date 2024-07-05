@@ -40,6 +40,7 @@ const Button = ({
         <button
             // type={type && type}
             onClick={onClick}
+            disabled={loading}
             className={`flex justify-center items-center rounded capitalize text-white font-bold ${loadingClassName} ${hoverClassName} ${buttonSize} ${width} ${className}`}
             {...props}
         >
