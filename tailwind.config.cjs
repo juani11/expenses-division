@@ -25,12 +25,15 @@ module.exports = {
             },
             fontFamily: {
                 primary: ['"Poiret One"', 'sans-serif']
+                // primary: ['"Lexend"', 'sans-serif']
+                // primary: ['"Onest"', 'sans-serif']
                 // primary: ['lato', 'sans-serif']
             },
             // that is animation class
             animation: {
-                fade: 'fade 0.3s ease-out',
-                loading: 'loading 1.3s infinite'
+                fade: 'fade 0.3s ease-in-out',
+                loading: 'loading 1.3s infinite',
+                fadeLeft: 'fadeLeft 0.3s ease-in'
             },
             keyframes: {
                 fade: {
@@ -41,6 +44,10 @@ module.exports = {
                     '0%': { transform: 'translateX(-150%)' },
                     '50%': { transform: 'translateX(-60%)' },
                     '100%': { transform: ' translateX(150%)' }
+                },
+                fadeLeft: {
+                    '0%': { opacity: 0, transform: 'translateX(3%)' },
+                    '100%': { transform: 'translateX(0%)', opacity: 1 }
                 }
             }
         }
