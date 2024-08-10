@@ -3,27 +3,10 @@ import { useController } from 'react-hook-form'
 import CustomSelect from '../../common/CustomSelect'
 
 const paymentsOptions = [
-    {
-        id: 1,
-        value: 1
-    },
-    {
-        id: 3,
-        value: 3
-    },
-    {
-        id: 4,
-        value: 4
-    },
-
-    {
-        id: 6,
-        value: 6
-    },
-    {
-        id: 9,
-        value: 9
-    },
+    ...Array.from({ length: 10 }).map((_, i) => ({
+        id: i + 1,
+        value: i + 1
+    })),
     {
         id: 12,
         value: 12
