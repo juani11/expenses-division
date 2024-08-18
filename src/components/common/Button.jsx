@@ -1,51 +1,55 @@
 import { LoadingIcon } from '../icons/icons'
 
 const buttonSizes = {
-    xxs: 'text-sm py-1 px-2',
-    xs: 'text-sm h-2 py-4 px-5',
-    sm: 'text-sm h-9 py-4 px-6',
-    md: ' h-12 py-3 px-5',
-    lg: 'h-14 py-4 px-6'
-}
-const normalStyle = {
-    primary: 'bg-primary ',
-    secondary: 'bg-secondary dark:bg-slate-600'
+    xs: 'h-7 py-1 px-4 text-xs',
+    sm: 'h-[34px] py-1 px-4 text-xs',
+    md: 'h-10 py-2 px-4 text-sm ',
+    lg: 'h-12 py-2 px-6'
 }
 
-const loadingStyle = {
-    primary: 'bg-primary-500',
-    secondary: 'bg-secondary-500'
-}
-
-const hoverStyle = {
-    primary: 'hover:bg-primary-500',
-    secondary: 'hover:bg-secondary-500 dark:hover:bg-slate-500'
+const buttonVariant = {
+    default: {
+        primary: 'bg-primary text-white hover:bg-primary-400 ',
+        secondary: 'bg-secondary text-white hover:bg-secondary-400'
+    },
+    light: {
+        primary: 'bg-primary-50 text-primary hover:bg-primary-100 ',
+        secondary: 'bg-secondary-50 text-secondary hover:bg-secondary-100 '
+    },
+    outline: {
+        primary: 'bg-transparent text-primary border border-primary  hover:text-white hover:bg-primary ',
+        secondary: 'bg-transparent text-secondary border border-secondary hover:text-white hover:bg-secondary'
+    }
 }
 
 const Button = ({
     children,
     size = 'md',
-    className = '',
-    loading = false,
-    color = 'secondary',
+    color = 'primary',
     width = 'w-auto',
+    variant = 'default',
+    loading = false,
+    className = '',
     onClick,
     ...props
 }) => {
-    const loadingClassName = loading ? loadingStyle[color] : normalStyle[color]
-    const hoverClassName = hoverStyle[color]
-
     const buttonSize = buttonSizes[size]
+
+    const btnVariant = buttonVariant[variant][color]
+
     return (
         <button
-            // type={type && type}
             onClick={onClick}
             disabled={loading}
-            className={`flex justify-center items-center rounded capitalize text-white font-bold ${loadingClassName} ${hoverClassName} ${buttonSize} ${width} ${className}`}
+            className={`flex justify-center items-center flex-nowrap gap-2 rounded capitalize font-semibold
+                ${buttonSize}
+                ${btnVariant}
+                ${width}
+                ${className}`}
             {...props}
         >
             {loading && <LoadingIcon />}
-            <div>{children}</div>
+            {children}
         </button>
     )
 }
