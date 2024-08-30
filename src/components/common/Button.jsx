@@ -1,10 +1,11 @@
 import { LoadingIcon } from '../icons/icons'
 
 const buttonSizes = {
-    xs: 'h-7 py-1 px-4 text-xs',
-    sm: 'h-[34px] py-1 px-4 text-xs',
-    md: 'h-10 py-2 px-4 text-sm ',
-    lg: 'h-12 py-2 px-6'
+    icon: 'h-8 w-8 py-1 px-1',
+    xs: 'h-7 w-auto py-1 px-4 text-xs',
+    sm: 'h-[34px] w-auto py-1 px-4 text-xs',
+    md: 'h-10  w-auto py-2 px-4 text-sm ',
+    lg: 'h-12 w-auto py-2 px-6'
 }
 
 const buttonVariant = {
@@ -26,7 +27,7 @@ const Button = ({
     children,
     size = 'md',
     color = 'primary',
-    width = 'w-auto',
+
     variant = 'default',
     loading = false,
     className = '',
@@ -41,10 +42,9 @@ const Button = ({
         <button
             onClick={onClick}
             disabled={loading}
-            className={`flex justify-center items-center flex-nowrap gap-2 rounded capitalize font-semibold
+            className={`flex justify-center items-center flex-nowrap gap-2 rounded capitalize font-semibold transition-all 
                 ${buttonSize}
                 ${btnVariant}
-                ${width}
                 ${className}`}
             {...props}
         >
