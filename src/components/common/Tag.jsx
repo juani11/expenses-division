@@ -1,6 +1,36 @@
-const Tag = ({ children }) => {
+const tagSizes = {
+    xs: 'h-[18px] py-1 px-2 text-xs',
+    sm: 'h-[20px] py-1 px-2 text-xs',
+    md: 'h-[22px] py-1 px-2 text-sm ',
+    lg: 'h-[26px] py-1 px-2 text-sm '
+}
+
+const tagVariants = {
+    default: {
+        primary: 'bg-primary text-white',
+        secondary: 'bg-secondary text-white'
+    },
+    light: {
+        primary: 'bg-primary-50 text-primary',
+        secondary: 'bg-secondary-50 text-secondary'
+    },
+    outline: {
+        primary: 'bg-transparent text-primary border border-primary',
+        secondary: 'bg-transparent text-secondary border border-secondary'
+    }
+}
+
+const Tag = ({ children, size = 'md', variant = 'default', color = 'primary' }) => {
+    const tagSize = tagSizes[size]
+
+    const tagVariant = tagVariants[variant][color]
+
     return (
-        <span className='flex gap-2 items-center bg-primary-200 px-2 rounded py-1 text-sm font-bold text-primary dark:bg-primary-500 dark:text-slate-100'>
+        <span
+            className={`flex gap-2 items-center rounded font-semibold
+            ${tagSize}
+            ${tagVariant}`}
+        >
             {children}
         </span>
     )
