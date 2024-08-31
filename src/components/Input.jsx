@@ -1,35 +1,34 @@
 import Label from './common/Label'
 
+// Classnames default
+const input =
+    'h-9 py-1 first-letter:capitalize text-sm shadow-sm outline-none rounded border bg-white w-full focus-within:border appearance-none dark:bg-secondary-900'
+// Classnames on error / no error
+const inputOnError = 'text-red-500 border-red-200 bg-red-50 focus-within:border-red-300 '
+const inputNoError = 'border-gray-200 focus-within:border-primary-300 focus dark:border-secondary-700 '
+
 const Input = ({ label, addOnBefore, width, className = '', controlledProps, error, reference }) => {
     return (
         <div className={`flex flex-col ${width}`}>
             <Label>{label}</Label>
-            <div className={`flex items-center`}>
+            <div className={`relative flex items-center`}>
                 {addOnBefore ? (
                     <>
-                        <div className='outline-none rounded-tl rounded-bl  h-14 p-0.5  font-bold text-center text-2xl text-slate-400 border-l border-t border-b border-gray-200   w-2/6 dark:bg-slate-700 dark:border-slate-700'>
-                            <div className='bg-gray-100 flex items-center justify-center h-full rounded dark:bg-slate-700 '>
-                                {addOnBefore}
-                            </div>
+                        <div className='absolute left-2 pointer-events-none flex items-center'>
+                            <span className='text-gray-400 text-sm'>$</span>
                         </div>
                         <input
-                            className={`outline-none  focus-within:border-r focus-within:border-t focus-within:border-b bg-white text-xl w-4/6 border-r border-t border-b appearance-none dark:bg-slate-800 ${
-                                error
-                                    ? 'text-red-500 border-red-200 bg-red-50 focus-within:border-red-300 '
-                                    : ' border-gray-200  focus-within:border-primary-300 dark:border-slate-700'
-                            } h-14 px-5 `}
+                            className={` ${input} px-5 ${error ? inputOnError : inputNoError} `}
                             {...(controlledProps ?? { ref: reference })}
                         />
                     </>
                 ) : (
-                    <input
-                        className={`outline-none  rounded focus-within:border capitalize border bg-white w-full appearance-none dark:bg-slate-800 ${
-                            error
-                                ? 'text-red-400 border-red-200 bg-red-50 focus-within:border-red-300 '
-                                : 'border-gray-200  focus-within:border-primary-300  dark:border-slate-700'
-                        }   h-14 px-5 `}
-                        {...(controlledProps ?? { ref: reference })}
-                    />
+                    <div className='flex'>
+                        <input
+                            className={`${input} px-3 ${error ? inputOnError : inputNoError}  `}
+                            {...(controlledProps ?? { ref: reference })}
+                        />
+                    </div>
                 )}
             </div>
             {error && <p className='text-red-500 '>{error.message}</p>}
