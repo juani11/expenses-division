@@ -3,17 +3,21 @@ const fillColors = {
     black: 'fill-black dark:fill-gray-200'
 }
 
-export const ArrowIcon = () => {
+export const ArrowRightIcon = ({ className }) => {
     return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-6 h-6 bg-gray-100 rounded p-1 dark:bg-slate-600'
-        >
+        <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className={className}>
             <path strokeLinecap='round' strokeLinejoin='round' d='M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3' />
+        </svg>
+    )
+}
+
+export const ArrowLefttIcon = ({ className }) => {
+    return (
+        <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className={className}>
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M5 12l14 0' />
+            <path d='M5 12l4 4' />
+            <path d='M5 12l4 -4' />
         </svg>
     )
 }
@@ -44,16 +48,9 @@ export const AvatarIcon = ({ width, height, backgroundColor }) => {
     )
 }
 
-export const CashIcon = ({ width = 'w-6', height = 'h-6' }) => {
+export const CashIcon = ({ className = 'w-5 h-5 ' }) => {
     return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className={`${width} ${height}`}
-        >
+        <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className={className}>
             <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
@@ -63,14 +60,9 @@ export const CashIcon = ({ width = 'w-6', height = 'h-6' }) => {
     )
 }
 
-export const CheckIcon = ({ className }) => {
+export const CheckIcon = ({ className = 'w-5 h-5' }) => {
     return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 24 24'
-            fill='currentColor'
-            className={`w-6 h-6 ${className}`}
-        >
+        <svg viewBox='0 0 24 24' fill='currentColor' className={className}>
             <path
                 fillRule='evenodd'
                 d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z'
@@ -80,16 +72,9 @@ export const CheckIcon = ({ className }) => {
     )
 }
 
-export const ChevronDownIcon = () => {
+export const ChevronDownIcon = ({ className }) => {
     return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-4 h-4'
-        >
+        <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className={className}>
             <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
         </svg>
     )
@@ -125,21 +110,6 @@ export const ChevronRightIcon = () => {
     )
 }
 
-export const ChevronUpIcon = () => {
-    return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-4 h-4'
-        >
-            <path strokeLinecap='round' strokeLinejoin='round' d='M4.5 15.75l7.5-7.5 7.5 7.5' />
-        </svg>
-    )
-}
-
 export const CloseIcon = ({ color = 'default', width = 25, height = 25 }) => {
     const fillClassNames = fillColors[color]
     return (
@@ -167,16 +137,9 @@ export const CloseIcon = ({ color = 'default', width = 25, height = 25 }) => {
     )
 }
 
-export const CreditCardIcon = ({ width = 'w-6', height = 'h-6' }) => {
+export const CreditCardIcon = ({ className = 'w-5 h-5' }) => {
     return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className={`${width} ${height}`}
-        >
+        <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className={className}>
             <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
@@ -211,28 +174,23 @@ export const LoadingIcon = () => {
     )
 }
 
-export const MenuIcon = ({ width, height }) => {
+export const MenuIcon = ({ className }) => {
     return (
         <svg
-            part='svg'
-            xmlns='http://www.w3.org/2000/svg'
-            aria-hidden='true'
-            aria-labelledby='actionDots'
-            focusable='false'
+            width='24'
+            height='24'
             viewBox='0 0 24 24'
-            className='h-icon icon-primary cursor-pointer d-none d-md-flex fill-black dark:fill-gray-200'
-            width={width}
-            height={height}
-            // dataV68e5bb38=''
-            // block=''
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='1.5'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className={`${className}`}
         >
-            <g>
-                <g>
-                    <circle cx='12.1091' cy='4' r='2'></circle>
-                    <circle cx='12.1091' cy='20' r='2'></circle>
-                    <circle cx='12.1091' cy='12' r='2'></circle>
-                </g>
-            </g>
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+            <path d='M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+            <path d='M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
         </svg>
     )
 }
@@ -504,6 +462,27 @@ export const GroupsIcon = ({ width, height = 14 }) => {
                 strokeLinejoin='round'
                 d='M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'
             />
+        </svg>
+    )
+}
+
+export const UserPlusIcon = ({ width, height = 14, color }) => {
+    return (
+        <svg
+            width={width}
+            height={height}
+            viewBox='0 0 24 24'
+            fill={color}
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+        >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0' />
+            <path d='M16 19h6' />
+            <path d='M19 16v6' />
+            <path d='M6 21v-2a4 4 0 0 1 4 -4h4' />
         </svg>
     )
 }
