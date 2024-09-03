@@ -5,8 +5,10 @@ import { currencyFormat, toFloat } from '../../../utils/utils'
 import CheckBox from '../../common/CheckBox'
 import Label from '../../common/Label'
 
+const amountClassname = `leading-none  font-bold text-sm`
+
 const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
-    // // control by react hook form
+    // control by react hook form
     const { field, fieldState } = useController({
         control,
         name,
@@ -25,7 +27,8 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
         optionIsChecked: personIsChecked
     } = useCheckBoxGroup(defaultCheckedList)
 
-    const amountPerCheckedPerson = currencyFormat(toFloat(amount / checkedList.length))
+    // const amountPerCheckedPerson = currencyFormat(toFloat(amount / checkedList.length))
+    const amountPerCheckedPerson = amount / checkedList.length
 
     useEffect(() => {
         // send data to react hook form
@@ -38,19 +41,19 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
     }, [checkedList])
 
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col '>
             <Label>Personas a incluir en el gasto</Label>
 
-            <div className='mx-4'>
+            <div className='pt-1'>
                 <CheckBox label='TODOS' checked={checkAll} onChange={onCheckAllChange} />
-                <hr className='dark:border-t-slate-700' />
+                <hr className='dark:border-t-slate-700 my-2' />
                 {persons.map(person => {
                     const { id, name } = person
 
                     const personChecked = personIsChecked(id)
 
                     return (
-                        <div key={id} className='flex justify-between items-center capitalize '>
+                        <div key={id} className=' h-5 flex gap-10 items-center capitalize py-4 '>
                             <CheckBox
                                 label={name}
                                 checked={personChecked ?? false}
@@ -58,12 +61,17 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
                                 onChange={onCheckBoxChange}
                             />
 
-                            {personChecked && <p className='m-0 text-xl'>$ {amountPerCheckedPerson}</p>}
+                            {personChecked && (
+                                <span className={`${amountClassname} ml-auto`}>{`$${currencyFormat(
+                                    amount
+                                )}`}</span>
+                            )}
+                            {/* <p className='m-0 text-xl'>$ {amountPerCheckedPerson}</p>} */}
                         </div>
                     )
                 })}
             </div>
-            {error && <p className='text-red-500 '>{error.message}</p>}
+            {/* {error && <p className='text-red-500 '>{error.message}</p>} */}
         </div>
     )
 }
