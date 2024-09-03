@@ -29,9 +29,9 @@ const Option = ({ onClick, option }) => {
 const OptionList = ({ options, handleChange, className }) => {
     return (
         <ul
-            className={`z-10 absolute transition-all mt-2 w-full capitalize border rounded border-primary-300 bg-white py-1 max-h-80 overflow-y-auto dark:bg-secondary-900 dark:border-secondary-700 ${className}`}
+            className={` z-10 absolute transition-all mt-2 w-full capitalize border rounded border-primary-300 bg-white py-1 max-h-80 overflow-y-auto dark:bg-secondary-900 dark:border-secondary-700 ${className}`}
         >
-            {options.map(option => (
+            {options?.map(option => (
                 <Option key={option.id} option={option} onClick={handleChange} />
             ))}
         </ul>
@@ -65,7 +65,7 @@ const CustomSelect = ({ label, placeholder, selectedValue, type, ...optionsProps
 
     const { elemRef } = useClickOutsideElement(() => setIsOpen(false))
 
-    const opacityOptionList = isOpen ? 'opacity-1 scale-100' : 'opacity-0 scale-90 '
+    const opacityOptionList = isOpen ? ' opacity-1 scale-100' : 'invisible opacity-0 scale-90 '
     return (
         <div className='flex flex-col '>
             {label && <Label>{label}</Label>}
