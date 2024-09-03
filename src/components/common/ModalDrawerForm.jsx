@@ -12,7 +12,7 @@ const ModalDrawerForm = ({ title, isOpen, closeModal, isLoading, callback, child
 
     return (
         <aside
-            className={`fixed top-0 right-0 z-40 h-full px-4 pb-4 overflow-y-scroll transition-transform bg-white w-full md:w-[654px] dark:bg-gray-800  ${
+            className={`fixed top-0 right-0 z-40 h-full px-4 pb-4 overflow-y-scroll transition-transform bg-white w-full md:w-[600px] dark:bg-gray-800  ${
                 isOpen ? 'translate-x-0 shadow-xl' : 'translate-x-full'
             }`}
             ref={elemRef}
@@ -32,10 +32,10 @@ const ModalDrawerForm = ({ title, isOpen, closeModal, isLoading, callback, child
             <form onSubmit={callback}>
                 {children}
                 <footer className='flex gap-4 justify-end mt-7 p-4'>
-                    <Button type='button' onClick={closeModal} width='w-full'>
+                    <Button type='button' variant='light' color='secondary' onClick={closeModal}>
                         cancelar
                     </Button>{' '}
-                    <Button loading={isLoading} color='primary' width='w-full'>
+                    <Button loading={isLoading} color='secondary'>
                         aceptar
                     </Button>
                 </footer>
