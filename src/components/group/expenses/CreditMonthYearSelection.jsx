@@ -3,6 +3,7 @@ import { MONTHS } from '../../../constants'
 import RadioItem from '../../common/RadioItem'
 import Label from '../../common/Label'
 import { useController } from 'react-hook-form'
+import CustomSelect from '../../common/CustomSelect'
 
 //  Genero las options para la seleccion de los meses
 const monthOptions = MONTHS.map(({ number, shortName }) => ({
@@ -26,19 +27,19 @@ const creditCardOptions = {
     month: {
         label: 'Mes de pago 1er cuota',
         options: monthOptions,
-        classNames: 'grid grid-cols-4 gap-5'
+        classNames: 'grid grid-cols-4 gap-4'
     },
     year: {
         label: 'Año de pago 1er cuota',
         options: yearOptions,
-        classNames: 'grid grid-cols-2 gap-5 pb-3 '
+        classNames: 'grid grid-cols-2 gap-4  '
     }
 }
 
 const CreditPaymentDateOptions = ({ dateType, selectedValue, onClick }) => {
     const { label, options, classNames } = creditCardOptions[dateType]
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col w-full'>
             <Label>{label}</Label>
             <fieldset className={classNames} name='monthFirstPayment'>
                 {options.map(radioItem => (
@@ -47,9 +48,10 @@ const CreditPaymentDateOptions = ({ dateType, selectedValue, onClick }) => {
                         item={radioItem}
                         onClick={onClick}
                         selectedValue={selectedValue}
+                        className={'flex justify-center items-center'}
                     >
                         <div className='flex p-1 justify-center items-center gap-3 '>
-                            <h5 className='m-0 capitalize'>{radioItem.value}</h5>
+                            <h5 className='capitalize'>{radioItem.value}</h5>
                         </div>
                     </RadioItem>
                 ))}
@@ -78,10 +80,19 @@ export const CreditMonthSelection = ({ control }) => {
     }
     return (
         <div>
-            <CreditPaymentDateOptions
+            {/* <CreditPaymentDateOptions
                 dateType='month'
                 selectedValue={monthFirstPayment}
                 onClick={handleChange}
+            /> */}
+
+            <CustomSelect
+                label={'Mes de pago 1er cuota'}
+                placeholder='Seleccione mes'
+                options={monthOptions}
+                handleChange={() => {}}
+                selectedValue={null}
+                type='form'
             />
             {error && <p className='text-red-500 '>{error.message}</p>}
         </div>
@@ -108,13 +119,13 @@ export const CreditYearSelection = ({ control }) => {
     }
 
     return (
-        <div>
+        <>
             <CreditPaymentDateOptions
                 dateType='year'
                 selectedValue={yearFirstPayment}
                 onClick={handleChange}
             />
             {error && <p className='text-red-500 '>{error.message}</p>}
-        </div>
+        </>
     )
 }

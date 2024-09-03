@@ -8,13 +8,13 @@ const radioItems = [
         id: CASH,
         value: 'Efectivo/Débito',
         description: 'Si ya pagaste por el gasto',
-        icon: <CashIcon width='w-5' height='h-5' />
+        icon: <CashIcon className='w-5 h-5 text-gray-500' />
     },
     {
         id: CREDIT,
         value: 'Crédito',
         description: 'Si pagás en cuotas',
-        icon: <CreditCardIcon width='w-5' height='h-5' />
+        icon: <CreditCardIcon className='w-5 h-5 text-gray-500' />
     }
 ]
 
@@ -35,7 +35,7 @@ const ExpenseTypeSelection = ({ selectedValue, onClick }) => {
                     >
                         <div className='flex mt-4 ml-4 mr-4 items-center gap-3'>
                             {radioItem.icon && radioItem.icon}
-                            <h5 className='m-0'>{radioItem.value}</h5>
+                            <h5>{radioItem.value}</h5>
                         </div>
                     </RadioItem>
                 ))}

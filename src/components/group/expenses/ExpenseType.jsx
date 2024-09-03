@@ -30,15 +30,11 @@ const ExpenseType = ({ control }) => {
 
             {expenseType === CREDIT && (
                 <>
-                    <div className='pt-4 grid grid-cols-2 gap-5 animate-fade'>
-                        <CreditMonthSelection control={control} />
-
-                        <div>
+                    <div className='pt-4 grid grid-cols-1 gap-5 animate-fade'>
+                        <CantPaymentsSelectContainer name='cantPayments' control={control} />
+                        <div className='flex justify-between gap-5 '>
                             <CreditYearSelection control={control} />
-
-                            <div className='flex flex-col'>
-                                <CantPaymentsSelectContainer name='cantPayments' control={control} />
-                            </div>
+                            <CreditMonthSelection control={control} />
                         </div>
                     </div>
                 </>
