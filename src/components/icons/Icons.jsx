@@ -3,14 +3,6 @@ const fillColors = {
     black: 'fill-black dark:fill-gray-200'
 }
 
-export const ArrowRightIcon = ({ className }) => {
-    return (
-        <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className={className}>
-            <path strokeLinecap='round' strokeLinejoin='round' d='M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3' />
-        </svg>
-    )
-}
-
 export const ArrowLefttIcon = ({ className }) => {
     return (
         <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className={className}>
@@ -20,6 +12,14 @@ export const ArrowLefttIcon = ({ className }) => {
             <path d='M5 12l4 -4' />
         </svg>
     )
+}
+
+export const ArrowRightIcon = ({ className }) => {
+    return <ArrowLefttIcon className={`${className} rotate-180`} />
+}
+
+export const UserAddIcon = ({ className }) => {
+    return <ArrowLefttIcon className={`${className} rotate-180`} />
 }
 
 export const AvatarIcon = ({ width, height, backgroundColor }) => {
@@ -95,35 +95,22 @@ export const ChevronLeftIcon = () => {
     )
 }
 
-export const ChevronRightIcon = () => {
+export const ChevronRightIcon = ({ className }) => {
     return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-5 h-5'
-        >
+        <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-5 h-5'>
             <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
         </svg>
     )
 }
 
-export const CloseIcon = ({ color = 'default', width = 25, height = 25 }) => {
-    const fillClassNames = fillColors[color]
+export const CloseIcon = ({ color = 'default', className }) => {
     return (
         <svg
-            part='svg'
-            xmlns='http://www.w3.org/2000/svg'
             aria-hidden='true'
             aria-labelledby='ic-close'
             focusable='false'
             viewBox='0 0 24 24'
-            width={width}
-            height={height}
-            className={`h-icon icon-gray icon-static-view-box h-icon--no-custom-width referral-banner__close-icon cursor-pointer ${fillClassNames}`}
-            // dataV21f970be=''
+            className={`${className}`}
         >
             <g>
                 <path
@@ -177,20 +164,55 @@ export const LoadingIcon = () => {
 export const MenuIcon = ({ className }) => {
     return (
         <svg
-            width='24'
-            height='24'
             viewBox='0 0 24 24'
             fill='none'
             stroke='currentColor'
             strokeWidth='1.5'
             strokeLinecap='round'
             strokeLinejoin='round'
-            className={`${className}`}
+            className={`${className} rotate-180`}
         >
             <path stroke='none' d='M0 0h24v24H0z' fill='none' />
             <path d='M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
             <path d='M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
             <path d='M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+        </svg>
+    )
+}
+
+export const MenuHorizontalIcon = ({ className }) => {
+    return (
+        <svg
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='1.5'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className={`${className} rotate-180`}
+        >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+            <path d='M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+            <path d='M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+        </svg>
+    )
+}
+
+export const TransferIcon = ({ className }) => {
+    return (
+        <svg
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='1.5'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className={`${className} `}
+        >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M20 10h-16l5.5 -6' />
+            <path d='M4 14h16l-5.5 6' />
         </svg>
     )
 }
@@ -252,16 +274,9 @@ export const SorterArrowsIcon = () => {
     )
 }
 
-export const TooltipTriangleIcon = () => {
+export const TooltipTriangleIcon = ({ className }) => {
     return (
-        <svg
-            className='absolute left-0 -ml-2 bottom-0 top-0 h-full'
-            width='9px'
-            height='16px'
-            viewBox='0 0 9 16'
-            version='1.1'
-            xmlns='http://www.w3.org/2000/svg'
-        >
+        <svg className={` ${className}`} width='9px' height='16px' viewBox='0 0 9 16' version='1.1'>
             <g id='Page-1' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
                 <g id='Tooltips-' transform='translate(-874.000000, -1029.000000)' fill='#FFFFFF'>
                     <g id='Group-3-Copy-16' transform='translate(850.000000, 975.000000)'>
@@ -279,21 +294,36 @@ export const TooltipTriangleIcon = () => {
     )
 }
 
-export const UserIcon = ({ fillColor }) => {
+export const UserIcon = ({ className }) => {
     return (
         <svg
-            xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
-            fill='currentColor'
-            className={`w-5 h-5 ${fillColor}`}
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className={className}
         >
-            <path
-                fillRule='evenodd'
-                d='M18.685 19.096A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z'
-                clipRule='evenodd'
-            />
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0' />
+            <path d='M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2' />
         </svg>
     )
+    // return (
+    //     <svg
+    //         xmlns='http://www.w3.org/2000/svg'
+    //         viewBox='0 0 24 24'
+    //         fill='currentColor'
+    //         className={`w-5 h-5 ${fillColor}`}
+    //     >
+    //         <path
+    //             fillRule='evenodd'
+    //             d='M18.685 19.096A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z'
+    //             clipRule='evenodd'
+    //         />
+    //     </svg>
+    // )
 }
 
 export const ErrorIcon = () => {
@@ -417,16 +447,9 @@ export const CopiedToClipboardIcon = () => {
     )
 }
 
-export const AtIcon = ({ width, height }) => {
+export const AtIcon = ({ className }) => {
     return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            style={{ width, height }}
-        >
+        <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className={className}>
             <path
                 strokeLinecap='round'
                 d='M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25'
@@ -466,23 +489,81 @@ export const GroupsIcon = ({ width, height = 14 }) => {
     )
 }
 
-export const UserPlusIcon = ({ width, height = 14, color }) => {
+export const UserMinusIcon = ({ className }) => {
     return (
         <svg
-            width={width}
-            height={height}
             viewBox='0 0 24 24'
-            fill={color}
+            fill='none'
             stroke='currentColor'
-            strokeWidth='2'
+            strokeWidth={1.5}
             strokeLinecap='round'
             strokeLinejoin='round'
+            className={className}
+        >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0' />
+            <path d='M6 21v-2a4 4 0 0 1 4 -4h4c.348 0 .686 .045 1.009 .128' />
+            <path d='M16 19h6' />
+        </svg>
+    )
+}
+
+export const UserPlusIcon = ({ className }) => {
+    return (
+        <svg
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth={1.5}
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className={className}
         >
             <path stroke='none' d='M0 0h24v24H0z' fill='none' />
             <path d='M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0' />
             <path d='M16 19h6' />
             <path d='M19 16v6' />
             <path d='M6 21v-2a4 4 0 0 1 4 -4h4' />
+        </svg>
+    )
+}
+
+export const TrashIcon = ({ className }) => {
+    return (
+        <svg
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth={1.5}
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className={className}
+        >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M4 7l16 0' />
+            <path d='M10 11l0 6' />
+            <path d='M14 11l0 6' />
+            <path d='M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12' />
+            <path d='M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3' />
+        </svg>
+    )
+}
+
+export const EditIcon = ({ className }) => {
+    return (
+        <svg
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth={1.5}
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className={className}
+        >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1' />
+            <path d='M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z' />
+            <path d='M16 5l3 3' />
         </svg>
     )
 }
