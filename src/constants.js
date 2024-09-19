@@ -91,10 +91,19 @@ const NEXT = 'next'
 
 const DOMAIN_BASE_URL = import.meta.env.VITE_DOMAIN_URL
 
+const RIGHT = 'right'
+const LEFT = 'left'
+const TOP = 'top'
+const BOTTOM = 'bottom'
+
 export {
     CASH,
     CREDIT,
     MONTHS,
+    RIGHT,
+    LEFT,
+    TOP,
+    BOTTOM,
     PERSONS_LIST,
     PERSONS_TOTALS,
     DIVISIONS_CASH,
