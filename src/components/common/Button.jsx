@@ -20,6 +20,10 @@ const buttonVariant = {
     outline: {
         primary: 'bg-transparent text-primary border border-primary  hover:text-white hover:bg-primary ',
         secondary: 'bg-transparent text-secondary border border-secondary hover:text-white hover:bg-secondary'
+    },
+    subtle: {
+        primary: 'bg-transparent text-primary hover:bg-primary-50 ',
+        secondary: 'bg-transparent text-secondary hover:bg-secondary-50 '
     }
 }
 
@@ -36,7 +40,9 @@ const Button = ({
 }) => {
     const buttonSize = buttonSizes[size]
 
-    const btnVariant = buttonVariant[variant][color]
+    // Si recibe classname, no se tiene en cuenta el variant ni el color de las props.
+
+    const btnVariant = className.includes('bg-') || buttonVariant[variant][color]
 
     return (
         <button
