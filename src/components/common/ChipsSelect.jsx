@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import useSmoothTranslateX from '../../hooks/useSmoothTranslateX'
 import { ArrowLefttIcon, ArrowRightIcon } from '../icons/icons'
 import Button from './Button'
-
-const translatexDistance = 50
 
 const chipVariantStyles = {
     default: {
@@ -38,7 +36,7 @@ const PrevButton = ({ handleClick }) => {
         >
             <Button
                 size='icon'
-                color='primary'
+                color='secondary'
                 variant='light'
                 className='absolute my-auto top-0 bottom-0'
                 onClick={handleClick}
@@ -56,7 +54,7 @@ const NextButton = ({ handleClick }) => {
         >
             <Button
                 size='icon'
-                color='primary'
+                color='secondary'
                 variant='light'
                 onClick={handleClick}
                 className='absolute right-0 my-auto top-0 bottom-0 '
@@ -76,70 +74,20 @@ const ChipsSelect = ({
     variant = 'default',
     color = 'gray'
 }) => {
-    const [translatexHecho, setTranslatexHecho] = useState(0)
-    const translatexDisponibleRef = useRef(0)
-
-    const [withPrevNextButtons, setWithPrevNextButtons] = useState(false)
-
     const chipVariant = chipVariantStyles[variant][color]
     const chipVariantSelected = chipVariantStyles[variant][`${color}_selected`]
 
-    useEffect(() => {
-        const scrollContainerWidth = document.getElementById(`scrollContainer${id}`).offsetWidth
-        const selectorWidth = document.getElementById(`chipsSelector${id}`).offsetWidth
-        const diffWidth = selectorWidth - scrollContainerWidth
-        translatexDisponibleRef.current = diffWidth
-
-        setWithPrevNextButtons(selectorWidth > scrollContainerWidth)
-    }, [])
-
-    const handleNext = () => {
-        // Si translatexHecho (distancia de translate hecha hasta el momento)  NO SUPERA a translatexDisponible ( distancia de translate disponible total)  mostrar el boton Next
-        // Sumar translatexDistance a translatexHecho
-
-        // Chequear antes de sumar , si la suma desbordaria el translatexDisponible. Si la desbordaria , en vez de sumar translatexDistance, devolver translatexDisponible .
-        setTranslatexHecho(prevState => {
-            const nextState = prevState + translatexDistance
-
-            console.log('nextState', nextState)
-            // Si la suma desborda el translatexDisponible, se pone como estado el mismo valor de translatexDisponible
-            if (nextState > translatexDisponibleRef.current) {
-                console.log(
-                    'la suma desbordaria el translatexDisponible. En vez de sumar se asigna translatexDisponible '
-                )
-                return translatexDisponibleRef.current + 1
-            }
-            return nextState
-        })
-    }
-
-    const handlePrev = () => {
-        // Chequear antes de restar si es que la resta desbordaria en negativo el translatexDisponible. Si la desbordaria , en vez de restar translatexDistance, devolver 0
-
-        setTranslatexHecho(prevState => {
-            const nextState = prevState - translatexDistance
-
-            console.log('nextState', nextState)
-            // Si la suma desborda en negativo el translatexDisponible, se pone como estado 0
-            if (nextState < 0) {
-                console.log(
-                    'la resta  desbordaria en negativ oel translatexDisponible. En vez de restar, se asigna 0 '
-                )
-                return 0
-            }
-            return nextState
-        })
-    }
-
-    const showPrevButton = withPrevNextButtons && translatexHecho !== 0
-    const showNextButton = withPrevNextButtons && translatexHecho <= translatexDisponibleRef.current
+    const { doneTranslateX, showPrevButton, showNextButton, handlePrev, handleNext } = useSmoothTranslateX(id)
 
     return (
-        <div className='relative flex items-center overflow-x-hidden h-full' id={`scrollContainer${id}`}>
+        <div
+            className={`relative flex items-center overflow-hidden h-full ${className} `}
+            id={`translateXContainer${id}`}
+        >
             <section
                 className={`flex justify-start items-start gap-2 transition-transform `}
-                id={`chipsSelector${id}`}
-                style={{ transform: `translateX(-${translatexHecho}px)` }}
+                id={`translateXContent${id}`}
+                style={{ transform: `translateX(-${doneTranslateX}px)` }}
             >
                 {chipsNames.map(chip => {
                     return (
