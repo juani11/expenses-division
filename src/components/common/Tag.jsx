@@ -1,8 +1,8 @@
 const tagSizes = {
-    xs: 'h-[18px] py-1 px-2 text-xs',
+    xs: 'h-[20px] py-1 px-2 text-xs',
     sm: 'h-[20px] py-1 px-2 text-xs',
     md: 'h-[22px] py-1 px-2 text-sm ',
-    lg: 'h-[26px] py-1 px-2 text-sm '
+    lg: 'h-[24px] py-1 px-2 text-sm '
 }
 
 const tagVariants = {
@@ -20,16 +20,17 @@ const tagVariants = {
     }
 }
 
-const Tag = ({ children, size = 'md', variant = 'default', color = 'primary' }) => {
+const Tag = ({ children, size = 'md', variant = 'default', color = 'primary', className = '' }) => {
     const tagSize = tagSizes[size]
 
-    const tagVariant = tagVariants[variant][color]
+    const tagVariant = className.includes('bg-') || tagVariants[variant][color]
 
     return (
         <span
             className={`flex gap-2 items-center rounded font-semibold
             ${tagSize}
-            ${tagVariant}`}
+            ${tagVariant}
+            ${className}`}
         >
             {children}
         </span>
