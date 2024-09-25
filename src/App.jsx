@@ -10,8 +10,11 @@ import useAuth from './hooks/useAuth'
 import Index from './pages/Index'
 import NewGroup from './pages/NewGroup'
 import NotFound from './pages/NotFound'
+import DesignSystem from './pages/DesignSystem'
+import { Toaster } from 'sonner'
 
-const GroupLazy = lazy(() => import('./pages/Group'))
+const GroupDetailLazy = lazy(() => import('./pages/Group'))
+// const GroupDetailLazy = lazy(() => import('./pages/GroupDetail'))
 
 const NavBar = () => {
     const { session, loadingSession, signInWithGoogle, signOut } = useAuth()
@@ -20,6 +23,8 @@ const NavBar = () => {
 
     return (
         <div className='absolute right-0 p-5 md:right-24 md:top-4 flex items-center gap-10'>
+            <Toaster richColors />
+
             {loadingSession ? (
                 <Loading loadingText='Comprobando usuario...' inline />
             ) : session ? (
@@ -63,12 +68,13 @@ function App() {
                 </Route>
                 <Route path='/group/:id'>
                     <Suspense fallback={<Fallback />}>
-                        <GroupLazy />
+                        <GroupDetailLazy />
                     </Suspense>
                 </Route>
 
                 {/* Ruta protegida */}
                 <Route path='/profile' component={RequireAuth} />
+                <Route path='/dsystem' component={DesignSystem} />
 
                 <Route path='/login' component={RedirectIfUserIsLogged}></Route>
                 {/* will match everything else */}
