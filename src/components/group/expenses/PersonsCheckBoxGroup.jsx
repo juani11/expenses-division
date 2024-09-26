@@ -63,7 +63,7 @@ const PersonsCheckBoxGroup = ({ persons, control, amount, name }) => {
 
                             {personChecked && (
                                 <span className={`${amountClassname} ml-auto`}>{`$${currencyFormat(
-                                    amount
+                                    amountPerCheckedPerson
                                 )}`}</span>
                             )}
                             {/* <p className='m-0 text-xl'>$ {amountPerCheckedPerson}</p>} */}

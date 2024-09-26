@@ -6,7 +6,7 @@ import { useState } from 'react'
 const ExpenseOwnerSelectContainer = ({ control, name }) => {
     const persons = useGroupStore(state => state.persons)
 
-    const personsOptions = persons.map(({ id, name }) => ({
+    const personsOptions = persons?.map(({ id, name }) => ({
         id,
         value: name
     }))
@@ -15,7 +15,7 @@ const ExpenseOwnerSelectContainer = ({ control, name }) => {
     const { field, fieldState } = useController({
         control,
         name,
-        rules: { required: 'Debe indicar el propietario del gasto' }
+        rules: { required: 'Debe indicar el pagador del gasto' }
     })
     const { error } = fieldState
 
@@ -39,7 +39,7 @@ const ExpenseOwnerSelectContainer = ({ control, name }) => {
                 selectedValue={selectedValue}
                 type={'form'}
             />
-            {error && <p className='text-red-500 '>{error.message}</p>}
+            {error && <p className='text-red-500 text-sm '>{error.message}</p>}
         </>
     )
 }

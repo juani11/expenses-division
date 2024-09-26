@@ -6,6 +6,7 @@ import AddExpenseFormContent from './AddExpenseFormContent'
 import { createExpense } from '../../../services/services'
 import { CREDIT } from '../../../constants'
 import ModalDrawerForm from '../../common/ModalDrawerForm'
+import useNotification from '../../../hooks/useNotification'
 
 const AddExpense = () => {
     const addExpense = useGroupStore(state => state.addExpense)
@@ -13,6 +14,7 @@ const AddExpense = () => {
     const { id } = groupInfo
 
     const add = async formData => {
+        console.log('dentro de add....')
         const { name, person, amount, includedPersons, type, initialMonth, initialYear, cantPayments } =
             formData
 
@@ -54,12 +56,24 @@ const AddExpense = () => {
 
     const methods = useForm()
 
-    const { openModal, closeModal, modalIsOpen, modalIsLoading, onSubmit } = useModal(add)
+    const { successNotification, errorNotification } = useNotification()
+
+    const onOkAddExpense = () => successNotification('Gasto agregado correctamente!')
+    const onErrorAddExpense = () => errorNotification('Se produjo un error al agregar el gasto')
+
+    const { openModal, closeModal, modalIsOpen, modalIsLoading, onSubmit } = useModal(
+        add,
+        onOkAddExpense,
+        onErrorAddExpense
+    )
+
+    console.log('methods', methods.getValues())
 
     return (
         <>
-            <Button onClick={openModal}>agregar gasto</Button>
-
+            <Button size='sm' color='primary' variant='light' onClick={openModal}>
+                agregar gasto
+            </Button>
             <FormProvider {...methods}>
                 <ModalDrawerForm
                     title='Nuevo gasto'

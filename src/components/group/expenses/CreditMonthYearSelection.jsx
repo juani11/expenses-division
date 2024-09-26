@@ -1,14 +1,13 @@
-import { useState } from 'react'
-import { MONTHS } from '../../../constants'
-import RadioItem from '../../common/RadioItem'
-import Label from '../../common/Label'
 import { useController } from 'react-hook-form'
+import { MONTHS } from '../../../constants'
 import CustomSelect from '../../common/CustomSelect'
+import Label from '../../common/Label'
+import RadioItem from '../../common/RadioItem'
 
 //  Genero las options para la seleccion de los meses
-const monthOptions = MONTHS.map(({ number, shortName }) => ({
+const monthOptions = MONTHS.map(({ number, name }) => ({
     id: number,
-    value: shortName
+    value: name
 }))
 
 const currentYear = new Date().getFullYear()
@@ -61,8 +60,6 @@ const CreditPaymentDateOptions = ({ dateType, selectedValue, onClick }) => {
 }
 
 export const CreditMonthSelection = ({ control }) => {
-    const [monthFirstPayment, setMonthFirstPayment] = useState(null)
-
     // // control by react hook form
     const { field, fieldState } = useController({
         control,
@@ -72,35 +69,30 @@ export const CreditMonthSelection = ({ control }) => {
 
     const { error } = fieldState
 
-    const handleChange = id => {
+    const handleChange = option => {
         // send data to react hook form
+        const { id } = option
         field.onChange(id)
-
-        setMonthFirstPayment(id)
     }
+
+    const selectedMonthName = MONTHS[field.value - 1].name
     return (
         <div>
-            {/* <CreditPaymentDateOptions
-                dateType='month'
-                selectedValue={monthFirstPayment}
-                onClick={handleChange}
-            /> */}
-
             <CustomSelect
                 label={'Mes de pago 1er cuota'}
                 placeholder='Seleccione mes'
                 options={monthOptions}
-                handleChange={() => {}}
-                selectedValue={null}
+                handleChange={handleChange}
+                selectedValue={selectedMonthName}
                 type='form'
             />
-            {error && <p className='text-red-500 '>{error.message}</p>}
+            {error && <p className='text-red-500 text-sm'>{error.message}</p>}
         </div>
     )
 }
 
 export const CreditYearSelection = ({ control }) => {
-    const [yearFirstPayment, setYearFirstPayment] = useState(null)
+    // const [yearFirstPayment, setYearFirstPayment] = useState(null)
 
     // // control by react hook form
     const { field, fieldState } = useController({
@@ -115,17 +107,13 @@ export const CreditYearSelection = ({ control }) => {
         // send data to react hook form
         field.onChange(id)
 
-        setYearFirstPayment(id)
+        // setYearFirstPayment(id)
     }
 
     return (
-        <>
-            <CreditPaymentDateOptions
-                dateType='year'
-                selectedValue={yearFirstPayment}
-                onClick={handleChange}
-            />
-            {error && <p className='text-red-500 '>{error.message}</p>}
-        </>
+        <div>
+            <CreditPaymentDateOptions dateType='year' selectedValue={field.value} onClick={handleChange} />
+            {error && <p className='text-red-500 text-sm'>{error.message}</p>}
+        </div>
     )
 }

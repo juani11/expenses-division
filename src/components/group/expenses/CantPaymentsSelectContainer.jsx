@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useController } from 'react-hook-form'
 import CustomSelect from '../../common/CustomSelect'
 
@@ -29,15 +28,13 @@ const CantPaymentsSelectContainer = ({ control, name }) => {
     })
     const { error } = fieldState
 
-    const [selectedValue, setSelectedValue] = useState(null)
-
     const handleChange = option => {
-        const { id, value } = option
+        const { id } = option
         // send data to react hook form
         field.onChange(id)
-
-        setSelectedValue(value)
     }
+
+    const cantPayments = field.value
 
     return (
         <>
@@ -46,10 +43,10 @@ const CantPaymentsSelectContainer = ({ control, name }) => {
                 placeholder='seleccione cuotas'
                 options={paymentsOptions}
                 handleChange={handleChange}
-                selectedValue={selectedValue}
+                selectedValue={cantPayments}
                 type={'form'}
             />
-            {error && <p className='text-red-500 '>{error.message}</p>}
+            {error && <p className='text-red-500 text-sm '>{error.message}</p>}
         </>
     )
 }
