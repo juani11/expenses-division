@@ -40,23 +40,22 @@ const tagVariantSelected = {
     // }
 }
 
-const Tabs = ({ tabsNames, variant = 'default', color = 'gray', className }) => {
+const Tabs = ({
+    tabsNames,
+    currentSelected,
+    handleCurrentSelected,
+    variant = 'default',
+    color = 'gray',
+    className
+}) => {
     const cantTabs = tabsNames.length
     const tabSelectorWidth = Math.round(100 / cantTabs)
     const tabSelectorWidthStyle = `${tabSelectorWidth}%`
 
-    const [currentSelected, setCurrentSelected] = useState({ index: 0, translate: 0 })
-
-    const handleCurrentSelected = selected => {
-        const percentage = 100 * selected
-        setCurrentSelected({
-            index: selected,
-            translate: percentage
-        })
-    }
-
     const tagVntSelector = tagVariantSelector[variant][color]
     const tagVntSelected = tagVariantSelected[variant][color]
+
+    const translate = 100 * currentSelected
 
     return (
         <div
@@ -66,7 +65,7 @@ const Tabs = ({ tabsNames, variant = 'default', color = 'gray', className }) => 
                 className={`absolute h-[90%] left-0 right-0 top-0 bottom-0 mt-auto mb-auto ${tagVntSelector}  dark:bg-gray-600 rounded-full transition-transform`}
                 style={{
                     width: tabSelectorWidthStyle,
-                    transform: `translateX(${currentSelected.translate}%)`
+                    transform: `translateX(${translate}%)`
                 }}
             ></div>
             {tabsNames.map((tabName, index) => (
