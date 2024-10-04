@@ -9,7 +9,9 @@ const Tooltip = ({
     component: Component,
     withButtons = true,
     closable,
-    position = RIGHT
+    position = RIGHT,
+    onSuccess,
+    onError
 }) => {
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -22,8 +24,10 @@ const Tooltip = ({
         try {
             await callbackOnOk()
             hideTooltip()
+            onSuccess()
         } catch (error) {
             console.log(error)
+            onError()
         } finally {
             setLoading(false)
         }
