@@ -1,73 +1,14 @@
-import { EXCLUDE, INCLUDE, useGroupStore } from '../../../store/store'
-import { capitalizeFirstLetter, formatedDate } from '../../../utils/utils'
-
-import { CREDIT, LEFT } from '../../../constants'
-import useIncludeExcludePerson from '../../../hooks/useIncludeExcludePerson'
+import { INCLUDE, useGroupStore } from '../../../store/store'
+import { formatedDate } from '../../../utils/utils'
+import { CREDIT } from '../../../constants'
 import Amount from '../../common/Amount'
-import IconButton from '../../common/IconButton'
 import ModalDrawer from '../../common/ModalDrawer'
 import Tag from '../../common/Tag'
-import Tooltip from '../../common/Tooltip'
-import { CashIcon, UserMinusIcon, UserPlusIcon } from '../../icons/icons'
+import { CashIcon } from '../../icons/icons'
 import CreditTypeDetail from './CreditTypeDetail'
+import ExcludePersonFromExpense from './ExcludePersonFromExpense'
+import IncludePersonToExpense from './IncludePersonToExpense'
 import PersonDetail from './PersonDetail'
-import useNotification from '../../../hooks/useNotification'
-
-const ExcludePersonBtn = ({ onClick }) => {
-    return <IconButton variant='light' onClick={onClick} icon={UserMinusIcon} />
-}
-
-const IncludePersonBtn = ({ onClick }) => {
-    return <IconButton variant='light' onClick={onClick} icon={UserPlusIcon} />
-}
-
-const ExcludePersonFromExpense = ({ person: { id, name }, callback, expenseId }) => {
-    const updateIncludedPersonsInExpense = useIncludeExcludePerson(expenseId)
-    const { successNotification, errorNotification } = useNotification()
-
-    const onOkTooltip = () => {
-        const newIncludedPersonsInExpense = callback(EXCLUDE, id)
-        return updateIncludedPersonsInExpense(newIncludedPersonsInExpense)
-    }
-
-    const onSuccess = () => successNotification('Persona excluida del gasto correctamente!')
-    const onError = () => errorNotification('Se produjo un error al excluir la persona del gasto')
-
-    return (
-        <Tooltip
-            title={`¿Excluir a ${capitalizeFirstLetter(name)} del gasto?`}
-            callbackOnOk={onOkTooltip}
-            component={ExcludePersonBtn}
-            position={LEFT}
-            onSuccess={onSuccess}
-            onError={onError}
-        />
-    )
-}
-
-const IncludePersonToExpense = ({ person: { id, name }, callback, expenseId }) => {
-    const updateIncludedPersonsInExpense = useIncludeExcludePerson(expenseId)
-    const { successNotification, errorNotification } = useNotification()
-
-    const onOkTooltip = () => {
-        const newIncludedPersonsInExpense = callback(INCLUDE, id)
-        return updateIncludedPersonsInExpense(newIncludedPersonsInExpense)
-    }
-
-    const onSuccess = () => successNotification('Persona incluida al gasto correctamente!')
-    const onError = () => errorNotification('Se produjo un error al incluir la persona al gasto')
-
-    return (
-        <Tooltip
-            title={`¿Incluir a ${capitalizeFirstLetter(name)} al gasto?`}
-            callbackOnOk={onOkTooltip}
-            component={IncludePersonBtn}
-            position={LEFT}
-            onSuccess={onSuccess}
-            onError={onError}
-        />
-    )
-}
 
 const ViewDetailExpense = ({ expense, modalIsOpen, closeModal }) => {
     const { id, person, name, date, amount, includedPersons, type, creditTypeInfo } = expense
@@ -78,7 +19,7 @@ const ViewDetailExpense = ({ expense, modalIsOpen, closeModal }) => {
 
     const excludedPersons = excludedPersonsInExpense(id)
 
-    const handleClick = (action, personId) => {
+    const newIncludedPersonsInExpense = (action, personId) => {
         const newIncludedPersonsInExpense =
             action === INCLUDE
                 ? [...includedPersons, personId]
@@ -151,7 +92,7 @@ const ViewDetailExpense = ({ expense, modalIsOpen, closeModal }) => {
                                     <PersonDetail key={excludedPerson} personName={excludedPersonName}>
                                         <IncludePersonToExpense
                                             person={{ id: excludedPerson, name: excludedPersonName }}
-                                            callback={handleClick}
+                                            callback={newIncludedPersonsInExpense}
                                             expenseId={id}
                                         />
                                     </PersonDetail>
