@@ -1,45 +1,71 @@
-import { INCLUDE, useGroupStore } from '../../../store/store'
-import { formatedDate } from '../../../utils/utils'
+import { EXCLUDE, INCLUDE, useGroupStore } from '../../../store/store'
+import { capitalizeFirstLetter, formatedDate } from '../../../utils/utils'
 
-import { CREDIT } from '../../../constants'
+import { CREDIT, LEFT } from '../../../constants'
+import useIncludeExcludePerson from '../../../hooks/useIncludeExcludePerson'
+import Amount from '../../common/Amount'
+import IconButton from '../../common/IconButton'
 import ModalDrawer from '../../common/ModalDrawer'
 import Tag from '../../common/Tag'
-import { PeopleExpenseIllustration } from '../../illustrations/Illustrations'
-import ExpenseCost from '../ExpenseCost'
-import CashTypeDetail from './CashTypeDetail'
+import Tooltip from '../../common/Tooltip'
+import { CashIcon, UserMinusIcon, UserPlusIcon } from '../../icons/icons'
 import CreditTypeDetail from './CreditTypeDetail'
-import ExcludedPersons from './ExcludedPersons'
-import IncludedPersons from './IncludedPersons'
+import PersonDetail from './PersonDetail'
+import useNotification from '../../../hooks/useNotification'
 
-const TypeDetail = ({ type, creditTypeInfo }) => {
-    return type === CREDIT ? <CreditTypeDetail creditInfo={creditTypeInfo} /> : <CashTypeDetail />
+const ExcludePersonBtn = ({ onClick }) => {
+    return <IconButton variant='light' onClick={onClick} icon={UserMinusIcon} />
 }
 
-const PaidBy = ({ personId }) => {
-    const personName = useGroupStore(state => state.personName)
+const IncludePersonBtn = ({ onClick }) => {
+    return <IconButton variant='light' onClick={onClick} icon={UserPlusIcon} />
+}
+
+const ExcludePersonFromExpense = ({ person: { id, name }, callback, expenseId }) => {
+    const updateIncludedPersonsInExpense = useIncludeExcludePerson(expenseId)
+    const { successNotification, errorNotification } = useNotification()
+
+    const onOkTooltip = () => {
+        const newIncludedPersonsInExpense = callback(EXCLUDE, id)
+        return updateIncludedPersonsInExpense(newIncludedPersonsInExpense)
+    }
+
+    const onSuccess = () => successNotification('Persona excluida del gasto correctamente!')
+    const onError = () => errorNotification('Se produjo un error al excluir la persona del gasto')
 
     return (
-        <Tag>
-            Pagado por
-            <span className='uppercase '>{personName(personId)}</span>
-        </Tag>
+        <Tooltip
+            title={`¿Excluir a ${capitalizeFirstLetter(name)} del gasto?`}
+            callbackOnOk={onOkTooltip}
+            component={ExcludePersonBtn}
+            position={LEFT}
+            onSuccess={onSuccess}
+            onError={onError}
+        />
     )
 }
 
-const ExpenseName = ({ name }) => {
-    return <h3 className='capitalize underline text-2xl m-0'>{name}</h3>
-}
+const IncludePersonToExpense = ({ person: { id, name }, callback, expenseId }) => {
+    const updateIncludedPersonsInExpense = useIncludeExcludePerson(expenseId)
+    const { successNotification, errorNotification } = useNotification()
 
-const ExpenseDate = ({ date }) => {
-    return <span className='text-lg capitalize text-gray-700 dark:text-gray-200'>{formatedDate(date)}</span>
-}
+    const onOkTooltip = () => {
+        const newIncludedPersonsInExpense = callback(INCLUDE, id)
+        return updateIncludedPersonsInExpense(newIncludedPersonsInExpense)
+    }
 
-const BasicInformation = ({ children }) => {
+    const onSuccess = () => successNotification('Persona incluida al gasto correctamente!')
+    const onError = () => errorNotification('Se produjo un error al incluir la persona al gasto')
+
     return (
-        <div className='flex items-center justify-between h-80'>
-            <div className='flex flex-col items-start gap-3'>{children}</div>
-            <PeopleExpenseIllustration width={120} height={200} />
-        </div>
+        <Tooltip
+            title={`¿Incluir a ${capitalizeFirstLetter(name)} al gasto?`}
+            callbackOnOk={onOkTooltip}
+            component={IncludePersonBtn}
+            position={LEFT}
+            onSuccess={onSuccess}
+            onError={onError}
+        />
     )
 }
 
@@ -61,24 +87,80 @@ const ViewDetailExpense = ({ expense, modalIsOpen, closeModal }) => {
         return newIncludedPersonsInExpense
     }
 
+    const personName = useGroupStore(state => state.personName)
+
     return (
         <ModalDrawer title='Información del gasto' isOpen={modalIsOpen} closeModal={closeModal}>
-            <BasicInformation>
-                <ExpenseName name={name} />
-                <ExpenseCost cost={amount} />
-                <ExpenseDate date={date} />
-                <PaidBy personId={person} />
-                <TypeDetail type={type} creditTypeInfo={creditTypeInfo} />
-            </BasicInformation>
-            <IncludedPersons
-                persons={includedPersons}
-                costPerPerson={costPerPerson}
-                expenseId={id}
-                callback={handleClick}
-                type={type}
-                creditTypeInfo={creditTypeInfo}
-            />
-            <ExcludedPersons persons={excludedPersons} expenseId={id} callback={handleClick} />
+            <div className='flex flex-col gap-2 mt-6'>
+                <header>
+                    <section className='flex flex-col gap-2'>
+                        <h1 className='font-medium text-lg'>{name} </h1>
+                        <div className='flex flex-col gap-2 items-start'>
+                            <Amount amount={amount} className={`text-2xl font-extrabold w-max`} />
+                            {type === CREDIT ? (
+                                <CreditTypeDetail creditInfo={creditTypeInfo} />
+                            ) : (
+                                <Tag className='bg-gray-50' size='xs'>
+                                    <h5>Efectivo</h5>
+                                </Tag>
+                            )}
+                        </div>
+                    </section>
+
+                    <section className=' absolute top-0 right-0 flex flex-col items-end gap-2'>
+                        <Tag className='bg-gray-50' size='xs'>
+                            <CashIcon className={'w-4 h-4'} />
+                            <h5>{`Pagado por ${personName(person)}`}</h5>
+                        </Tag>
+                        <p className='text-gray-400 text-sm'>{formatedDate(date)} </p>
+                    </section>
+                </header>
+
+                <section className='pt-10 pb-2' id='includedPersons'>
+                    <h3 className='text-md mb-2'>Personas incluidas</h3>
+                    <ul>
+                        {includedPersons.map(includedPerson => {
+                            const includedPersonName = personName(includedPerson)
+                            return (
+                                <PersonDetail
+                                    key={includedPerson}
+                                    personName={includedPersonName}
+                                    costPerPerson={costPerPerson}
+                                >
+                                    <ExcludePersonFromExpense
+                                        person={{ id: includedPerson, name: includedPersonName }}
+                                        callback={handleClick}
+                                        expenseId={id}
+                                    />
+                                </PersonDetail>
+                            )
+                        })}
+                    </ul>
+                </section>
+
+                <section className='pt-6 pb-2' id='excludedPersons'>
+                    <h3 className='text-md mb-2'>Personas excluidas</h3>
+
+                    {excludedPersons.length === 0 ? (
+                        <p className='text-sm font-semibold'>No hay personas excluidas en el gasto</p>
+                    ) : (
+                        <ul>
+                            {excludedPersons.map(excludedPerson => {
+                                const excludedPersonName = personName(excludedPerson)
+                                return (
+                                    <PersonDetail key={excludedPerson} personName={excludedPersonName}>
+                                        <IncludePersonToExpense
+                                            person={{ id: excludedPerson, name: excludedPersonName }}
+                                            callback={handleClick}
+                                            expenseId={id}
+                                        />
+                                    </PersonDetail>
+                                )
+                            })}
+                        </ul>
+                    )}
+                </section>
+            </div>
         </ModalDrawer>
     )
 }

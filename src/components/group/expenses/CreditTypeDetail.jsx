@@ -1,7 +1,6 @@
 import { MONTHS } from '../../../constants'
 import { currentDate } from '../../../utils/utils'
 import Tag from '../../common/Tag'
-import { CreditCardIcon } from '../../icons/icons'
 
 const CreditTypeDetail = ({ creditInfo }) => {
     const { cantPayments, initialYear, initialMonth } = creditInfo
@@ -13,17 +12,20 @@ const CreditTypeDetail = ({ creditInfo }) => {
     const yearTo = paymentDate.getUTCFullYear()
 
     return (
-        <div className='flex flex-wrap gap-2 items-center '>
-            <Tag>
-                <CreditCardIcon width='w-5' height='h-5' /> Crédito
+        <div className='flex gap-2 items-center '>
+            <Tag className='bg-gray-50' size='xs'>
+                <h5>Crédito</h5>
             </Tag>
-            <Tag> {cantPayments === 1 ? `${cantPayments} Cuota` : `${cantPayments} Cuotas`}</Tag>
-            <Tag>
-                <span className='capitalize'>
+            <Tag className='bg-gray-50' size='xs'>
+                <h5>{cantPayments === 1 ? `${cantPayments} cuota` : `${cantPayments} cuotas`}</h5>
+            </Tag>
+            <Tag className='bg-gray-50' size='xs'>
+                <h5>
+                    {' '}
                     {cantPayments === 1
-                        ? `${monthFrom} ${yearFrom}`
-                        : `${monthFrom} ${yearFrom} / ${monthTo} ${yearTo}`}
-                </span>
+                        ? `${monthFrom}. ${yearFrom}`
+                        : `${monthFrom}. ${yearFrom} / ${monthTo}. ${yearTo}`}
+                </h5>
             </Tag>
         </div>
     )
