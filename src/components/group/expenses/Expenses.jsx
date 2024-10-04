@@ -25,16 +25,7 @@ const ExpensesLoading = () => {
 const Expenses = () => {
     const loading = useGroupStore(state => state.loading)
 
-    return loading ? (
-        <ExpensesLoading />
-    ) : (
-        <>
-            <CardHeader title={'lista de gastos'}>
-                <AddExpense />
-            </CardHeader>
-            <ExpensesListContainer />
-        </>
-    )
+    return loading ? <ExpensesLoading /> : <ExpensesListContainer />
 }
 
 export default Expenses

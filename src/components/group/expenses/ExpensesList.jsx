@@ -22,19 +22,25 @@ const ExpensesList = ({ sortBy, expenses }) => {
 
     return (
         <>
-            <ul>
-                {itemsInCurrentPage.map(expense => (
-                    <ExpensesListItem key={expense.id} expense={expense} />
-                ))}
-            </ul>
-            {showPagination && (
-                <Pagination
-                    cantPages={cantPages}
-                    currentPage={currentPage}
-                    prevPage={prevPage}
-                    nextPage={nextPage}
-                    changeCurrentPage={changeCurrentPage}
-                />
+            {expenses.length === 0 ? (
+                <h5 className='animate-fadeLeft'>No hay gastos...</h5>
+            ) : (
+                <>
+                    <ul className='grid gap-y-4 '>
+                        {itemsInCurrentPage.map(expense => (
+                            <ExpensesListItem key={expense.id} expense={expense} />
+                        ))}
+                    </ul>
+                    {showPagination && (
+                        <Pagination
+                            cantPages={cantPages}
+                            currentPage={currentPage}
+                            prevPage={prevPage}
+                            nextPage={nextPage}
+                            changeCurrentPage={changeCurrentPage}
+                        />
+                    )}
+                </>
             )}
         </>
     )

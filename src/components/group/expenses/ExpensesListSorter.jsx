@@ -20,7 +20,7 @@ const sorterOtions = [
 ]
 const ExpensesListSorter = ({ sortBy, onChangeSort }) => {
     return (
-        <div className='absolute top-4 left-4'>
+        <div className='absolute top-4 right-4'>
             <CustomSelect
                 placeholder='ordenar por'
                 options={sorterOtions}
