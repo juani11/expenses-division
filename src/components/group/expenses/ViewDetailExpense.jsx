@@ -70,7 +70,7 @@ const ViewDetailExpense = ({ expense, modalIsOpen, closeModal }) => {
                                 >
                                     <ExcludePersonFromExpense
                                         person={{ id: includedPerson, name: includedPersonName }}
-                                        callback={handleClick}
+                                        callback={newIncludedPersonsInExpense}
                                         expenseId={id}
                                     />
                                 </PersonDetail>
