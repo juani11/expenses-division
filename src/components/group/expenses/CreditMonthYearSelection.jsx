@@ -74,8 +74,10 @@ export const CreditMonthSelection = ({ control }) => {
         const { id } = option
         field.onChange(id)
     }
+    const { value } = field
+    const monthIndex = value && value - 1
 
-    const selectedMonthName = MONTHS[field.value - 1].name
+    const selectedMonthName = MONTHS[monthIndex].name
     return (
         <div>
             <CustomSelect
