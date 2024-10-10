@@ -1,21 +1,41 @@
 import { useRef, useState, useEffect } from 'react'
 
-const translateXDistance = 70
+const TRANSLATE_X_DISTANCE = 70
+
+const calculateInitialTranslateX = id => {
+    const nodeList = document.getElementById(`translateXContent${id}`)?.childNodes || []
+    const childNodesArray = Array.from(nodeList)
+    const selectedChipElementIndex = childNodesArray.findIndex(child =>
+        child.classList.contains('selectedChip')
+    )
+    const initialTranslateX = (selectedChipElementIndex - 3) * TRANSLATE_X_DISTANCE
+    return initialTranslateX
+}
+const calculateWidths = id => {
+    const containerWidth = document.getElementById(`translateXContainer${id}`).offsetWidth
+    const contentWidth = document.getElementById(`translateXContent${id}`).offsetWidth
+    const diffWidth = contentWidth - containerWidth
+    return { containerWidth, contentWidth, diffWidth }
+}
 
 const useSmoothTranslateX = id => {
-    const [doneTranslateX, setDoneTranslateX] = useState(0)
+    const [doneTranslateX, setDoneTranslateX] = useState(() => calculateInitialTranslateX(id))
     const availableTranslateX = useRef(0)
 
     const [withPrevNextButtons, setWithPrevNextButtons] = useState(false)
 
     useEffect(() => {
-        const containerWidth = document.getElementById(`translateXContainer${id}`).offsetWidth
-        const contentWidth = document.getElementById(`translateXContent${id}`).offsetWidth
-        const diffWidth = contentWidth - containerWidth
-
+        const { containerWidth, contentWidth, diffWidth } = calculateWidths(id)
         availableTranslateX.current = diffWidth
+        const withPrevNextButtons = contentWidth > containerWidth
+        setWithPrevNextButtons(withPrevNextButtons)
 
-        setWithPrevNextButtons(contentWidth > containerWidth)
+        if (withPrevNextButtons) {
+            // Si por defecto tiene que estar seleccionado un chip que no está visible(ya que el translatex inicial es 0), se ajusta la distancia de translateX inicial para que el chip seleccionado esté visible de entrada
+            const initialTranslateX = calculateInitialTranslateX(id)
+
+            setDoneTranslateX(initialTranslateX)
+        }
     }, [])
 
     const handleNext = () => {
@@ -24,7 +44,7 @@ const useSmoothTranslateX = id => {
 
         // Chequear antes de sumar , si la suma desbordaria el translatexDisponible. Si la desbordaria , en vez de sumar translatexDistance, devolver translatexDisponible .
         setDoneTranslateX(prevState => {
-            const nextState = prevState + translateXDistance
+            const nextState = prevState + TRANSLATE_X_DISTANCE
 
             console.log('nextState', nextState)
             // Si la suma desborda el translatexDisponible, se pone como estado el mismo valor de translatexDisponible
@@ -42,7 +62,7 @@ const useSmoothTranslateX = id => {
         // Chequear antes de restar si es que la resta desbordaria en negativo el translatexDisponible. Si la desbordaria , en vez de restar translatexDistance, devolver 0
 
         setDoneTranslateX(prevState => {
-            const nextState = prevState - translateXDistance
+            const nextState = prevState - TRANSLATE_X_DISTANCE
 
             console.log('nextState', nextState)
             // Si la suma desborda en negativo el translatexDisponible, se pone como estado 0
