@@ -42,7 +42,7 @@ const Tooltip = ({
             ? 'bottom-10'
             : 'right-10'
 
-    const showClassname = show ? ' scale-100 opacity-1 z-10' : 'scale-90 opacity-0 z-0'
+    const showClassname = show ? ' scale-100 opacity-1 z-[11] ' : 'scale-90 opacity-0 z-0'
 
     const tooltipTriangleIconClassname =
         position === RIGHT
