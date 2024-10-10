@@ -2,6 +2,13 @@ import useSmoothTranslateX from '../../hooks/useSmoothTranslateX'
 import { ArrowLefttIcon, ArrowRightIcon } from '../icons/icons'
 import Button from './Button'
 
+const chipSizes = {
+    xs: 'text-xs ',
+    sm: 'text-sm font-semibold',
+    md: 'text-md font-bold ',
+    lg: 'text-lg font-bold'
+}
+
 const chipVariantStyles = {
     default: {
         gray: 'bg-gray-100 hover:bg-gray-200  dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600',
@@ -37,7 +44,7 @@ const PrevButton = ({ handleClick }) => {
             <Button
                 size='icon'
                 color='secondary'
-                variant='light'
+                variant='subtle'
                 className='absolute my-auto top-0 bottom-0'
                 onClick={handleClick}
             >
@@ -55,7 +62,7 @@ const NextButton = ({ handleClick }) => {
             <Button
                 size='icon'
                 color='secondary'
-                variant='light'
+                variant='subtle'
                 onClick={handleClick}
                 className='absolute right-0 my-auto top-0 bottom-0 '
             >
@@ -66,16 +73,18 @@ const NextButton = ({ handleClick }) => {
 }
 
 const ChipsSelect = ({
-    chipsNames,
-    selectedChip,
+    chipsData, // array of objects. {id: string, name: string}
+    selectedChip, // object {id: string, name: string}
     handleChangeSelectedChip,
     id,
     className,
     variant = 'default',
-    color = 'gray'
+    color = 'gray',
+    size = 'xs'
 }) => {
     const chipVariant = chipVariantStyles[variant][color]
-    const chipVariantSelected = chipVariantStyles[variant][`${color}_selected`]
+    const chipVariantSelected = `${chipVariantStyles[variant][`${color}_selected`]} selectedChip`
+    const chipSize = chipSizes[size]
 
     const { doneTranslateX, showPrevButton, showNextButton, handlePrev, handleNext } = useSmoothTranslateX(id)
 
@@ -84,29 +93,31 @@ const ChipsSelect = ({
             className={`relative flex items-center overflow-hidden h-full ${className} `}
             id={`translateXContainer${id}`}
         >
-            <section
+            <ul
                 className={`flex justify-start items-start gap-2 transition-transform `}
                 id={`translateXContent${id}`}
                 style={{ transform: `translateX(-${doneTranslateX}px)` }}
             >
-                {chipsNames.map(chip => {
+                {chipsData.map(chip => {
+                    const { id, name } = chip
                     return (
-                        <span
-                            key={chip}
-                            className={`px-3 py-1 rounded-md text-xs cursor-pointer capitalize
+                        <li
+                            key={id}
+                            className={`px-3 py-1 rounded-md cursor-pointer capitalize 
+                            ${chipSize}
                             ${
-                                chip === selectedChip ? chipVariantSelected : chipVariant
+                                id === selectedChip.id ? chipVariantSelected : chipVariant
                                 //   'bg-gray-100 hover:bg-gray-200 dark:bg-[hsl(240_8%_12%)] border dark:border-[hsl(240_8%_16%)]   dark:text-white dark:hover:bg-slate-600'
                             }
                             
                         }`}
                             onClick={() => handleChangeSelectedChip(chip)}
                         >
-                            {chip}
-                        </span>
+                            {name}
+                        </li>
                     )
                 })}
-            </section>
+            </ul>
 
             {showPrevButton && <PrevButton handleClick={handlePrev} />}
 
