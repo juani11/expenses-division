@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react'
-import { NEXT } from '../../../constants'
 import { calculateFinalResultCredit, calculateInitialPaymentIndex } from '../../../logic/logic'
 import { useGroupStore } from '../../../store/store'
+import { translatePaymentKey } from '../../../utils/utils'
+import ChipsSelect from '../../common/ChipsSelect'
 import DivisionListItem from './DivisionListItem'
-import PaymentNavigation from './PaymentNavigation'
+import DivisionDetail from './DivisionsDetail/DivisionDetail'
+import DetailPerPerson from './DivisionsDetail/DetailPerPerson'
 
-const CreditDivisionsList = ({ expenses }) => {
+const useFinalResultsCredit = expenses => {
     const persons = useGroupStore(state => state.persons)
 
     const memoizedResultsCredit = useMemo(() => {
@@ -14,38 +16,59 @@ const CreditDivisionsList = ({ expenses }) => {
 
     const { finalResults, involvedExpensesPerMonth } = memoizedResultsCredit
 
-    console.log('finalResults ', finalResults)
-    const creditPayments = Object.keys(finalResults)
+    const expenseDates = Object.keys(finalResults)
 
-    const memoizedInitialPaymentIndex = useMemo(() => {
-        return calculateInitialPaymentIndex(creditPayments)
+    const memoizedInitialExpenseDateIndex = useMemo(() => {
+        return calculateInitialPaymentIndex(expenseDates)
     }, [])
 
-    const [paymentIndex, setPaymentIndex] = useState(memoizedInitialPaymentIndex)
-    const changePayment = action => {
-        action === NEXT ? setPaymentIndex(paymentIndex + 1) : setPaymentIndex(paymentIndex - 1)
+    return {
+        finalResults,
+        expensesInvolvedForEachDate: involvedExpensesPerMonth,
+        expenseDates,
+        memoizedInitialExpenseDateIndex
     }
+}
 
-    const currentPayment = creditPayments[paymentIndex]
+const CreditDivisionsList = ({ expenses }) => {
+    const { finalResults, expensesInvolvedForEachDate, expenseDates, memoizedInitialExpenseDateIndex } =
+        useFinalResultsCredit(expenses)
 
-    const dateData = finalResults[currentPayment]
+    const [selectedChip, setSelectedChip] = useState(() => ({
+        id: memoizedInitialExpenseDateIndex,
+        name: translatePaymentKey(expenseDates[memoizedInitialExpenseDateIndex], {
+            shortName: true
+        })
+    }))
+    const handleChangeSelectedChip = setSelectedChip
 
-    const involvedExpensesInMonth = involvedExpensesPerMonth[currentPayment]
+    const currentDate = expenseDates[selectedChip.id]
+
+    const currentDateData = finalResults[currentDate]
+
+    const expensesInvolvedInCurrentDate = expensesInvolvedForEachDate[currentDate]
+
+    const chipsData = expenseDates.map((payment, index) => ({
+        id: index,
+        name: translatePaymentKey(payment, { shortName: true })
+    }))
 
     return (
         <>
-            <PaymentNavigation
-                payment={paymentIndex}
-                changePayment={changePayment}
-                creditPayments={creditPayments}
-                currentPayment={currentPayment}
-                involvedExpensesInMonth={involvedExpensesInMonth}
+            <ChipsSelect
+                chipsData={chipsData}
+                selectedChip={selectedChip}
+                id={'creditMonth'}
+                handleChangeSelectedChip={handleChangeSelectedChip}
             />
-            <ul className='py-2 animate-fade' key={creditPayments[paymentIndex]}>
-                {dateData.map((division, index) => (
+            <ul className='grid gap-y-6 animate-fadeLeft' key={selectedChip.id}>
+                {currentDateData.map((division, index) => (
                     <DivisionListItem key={index} division={division} />
                 ))}
             </ul>
+            <DivisionDetail title={`Detalle de las divisiones - ${selectedChip.name}`}>
+                <DetailPerPerson involvedExpenses={expensesInvolvedInCurrentDate} />
+            </DivisionDetail>
         </>
     )
 }

@@ -1,16 +1,21 @@
 import { useState } from 'react'
 import { useGroupStore } from '../../../../store/store'
-import PersonStats from './PersonStats'
-import PersonChart from './PersonsChart'
+import ChipsSelect from '../../../common/ChipsSelect'
 import PersonExpensesTable from './PersonExpensesTable'
-import PersonsList from './PersonsList'
+import PersonStats from './PersonStats'
 
 const DetailPerPerson = ({ involvedExpenses }) => {
     const { expenses, totals } = involvedExpenses
     const persons = useGroupStore(state => state.persons)
-
     const [selectedPerson, setSetselectedPerson] = useState(persons[0])
-    const handleChangeSelectedPerson = personId => setSetselectedPerson(personId)
+    // const handleChangeSelectedPerson = personId => setSetselectedPerson(personId)
+
+    const personsChipsData = persons.map(person => ({ id: person.id, name: person.name }))
+
+    const handleChangeSelectedPerson = selectedPerson => {
+        // const person = persons.find(person => person.id === id)
+        setSetselectedPerson(selectedPerson)
+    }
 
     const { amounts } = totals[selectedPerson.id]
 
@@ -57,16 +62,19 @@ const DetailPerPerson = ({ involvedExpenses }) => {
         <section id='monthDetail' className='px-2 grid gap-2'>
             {/* Seleccion de persona para ver el detalle de esa persona */}
 
-            <PersonsList
-                persons={persons}
-                selectedPerson={selectedPerson}
-                handleChangeSelectedPerson={handleChangeSelectedPerson}
+            <ChipsSelect
+                chipsData={personsChipsData}
+                id={'personsDetail'}
+                selectedChip={selectedPerson}
+                handleChangeSelectedChip={handleChangeSelectedPerson}
+                className={'py-6 sticky top-0 z-10'}
+                size={'sm'}
             />
-            <PersonStats personName={selectedPerson.name} {...personStats} />
 
-            <PersonChart expensesNames={expensesNames} expensesDiff={expensesDiff} />
-
-            <PersonExpensesTable expenses={expensesTableData} totals={amounts} />
+            <div className='flex flex-col gap-5 animate-fadeLeft' key={selectedPerson.id}>
+                <PersonStats personName={selectedPerson.name} {...personStats} />
+                <PersonExpensesTable expenses={expensesTableData} totals={amounts} />
+            </div>
         </section>
     )
 }

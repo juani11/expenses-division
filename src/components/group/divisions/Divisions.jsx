@@ -1,11 +1,7 @@
-import { DIVISIONS_CASH, DIVISIONS_CREDIT } from '../../../constants'
 import { useGroupStore } from '../../../store/store'
-import CardContentWithMenu from '../../common/CardContentWithMenu'
-import CardHeader from '../../common/CardHeader'
 import Skeleton from '../../common/Skeleton/Skeleton'
 import SkeletonWrapper from '../../common/Skeleton/SkeletonWrapper'
-import CashDivisions from './CashDivisions'
-import CreditDivisions from './CreditDivisions'
+import DivisionsListContainer from './DivisionsListContainer'
 
 const DivisionsLoading = () => {
     return (
@@ -17,24 +13,10 @@ const DivisionsLoading = () => {
     )
 }
 
-const menuItemsComponents = {
-    [DIVISIONS_CASH]: CashDivisions,
-    [DIVISIONS_CREDIT]: CreditDivisions
-}
-
 const Divisions = () => {
     const loading = useGroupStore(state => state.loading)
 
-    return (
-        <section id='divisions'>
-            <CardHeader title={'divisiones'} />
-            {loading ? (
-                <DivisionsLoading />
-            ) : (
-                <CardContentWithMenu menuItemsComponents={menuItemsComponents} />
-            )}
-        </section>
-    )
+    return <section id='divisions'>{loading ? <DivisionsLoading /> : <DivisionsListContainer />}</section>
 }
 
 export default Divisions
