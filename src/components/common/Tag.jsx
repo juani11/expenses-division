@@ -27,7 +27,7 @@ const Tag = ({ children, size = 'md', variant = 'default', color = 'primary', cl
 
     return (
         <span
-            className={`flex gap-2 items-center rounded font-semibold
+            className={`flex gap-2 items-center rounded-full font-semibold
             ${tagSize}
             ${tagVariant}
             ${className}`}
